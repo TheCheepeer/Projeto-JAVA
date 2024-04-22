@@ -3,12 +3,12 @@ package proj;
 import java.sql.Date;
 
 public class Cliente {
-    String nome, idCliente, cpf, email, telefone;
-    Date dataNascimento;
-    Endereco endereco;
-    Passeio passeio;
-    Dependentes dependentes;
-    Pagamento pagamento;
+    private String nome, idCliente, cpf, email, telefone;
+    private Date dataNascimento;
+    private Endereco endereco;
+    private Passeio passeio;
+    private Dependentes dependentes;
+    private Pagamento pagamento;
 
     public Cliente(String nome, String idCliente, String cpf, String email, String telefone, Date dataNascimento,
             Endereco endereco, Passeio passeio, Dependentes dependentes, Pagamento pagamento) {

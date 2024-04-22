@@ -4,15 +4,15 @@ import java.sql.Date;
 import java.time.LocalTime;
 
 public class Passeio {
-    String idPasseio;
-    Destino destino;
-    Onibus onibus;
-    float preco;
-    int qtdCliente;
-    Cliente cliente;
-    Date data;
-    LocalTime horario;
-    Pagamento pagamento;
+    private String idPasseio;
+    private Destino destino;
+    private Onibus onibus;
+    private float preco;
+    private int qtdCliente;
+    private Cliente cliente;
+    private Date data;
+    private LocalTime horario;
+    private Pagamento pagamento;
 
     public Passeio(String idPasseio, Destino destino, Onibus onibus, float preco, int qtdCliente, Cliente cliente,
             Date data, LocalTime horario, Pagamento pagamento) {

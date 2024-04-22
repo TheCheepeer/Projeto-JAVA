@@ -1,8 +1,8 @@
 package proj;
 
 public class Endereco {
-    String cep, logradouro, complemento, cidade, uf;
-    int numero;
+    private String cep, logradouro, complemento, cidade, uf;
+    private int numero;
 
     public Endereco(String cep, String logradouro, String complemento, String cidade, String uf, int numero) {
         this.cep = cep;

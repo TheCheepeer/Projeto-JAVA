@@ -1,11 +1,12 @@
 package proj;
 
-import java.sql.Date;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class Dependentes {
-    String nome, idDependente, telefone;
-    Date dataNascimento;
-    Cliente responsavel;
+    private String nome, idDependente, telefone;
+    private Date dataNascimento;
+    private Cliente responsavel;
 
     public Dependentes(String nome, String idDependente, String telefone, Date dataNascimento, Cliente responsavel) {
         this.nome = nome;
@@ -57,5 +58,23 @@ public class Dependentes {
         this.responsavel = responsavel;
     }
     // Fim dos Getters and setters
+
+    public String dataNacimentoFormatada() {
+        SimpleDateFormat fomatoNas = new SimpleDateFormat("dd/MM/yyyy");
+        return fomatoNas.format(dataNascimento);
+    }
+
+    public boolean verificarMaioridade() {
+        // Calculo da maioridade
+
+        Date dataAtual = new Date(0);
+
+        long diferencaEmMilissegundos = dataAtual.getTime() - dataNascimento.getTime();
+        long idadeEmAnos = diferencaEmMilissegundos / (1000L * 60L * 60L * 24L * 365L);
+
+        // Verifica se a pessoa tem 18 anos ou mais
+
+        return idadeEmAnos >= 18;
+    }
 
 }

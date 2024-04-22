@@ -1,9 +1,9 @@
 package proj;
 
 public class Pagamento {
-    Passeio passeio;
-    Cliente cliente;
-    boolean pagou;
+    private Passeio passeio;
+    private Cliente cliente;
+    private boolean pagou;
 
     public Pagamento(Passeio passeio, Cliente cliente, boolean pagou) {
         this.passeio = passeio;
