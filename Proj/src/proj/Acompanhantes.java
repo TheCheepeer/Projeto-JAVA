@@ -1,14 +1,13 @@
 package proj;
 
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 public class Acompanhantes {
     private String nome, idAcompanhante, telefone;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
     private Cliente responsavel;
 
-    public Acompanhantes(String nome, String idAcompanhante, String telefone, Date dataNascimento,
+    public Acompanhantes(String nome, String idAcompanhante, String telefone, LocalDate dataNascimento,
             Cliente responsavel) {
         this.nome = nome;
         this.idAcompanhante = idAcompanhante;
@@ -43,11 +42,11 @@ public class Acompanhantes {
         this.telefone = telefone;
     }
 
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -59,23 +58,5 @@ public class Acompanhantes {
         this.responsavel = responsavel;
     }
     // Fim dos Getters and setters
-
-    public String dataNacimentoFormatada() {
-        SimpleDateFormat fomatoNas = new SimpleDateFormat("dd/MM/yyyy");
-        return fomatoNas.format(dataNascimento);
-    }
-
-    public boolean verificarMaioridade() {
-        // Calculo da maioridade
-
-        Date dataAtual = new Date(0);
-
-        long diferencaEmMilissegundos = dataAtual.getTime() - dataNascimento.getTime();
-        long idadeEmAnos = diferencaEmMilissegundos / (1000L * 60L * 60L * 24L * 365L);
-
-        // Verifica se a pessoa tem 18 anos ou mais
-
-        return idadeEmAnos >= 18;
-    }
 
 }

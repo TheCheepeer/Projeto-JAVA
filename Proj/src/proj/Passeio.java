@@ -1,6 +1,6 @@
 package proj;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Passeio {
@@ -10,12 +10,12 @@ public class Passeio {
     private float preco;
     private int qtdCliente;
     private Cliente cliente;
-    private Date data;
+    private LocalDate data;
     private LocalTime horario;
     private Pagamento pagamento;
 
     public Passeio(String idPasseio, Destino destino, Onibus onibus, float preco, int qtdCliente, Cliente cliente,
-            Date data, LocalTime horario, Pagamento pagamento) {
+            LocalDate data, LocalTime horario, Pagamento pagamento) {
         this.idPasseio = idPasseio;
         this.destino = destino;
         this.onibus = onibus;
@@ -77,11 +77,11 @@ public class Passeio {
         this.cliente = cliente;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 

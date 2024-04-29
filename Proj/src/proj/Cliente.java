@@ -1,16 +1,16 @@
 package proj;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Cliente {
     private String nome, idCliente, cpf, email, telefone;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
     private Endereco endereco;
     private Passeio passeio;
     private Acompanhantes Acompanhantes;
     private Pagamento pagamento;
 
-    public Cliente(String nome, String idCliente, String cpf, String email, String telefone, Date dataNascimento,
+    public Cliente(String nome, String idCliente, String cpf, String email, String telefone, LocalDate dataNascimento,
             Endereco endereco, Passeio passeio, Acompanhantes acompanhantes, Pagamento pagamento) {
         this.nome = nome;
         this.idCliente = idCliente;
@@ -66,11 +66,11 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
