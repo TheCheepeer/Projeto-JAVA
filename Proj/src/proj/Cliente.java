@@ -7,11 +7,11 @@ public class Cliente {
     private Date dataNascimento;
     private Endereco endereco;
     private Passeio passeio;
-    private Dependentes dependentes;
+    private Acompanhantes Acompanhantes;
     private Pagamento pagamento;
 
     public Cliente(String nome, String idCliente, String cpf, String email, String telefone, Date dataNascimento,
-            Endereco endereco, Passeio passeio, Dependentes dependentes, Pagamento pagamento) {
+            Endereco endereco, Passeio passeio, Acompanhantes acompanhantes, Pagamento pagamento) {
         this.nome = nome;
         this.idCliente = idCliente;
         this.cpf = cpf;
@@ -20,7 +20,7 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
         this.endereco = endereco;
         this.passeio = passeio;
-        this.dependentes = dependentes;
+        this.Acompanhantes = acompanhantes;
         this.pagamento = pagamento;
     }
 
@@ -90,12 +90,12 @@ public class Cliente {
         this.passeio = passeio;
     }
 
-    public Dependentes getDependentes() {
-        return dependentes;
+    public Acompanhantes getAcompanhantes() {
+        return Acompanhantes;
     }
 
-    public void setDependentes(Dependentes dependentes) {
-        this.dependentes = dependentes;
+    public void setAcompanhantes(Acompanhantes acompanhantes) {
+        this.Acompanhantes = acompanhantes;
     }
 
     public Pagamento getPagamento() {

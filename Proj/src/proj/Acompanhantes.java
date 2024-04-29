@@ -3,14 +3,15 @@ package proj;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Dependentes {
-    private String nome, idDependente, telefone;
+public class Acompanhantes {
+    private String nome, idAcompanhante, telefone;
     private Date dataNascimento;
     private Cliente responsavel;
 
-    public Dependentes(String nome, String idDependente, String telefone, Date dataNascimento, Cliente responsavel) {
+    public Acompanhantes(String nome, String idAcompanhante, String telefone, Date dataNascimento,
+            Cliente responsavel) {
         this.nome = nome;
-        this.idDependente = idDependente;
+        this.idAcompanhante = idAcompanhante;
         this.telefone = telefone;
         this.dataNascimento = dataNascimento;
         this.responsavel = responsavel;
@@ -26,12 +27,12 @@ public class Dependentes {
         this.nome = nome;
     }
 
-    public String getIdDependente() {
-        return idDependente;
+    public String getIdAcompanhante() {
+        return idAcompanhante;
     }
 
-    public void setIdDependente(String idDependente) {
-        this.idDependente = idDependente;
+    public void setIdAcompanhante(String idAcompanhante) {
+        this.idAcompanhante = idAcompanhante;
     }
 
     public String getTelefone() {

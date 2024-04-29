@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
         Date dataN = new Date(2010, 5, 17);
-        Dependentes jorge = new Dependentes(null, null, null, null, null);
+        Acompanhantes jorge = new Acompanhantes(null, null, null, null, null);
 
         jorge.setDataNascimento(dataN);
 
