@@ -1,10 +1,14 @@
 package proj;
 
+import java.time.LocalDate;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Teste");
+        Acompanhantes primeiro = new Acompanhantes("Lucas", "143190", "21 968824470", LocalDate.of(2004, 11, 6),
+                null);
+        System.out.println(primeiro.toString());
 
     }
 
