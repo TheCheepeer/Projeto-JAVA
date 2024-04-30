@@ -7,11 +7,11 @@ public class Cliente {
     private LocalDate dataNascimento;
     private Endereco endereco;
     private Passeio passeio;
-    private Acompanhantes Acompanhantes;
+    private Acompanhante Acompanhantes;
     private Pagamento pagamento;
 
     public Cliente(String nome, String idCliente, String cpf, String email, String telefone, LocalDate dataNascimento,
-            Endereco endereco, Passeio passeio, Acompanhantes acompanhantes, Pagamento pagamento) {
+            Endereco endereco, Passeio passeio, Acompanhante acompanhantes, Pagamento pagamento) {
         this.nome = nome;
         this.idCliente = idCliente;
         this.cpf = cpf;
@@ -90,11 +90,11 @@ public class Cliente {
         this.passeio = passeio;
     }
 
-    public Acompanhantes getAcompanhantes() {
+    public Acompanhante getAcompanhantes() {
         return Acompanhantes;
     }
 
-    public void setAcompanhantes(Acompanhantes acompanhantes) {
+    public void setAcompanhantes(Acompanhante acompanhantes) {
         this.Acompanhantes = acompanhantes;
     }
 
