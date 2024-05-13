@@ -1,4 +1,4 @@
-package proj;
+package com.turismo;
 
 public class Onibus {
     private String placa, modelo, empresa, tipoOnibus;

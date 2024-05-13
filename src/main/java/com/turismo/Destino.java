@@ -1,4 +1,4 @@
-package proj;
+package com.turismo;
 
 public class Destino {
     private String nome;
