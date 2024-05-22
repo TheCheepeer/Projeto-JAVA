@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.tests.testDb;
+
 public class Database {
     private static Database INSTANCE = null;
 
@@ -11,7 +13,8 @@ public class Database {
 
     private Database() {
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:res/database.db");
+            connection = DriverManager.getConnection("jdbc:sqlite::resource:" +
+                    testDb.class.getResource("/res/database.db"));
         } catch (SQLException e) {
             System.err.println("Houve um problema ao Criar o arquivo do banco.");
             e.printStackTrace();
