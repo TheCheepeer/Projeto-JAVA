@@ -13,7 +13,7 @@ public class Passeio {
     private LocalTime horario;
     private Pagamento pagamento;
 
-    public Passeio(int idPasseio, Destino destino, Onibus onibus, float preco, int qtdCliente, Cliente cliente,
+    public Passeio(int idPasseio, Destino destino, Onibus onibus, float preco, Cliente cliente,
             LocalDate data, LocalTime horario, Pagamento pagamento) {
         this.idPasseio = idPasseio;
         this.destino = destino;

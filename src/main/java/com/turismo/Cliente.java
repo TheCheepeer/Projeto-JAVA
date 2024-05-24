@@ -3,23 +3,47 @@ package com.turismo;
 import java.time.LocalDate;
 
 public class Cliente extends Pessoa {
-    private int idCliente;
+    private int idCliente, idEndereco, idPasseio, idPagamento;
     private String email;
     private Endereco endereco;
     private Passeio passeio;
     private Pagamento pagamento;
 
-    // Getters and Setters
-
     public Cliente(String nome, String cpf, String telefone, LocalDate dataNascimento, int idCliente, String email,
-            Endereco endereco,
-            Passeio passeio, Pagamento pagamento) {
+            int idEndereco,
+            int idPasseio, int idPagamento) {
         super(nome, cpf, telefone, dataNascimento);
         this.idCliente = idCliente;
         this.email = email;
-        this.endereco = endereco;
-        this.passeio = passeio;
-        this.pagamento = pagamento;
+        this.idEndereco = idEndereco;
+        this.idPasseio = idPasseio;
+        this.idPagamento = idPagamento;
+    }
+
+    // Getters and Setters
+
+    public int getIdEndereco() {
+        return idEndereco;
+    }
+
+    public void setIdEndereco(int idEndereco) {
+        this.idEndereco = idEndereco;
+    }
+
+    public int getIdPagamento() {
+        return idPagamento;
+    }
+
+    public void setIdPagamento(int idPagamento) {
+        this.idPagamento = idPagamento;
+    }
+
+    public int getIdPasseio() {
+        return idPasseio;
+    }
+
+    public void setIdPasseio(int idPasseio) {
+        this.idPasseio = idPasseio;
     }
 
     public int getIdCliente() {
@@ -36,30 +60,6 @@ public class Cliente extends Pessoa {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-
-    public Passeio getPasseio() {
-        return passeio;
-    }
-
-    public void setPasseio(Passeio passeio) {
-        this.passeio = passeio;
-    }
-
-    public Pagamento getPagamento() {
-        return pagamento;
-    }
-
-    public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
     }
 
     // Fim dos Getters and Setters

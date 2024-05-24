@@ -1,39 +1,84 @@
 package com.tests;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import com.banco.ClienteDao;
 import com.banco.Database;
-import com.banco.FileUtius;
+import com.turismo.*;
 
 public class testDb {
     public static void main(String[] args) throws IOException {
         Connection con = null;
+
+        Cliente cliente = new Cliente(null, null, null, null, 0, null, 0, 0, 0);
+        Passeio passeio = new Passeio(0, null, null, 0, cliente, null, null, null);
+        Pagamento pagamento = new Pagamento(0, passeio, cliente, false);
+        Endereco endereco = new Endereco(0, null, null, null, null, null, 0);
+        Destino destino = new Destino(0, null, null);
+        Onibus onibus = new Onibus(0, "ghegye73", "Forbes", "Palmares", "Anão");
+
+        // Cliente
+        cliente.setCpf("14319083717");
+        cliente.setNome("Lucas");
+        cliente.setDataNascimento(LocalDate.of(2004, 11, 6));
+        cliente.setEmail("lucasribeiro@gmail.com");
+        cliente.setTelefone("21968824470");
+        System.out.println(cliente.getDataNascimento());
+
+        // Endereço
+
+        endereco.setCep("23580250");
+        endereco.setLogradouro("Estrada da Paciência");
+        endereco.setNumero(615);
+        endereco.setComplemento("Qd C, Lt 19");
+        endereco.setCidade("Rio de Janeiro");
+        endereco.setUf("Rio de Janeiro");
+
+        // Destino
+
+        destino.setEndereco(endereco);
+        destino.setNome("Paciência City");
+
+        // Pagamento
+
+        pagamento.setCliente(cliente);
+        pagamento.setPagou(true);
+        pagamento.setPasseio(passeio);
+
+        // Passeio
+
+        passeio.setCliente(cliente);
+        passeio.setData(LocalDate.of(2024, 8, 19));
+        passeio.setDestino(destino);
+        passeio.setHorario(LocalTime.of(12, 30, 0));
+        passeio.setOnibus(onibus);
+        passeio.setPagamento(pagamento);
+        passeio.setPreco(900);
+
         try {
             con = Database.getInstance().getConnection();
 
             Statement statement = con.createStatement();
             statement.setQueryTimeout(30); // set timeout to 30 sec.
-            //
-            // String sql = FileUtius.loadTextFile("src/main/java/res/turismo.sql");
-            // System.err.println(sql);
-            // statement.executeUpdate(sql);
 
-            // statement.executeUpdate("drop table if exists person");
-            // statement.executeUpdate("create table person (id integer, name string)");
-            // statement.executeUpdate("insert into person values(1, 'leo')");
-            // statement.executeUpdate("insert into person values(2, 'yui')");
-            ResultSet rs = statement.executeQuery("select * from person");
-            while (rs.next()) {
-                // read the result set
-                System.out.println("name = " + rs.getString("name"));
-                System.out.println("id = " + rs.getInt("id"));
+            ClienteDao clienteDao = new ClienteDao();
+            List<Cliente> clientes = clienteDao.getAll();
+
+            // clienteDao.inserir(cliente);
+            // clienteDao.delete(1);
+
+            for (Cliente c : clientes) {
+                System.out.println(c);
             }
+
             JOptionPane.showMessageDialog(null, "TUDO PRONTO!!");
         } catch (SQLException e) {
             System.err.println(e.getMessage());

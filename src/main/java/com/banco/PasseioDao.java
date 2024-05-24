@@ -1,32 +1,28 @@
 package com.banco;
 
-import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import com.turismo.Passeio;
 
-import com.turismo.Cliente;
-
-public class ClienteDao {
-
+public class PasseioDao {
     private Connection con;
 
-    public ClienteDao() {
+    public PasseioDao() {
         con = Database.getInstance().getConnection();
     }
 
-    public void inserir(Cliente cliente) throws SQLException {
+    public void inserir(Passeio passeio) throws SQLException {
         Statement stat = con.createStatement();
-        String query = "INSERT INTO cliente (cpf, nome, email, telefone, dataNascimento, idpagamento, idendereco, idpasseio) VALUES ('"
+        String query = "INSERT INTO passeio (cpf, nome, email, telefone, dataNascimento, idpagamento, idendereco, idpasseio) VALUES ('"
                 +
-                cliente.getCpf() + "', '" +
+                Cliente.imprimeCPF(cliente.getCpf()) + "', '" +
                 cliente.getNome() + "', '" +
                 cliente.getEmail() + "', '" +
-                cliente.imprimirTelefone(cliente.getTelefone()) + "', '" +
+                Cliente.imprimirTelefone(cliente.getTelefone()) + "', '" +
                 cliente.dataNascimentoFormatada() + "', '" +
                 cliente.getIdPagamento() + "', '" +
                 cliente.getIdEndereco() + "', '" +
@@ -85,35 +81,4 @@ public class ClienteDao {
         return null;
     }
 
-    public Cliente getByCpf(String cpf) throws SQLException {
-        Statement stat = con.createStatement();
-        ResultSet rs = stat.executeQuery("select * from cliente where cpf = " + cpf);
-
-        if (rs.next()) {
-            Cliente cliente = new Cliente(null, null, null, null, 0, null, 0, 0, 0);
-            cliente.setIdCliente(rs.getInt("IdCliente"));
-            int idCliente = cliente.getIdCliente();
-            cliente.setCpf(rs.getString("cpf"));
-            cliente.setNome(rs.getString("nome"));
-            cliente.setDataNascimento(toLocalDate(idCliente));
-            cliente.setEmail(rs.getString("email"));
-            cliente.setTelefone(rs.getString("telefone"));
-            cliente.setIdEndereco(rs.getInt("idEndereco"));
-            cliente.setIdPasseio(rs.getInt("idPasseio"));
-            cliente.setIdPagamento(rs.getInt("idPagamento"));
-            return cliente;
-        }
-        stat.close();
-        return null;
-    }
-
-    public LocalDate toLocalDate(int idCliente) throws SQLException {
-        Statement stat = con.createStatement();
-        ResultSet rs = stat.executeQuery("select * from cliente where idCliente = " + idCliente);
-        String dataNascimentoString = rs.getString("dataNascimento");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
-        stat.close();
-        return dataNascimento;
-    }
 }

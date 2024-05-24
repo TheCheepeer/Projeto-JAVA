@@ -67,13 +67,15 @@ public class Pessoa {
     public static boolean VerificarCpf(String cpf) {
         // considera-se erro CPF"s formados por uma sequencia de numeros iguais
 
-        if (cpf.equals("00000000000") ||
-                cpf.equals("11111111111") ||
-                cpf.equals("22222222222") || cpf.equals("33333333333") ||
-                cpf.equals("44444444444") || cpf.equals("55555555555") ||
-                cpf.equals("66666666666") || cpf.equals("77777777777") ||
-                cpf.equals("88888888888") || cpf.equals("99999999999") ||
-                (cpf.length() != 11))
+        String cpfSemPontuacao = cpf.replaceAll("[^0-9]", "");
+
+        if (cpfSemPontuacao.equals("00000000000") ||
+                cpfSemPontuacao.equals("11111111111") ||
+                cpfSemPontuacao.equals("22222222222") || cpfSemPontuacao.equals("33333333333") ||
+                cpfSemPontuacao.equals("44444444444") || cpfSemPontuacao.equals("55555555555") ||
+                cpfSemPontuacao.equals("66666666666") || cpfSemPontuacao.equals("77777777777") ||
+                cpfSemPontuacao.equals("88888888888") || cpfSemPontuacao.equals("99999999999") ||
+                (cpfSemPontuacao.length() != 11))
             return (false);
 
         char dig10, dig11;
@@ -88,7 +90,7 @@ public class Pessoa {
             peso = 10;
 
             for (i = 0; i < 9; i++) {
-                num = (int) (cpf.charAt(i) - 48);
+                num = (int) (cpfSemPontuacao.charAt(i) - 48);
                 sm = sm + (num * peso);
                 peso = peso - 1;
             }
@@ -103,7 +105,7 @@ public class Pessoa {
             sm = 0;
             peso = 11;
             for (i = 0; i < 10; i++) {
-                num = (int) (cpf.charAt(i) - 48);
+                num = (int) (cpfSemPontuacao.charAt(i) - 48);
                 sm = sm + (num * peso);
                 peso = peso - 1;
             }
@@ -116,7 +118,7 @@ public class Pessoa {
 
             // Verifica se os digitos calculados conferem com os digitos informados.
 
-            if ((dig10 == cpf.charAt(9)) && (dig11 == cpf.charAt(10)))
+            if ((dig10 == cpfSemPontuacao.charAt(9)) && (dig11 == cpfSemPontuacao.charAt(10)))
                 return (true);
             else
                 return (false);
@@ -126,23 +128,33 @@ public class Pessoa {
     }
 
     public static String imprimeCPF(String cpf) throws CpfInvalidoExeception {
-        if (VerificarCpf(cpf) == true) {
-            return (cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." +
-                    cpf.substring(6, 9) + "-" + cpf.substring(9, 11));
+
+        String cpfSemPontuacao = cpf.replaceAll("[^0-9]", "");
+
+        if (VerificarCpf(cpfSemPontuacao) == true) {
+            return (cpfSemPontuacao.substring(0, 3) + "." + cpfSemPontuacao.substring(3, 6) + "." +
+                    cpfSemPontuacao.substring(6, 9) + "-" + cpfSemPontuacao.substring(9, 11));
         } else {
             throw new CpfInvalidoExeception();
         }
     }
 
     public String imprimirTelefone(String telefone) throws TelefoneInvalidoExeception {
-        if (telefone.length() != 11) {
+        String telefoneSemFormatacao = removerFormatacaoTelefone(telefone);
+        if (telefoneSemFormatacao.length() != 11) {
             throw new TelefoneInvalidoExeception();
         } else {
-            return ("(" + telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" +
-                    telefone.substring(7, 11));
+            return "(" + telefoneSemFormatacao.substring(0, 2) + ")" +
+                    telefoneSemFormatacao.substring(2, 7) + "-" +
+                    telefoneSemFormatacao.substring(7, 11);
         }
     }
 
+    public String removerFormatacaoTelefone(String telefone) {
+        // Remove qualquer caractere não numérico do telefone
+        String telefoneSemFormatacao = telefone.replaceAll("[^0-9]", "");
+        return telefoneSemFormatacao;
+    }
     // Verifica a maioridade
 
     public boolean verificarMaioridade() {
