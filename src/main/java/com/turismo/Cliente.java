@@ -67,9 +67,9 @@ public class Cliente extends Pessoa {
     public String toString() {
         return "Nome: " + getNome() + "\nId: " + idCliente + "\nCPF: " + imprimeCPF(getCpf())
                 + "\nData de Nascimento: " + dataNascimentoFormatada() + "\nTelefone: "
-                + imprimirTelefone(getTelefone()) + "\nEmail: " + email + "\nEndereco: " + endereco +
-                "\nPasseio: " + passeio + "\nAcompanhantes: " + "\nPagamento: "
-                + pagamento;
+                + imprimirTelefone(getTelefone()) + "\nEmail: " + email + "\nEndereco: " + idEndereco +
+                "\nPasseio: " + idPasseio + "\nAcompanhantes: " + "\nPagamento: "
+                + idPagamento;
     }
 
 }
