@@ -1,15 +1,26 @@
 package com.turismo;
 
 public class Destino {
+    private int idDestino;
+
     private String nome;
     private Endereco endereco;
 
-    public Destino(String nome, Endereco endereco) {
+    public Destino(int idDestino, String nome, Endereco endereco) {
+        this.idDestino = idDestino;
         this.nome = nome;
         this.endereco = endereco;
     }
 
     // Getters and Setters
+
+    public int getIdDestino() {
+        return idDestino;
+    }
+
+    public void setIdDestino(int idDestino) {
+        this.idDestino = idDestino;
+    }
 
     public String getNome() {
         return nome;

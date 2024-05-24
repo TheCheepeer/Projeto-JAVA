@@ -2,28 +2,23 @@ package com.turismo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public class Passeio {
-    private String idPasseio;
+    private int idPasseio;
     private Destino destino;
     private Onibus onibus;
     private float preco;
-    private int qtdCliente;
     private Cliente cliente;
     private LocalDate data;
     private LocalTime horario;
     private Pagamento pagamento;
 
-    public Passeio(String idPasseio, Destino destino, Onibus onibus, float preco, int qtdCliente, Cliente cliente,
+    public Passeio(int idPasseio, Destino destino, Onibus onibus, float preco, int qtdCliente, Cliente cliente,
             LocalDate data, LocalTime horario, Pagamento pagamento) {
         this.idPasseio = idPasseio;
         this.destino = destino;
         this.onibus = onibus;
         this.preco = preco;
-        this.qtdCliente = qtdCliente;
         this.cliente = cliente;
         this.data = data;
         this.horario = horario;
@@ -32,11 +27,11 @@ public class Passeio {
 
     // Getters and setters
 
-    public String getIdPasseio() {
+    public int getIdPasseio() {
         return idPasseio;
     }
 
-    public void setIdPasseio(String idPasseio) {
+    public void setIdPasseio(int idPasseio) {
         this.idPasseio = idPasseio;
     }
 
@@ -62,14 +57,6 @@ public class Passeio {
 
     public void setPreco(float preco) {
         this.preco = preco;
-    }
-
-    public int getQtdCliente() {
-        return qtdCliente;
-    }
-
-    public void setQtdCliente(int qtdCliente) {
-        this.qtdCliente = qtdCliente;
     }
 
     public Cliente getCliente() {
@@ -105,21 +92,6 @@ public class Passeio {
     }
 
     // Fim dos Getters and setters
-
-    public String gerarIdPasseio() {
-        Random random = new Random();
-        Set<String> cadastros = new HashSet<>();
-
-        do {
-            int parte1 = 100 + random.nextInt(900);
-            int parte2 = 10 + random.nextInt(10);
-            int parte3 = 100 + random.nextInt(900);
-
-            idPasseio = "P" + parte1 + "-" + parte2 + "-" + parte3;
-        } while (!cadastros.add(idPasseio));
-
-        return idPasseio;
-    }
 
     // Agendar Passeio
 

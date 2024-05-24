@@ -2,9 +2,11 @@ package com.turismo;
 
 public class Endereco {
     private String cep, logradouro, complemento, cidade, uf;
-    private int numero;
+    private int idEndereco, numero;
 
-    public Endereco(String cep, String logradouro, String complemento, String cidade, String uf, int numero) {
+    public Endereco(int idEndereco, String cep, String logradouro, String complemento, String cidade, String uf,
+            int numero) {
+        this.idEndereco = idEndereco;
         this.cep = cep;
         this.logradouro = logradouro;
         this.complemento = complemento;
@@ -14,6 +16,14 @@ public class Endereco {
     }
 
     // Getters and setters
+
+    public int getIdEndereco() {
+        return idEndereco;
+    }
+
+    public void setIdEndereco(int idEndereco) {
+        this.idEndereco = idEndereco;
+    }
 
     public String getCep() {
         return cep;

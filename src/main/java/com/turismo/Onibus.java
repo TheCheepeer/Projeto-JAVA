@@ -3,7 +3,10 @@ package com.turismo;
 public class Onibus {
     private String placa, modelo, empresa, tipoOnibus;
 
-    public Onibus(String placa, String modelo, String empresa, String tipoOnibus) {
+    private int idOnibus;
+
+    public Onibus(int idOnibus, String placa, String modelo, String empresa, String tipoOnibus) {
+        this.idOnibus = idOnibus;
         this.placa = placa;
         this.modelo = modelo;
         this.empresa = empresa;
@@ -11,6 +14,14 @@ public class Onibus {
     }
 
     // Getters and Setters
+
+    public int getIdOnibus() {
+        return idOnibus;
+    }
+
+    public void setIdOnibus(int idOnibus) {
+        this.idOnibus = idOnibus;
+    }
 
     public String getPlaca() {
         return placa;
