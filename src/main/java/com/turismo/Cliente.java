@@ -5,9 +5,6 @@ import java.time.LocalDate;
 public class Cliente extends Pessoa {
     private int idCliente, idEndereco, idPasseio, idPagamento;
     private String email;
-    private Endereco endereco;
-    private Passeio passeio;
-    private Pagamento pagamento;
 
     public Cliente(String nome, String cpf, String telefone, LocalDate dataNascimento, int idCliente, String email,
             int idEndereco,

@@ -37,14 +37,14 @@ CREATE TABLE IF NOT EXISTS "Passeio" (
   "idCliente" INTEGER,
   "idDestino" INTEGER,
   "idOnibus" INTEGER,
-  "idPagamentos" INTEGER,
+  "idPagamento" INTEGER,
   "data" TEXT NOT NULL,
   "hora" TEXT NOT NULL,
   "preco" REAL NOT NULL,
   FOREIGN KEY ("idCliente") REFERENCES "Pagamento" ("idCliente"),
   FOREIGN KEY ("idDestino") REFERENCES "Destino" ("idDestino"),
   FOREIGN KEY ("idOnibus") REFERENCES "Onibus" ("idOnibus"),
-  FOREIGN KEY ("idPagamentos") REFERENCES "Pagamento" ("idPagamento")
+  FOREIGN KEY ("idPagamento") REFERENCES "Pagamento" ("idPagamento")
 );
 
 CREATE TABLE IF NOT EXISTS "Destino" (

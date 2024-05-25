@@ -2,30 +2,58 @@ package com.turismo;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class Passeio {
-    private int idPasseio;
-    private Destino destino;
-    private Onibus onibus;
+    private int idPasseio, idCliente, idDestino, idPagamento, idOnibus;
     private float preco;
-    private Cliente cliente;
     private LocalDate data;
-    private LocalTime horario;
-    private Pagamento pagamento;
+    private LocalTime hora;
 
-    public Passeio(int idPasseio, Destino destino, Onibus onibus, float preco, Cliente cliente,
-            LocalDate data, LocalTime horario, Pagamento pagamento) {
+    public Passeio(int idPasseio, int idDestino, int idOnibus, float preco, int idCliente,
+            LocalDate data, LocalTime hora, int idPagamento) {
         this.idPasseio = idPasseio;
-        this.destino = destino;
-        this.onibus = onibus;
+        this.idCliente = idCliente;
+        this.idDestino = idDestino;
+        this.idPagamento = idPagamento;
         this.preco = preco;
-        this.cliente = cliente;
         this.data = data;
-        this.horario = horario;
-        this.pagamento = pagamento;
+        this.hora = hora;
     }
 
     // Getters and setters
+
+    public int getIdOnibus() {
+        return idOnibus;
+    }
+
+    public void setIdOnibus(int idOnibus) {
+        this.idOnibus = idOnibus;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public int getIdDestino() {
+        return idDestino;
+    }
+
+    public void setIdDestino(int idDestino) {
+        this.idDestino = idDestino;
+    }
+
+    public int getIdPagamento() {
+        return idPagamento;
+    }
+
+    public void setIdPagamento(int idPagamento) {
+        this.idPagamento = idPagamento;
+    }
 
     public int getIdPasseio() {
         return idPasseio;
@@ -33,22 +61,6 @@ public class Passeio {
 
     public void setIdPasseio(int idPasseio) {
         this.idPasseio = idPasseio;
-    }
-
-    public Destino getDestino() {
-        return destino;
-    }
-
-    public void setDestino(Destino destino) {
-        this.destino = destino;
-    }
-
-    public Onibus getOnibus() {
-        return onibus;
-    }
-
-    public void setOnibus(Onibus onibus) {
-        this.onibus = onibus;
     }
 
     public float getPreco() {
@@ -59,14 +71,6 @@ public class Passeio {
         this.preco = preco;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public LocalDate getData() {
         return data;
     }
@@ -75,27 +79,34 @@ public class Passeio {
         this.data = data;
     }
 
-    public LocalTime getHorario() {
-        return horario;
+    public LocalTime getHora() {
+        return hora;
     }
 
-    public void setHorario(LocalTime horario) {
-        this.horario = horario;
-    }
-
-    public Pagamento getPagamento() {
-        return pagamento;
-    }
-
-    public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
     }
 
     // Fim dos Getters and setters
 
     // Agendar Passeio
 
+    public String dataFormatada() {
+        DateTimeFormatter dataF = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return data.format(dataF);
+    }
+
+    public String horaF() {
+        DateTimeFormatter horaF = DateTimeFormatter.ofPattern("HH:mm");
+        return hora.format(horaF);
+    }
+
     public void agendarPasseio() {
 
+    }
+
+    public String toString() {
+        return "IdPasseio: " + idPasseio + "\nIdCliente: " + idCliente + "\nIdDestino: " + idDestino + "\nIdOnibus: "
+                + idOnibus + "\nIdPagamento: " + idPagamento + "\nData: " + dataFormatada() + "\nHora: " + horaF();
     }
 }

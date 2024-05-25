@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import com.banco.ClienteDao;
 import com.banco.Database;
+import com.banco.PasseioDao;
 import com.turismo.*;
 
 public class testDb {
@@ -19,7 +20,7 @@ public class testDb {
         Connection con = null;
 
         Cliente cliente = new Cliente(null, null, null, null, 0, null, 0, 0, 0);
-        Passeio passeio = new Passeio(0, null, null, 0, cliente, null, null, null);
+        Passeio passeio = new Passeio(0, 0, 0, 0, 0, null, null, 0);
         Pagamento pagamento = new Pagamento(0, passeio, cliente, false);
         Endereco endereco = new Endereco(0, null, null, null, null, null, 0);
         Destino destino = new Destino(0, null, null);
@@ -55,13 +56,13 @@ public class testDb {
 
         // Passeio
 
-        passeio.setCliente(cliente);
+        passeio.setIdCliente(0);
+        passeio.setIdOnibus(0);
+        passeio.setIdDestino(0);
+        passeio.setIdPagamento(0);
         passeio.setData(LocalDate.of(2024, 8, 19));
-        passeio.setDestino(destino);
-        passeio.setHorario(LocalTime.of(12, 30, 0));
-        passeio.setOnibus(onibus);
-        passeio.setPagamento(pagamento);
-        passeio.setPreco(900);
+        passeio.setHora(LocalTime.of(12, 30, 0));
+        passeio.setPreco(200);
 
         try {
             con = Database.getInstance().getConnection();
@@ -72,11 +73,20 @@ public class testDb {
             ClienteDao clienteDao = new ClienteDao();
             List<Cliente> clientes = clienteDao.getAll();
 
+            PasseioDao passeioDao = new PasseioDao();
+            List<Passeio> passeios = passeioDao.getAll();
+
+            // passeioDao.inserir(passeio);
+
             // clienteDao.inserir(cliente);
             // clienteDao.delete(1);
 
             for (Cliente c : clientes) {
                 System.out.println(c);
+            }
+
+            for (Passeio p : passeios) {
+                System.out.println(p);
             }
 
             JOptionPane.showMessageDialog(null, "TUDO PRONTO!!");
