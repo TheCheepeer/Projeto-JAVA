@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import com.banco.ClienteDao;
 import com.banco.Database;
+import com.banco.DestinoDao;
 import com.banco.PasseioDao;
 import com.turismo.*;
 
@@ -23,7 +24,7 @@ public class testDb {
         Passeio passeio = new Passeio(0, 0, 0, 0, 0, null, null, 0);
         Pagamento pagamento = new Pagamento(0, passeio, cliente, false);
         Endereco endereco = new Endereco(0, null, null, null, null, null, 0);
-        Destino destino = new Destino(0, null, null);
+        Destino destino = new Destino(0, null, 0);
         Onibus onibus = new Onibus(0, "ghegye73", "Forbes", "Palmares", "Anão");
 
         // Cliente
@@ -45,14 +46,14 @@ public class testDb {
 
         // Destino
 
-        destino.setEndereco(endereco);
+        destino.setIdEndereco(0);
         destino.setNome("Paciência City");
 
         // Pagamento
 
-        pagamento.setCliente(cliente);
+        pagamento.setIdCliente(cliente);
         pagamento.setPagou(true);
-        pagamento.setPasseio(passeio);
+        pagamento.setIdPasseio(passeio);
 
         // Passeio
 
@@ -76,6 +77,11 @@ public class testDb {
             PasseioDao passeioDao = new PasseioDao();
             List<Passeio> passeios = passeioDao.getAll();
 
+            DestinoDao destinoDao = new DestinoDao();
+            List<Destino> destinos = destinoDao.getAll();
+
+            // destinoDao.inserir(destino);
+
             // passeioDao.inserir(passeio);
 
             // clienteDao.inserir(cliente);
@@ -87,6 +93,10 @@ public class testDb {
 
             for (Passeio p : passeios) {
                 System.out.println(p);
+            }
+
+            for (Destino d : destinos) {
+                System.out.println(d);
             }
 
             JOptionPane.showMessageDialog(null, "TUDO PRONTO!!");

@@ -4,15 +4,23 @@ public class Destino {
     private int idDestino;
 
     private String nome;
-    private Endereco endereco;
+    private int idEndereco;
 
-    public Destino(int idDestino, String nome, Endereco endereco) {
+    public Destino(int idDestino, String nome, int idEndereco) {
         this.idDestino = idDestino;
         this.nome = nome;
-        this.endereco = endereco;
+        this.idEndereco = idEndereco;
     }
 
     // Getters and Setters
+
+    public int getIdEndereco() {
+        return idEndereco;
+    }
+
+    public void setIdEndereco(int idEndereco) {
+        this.idEndereco = idEndereco;
+    }
 
     public int getIdDestino() {
         return idDestino;
@@ -30,13 +38,9 @@ public class Destino {
         this.nome = nome;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-
     // Fim dos Getters and Setters
+
+    public String toString() {
+        return "\nIdDestino: " + idDestino + "\nIdEndereco: " + "\nNome: " + nome;
+    }
 }

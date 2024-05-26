@@ -1,15 +1,28 @@
 package com.turismo;
 
+import com.execoes.CepInvalidoExeception;
+
 public class Endereco {
-    private String cep, logradouro, complemento, cidade, uf;
+    private String cep, logradouro, complemento, bairro, cidade, uf;
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
     private int idEndereco, numero;
 
-    public Endereco(int idEndereco, String cep, String logradouro, String complemento, String cidade, String uf,
-            int numero) {
+    public Endereco(int idEndereco, String cep, String logradouro, int numero, String complemento, String bairro,
+            String cidade,
+            String uf) {
         this.idEndereco = idEndereco;
         this.cep = cep;
         this.logradouro = logradouro;
         this.complemento = complemento;
+        this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
         this.numero = numero;
@@ -77,14 +90,34 @@ public class Endereco {
 
     public String fixComplemento(String complemento) {
         if (complemento == null) {
-            complemento = "";
+            complemento = "Sem complemento";
             return complemento;
         } else {
-            return complemento + " - ";
+            return complemento;
+        }
+    }
+
+    public Boolean verificarCep() {
+        String cepSemPontuacao = cep.replaceAll("[^0-9]", "");
+        if (cepSemPontuacao.length() == 8) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String cepF() throws ClassCastException {
+        if (verificarCep() == true) {
+            cep = cep.substring(0, 5) + "-" + cep.substring(5, 8);
+            return cep;
+        } else {
+            throw new CepInvalidoExeception();
         }
     }
 
     public String toString() {
-        return logradouro + ", " + numero + " - " + fixComplemento(complemento) + cep + " " + cidade + "/" + uf;
+        return "\nIdEndereço: " + idEndereco + "\nCep: " + cepF() + "\nLogradouro: " + logradouro + "\nNúmero: "
+                + numero + "\nComplemento: " + fixComplemento(complemento) + "\nBairro: " + bairro + "\nCidade: "
+                + cidade + "Uf: " + uf;
     }
 }

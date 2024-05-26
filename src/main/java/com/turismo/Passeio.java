@@ -106,7 +106,7 @@ public class Passeio {
     }
 
     public String toString() {
-        return "IdPasseio: " + idPasseio + "\nIdCliente: " + idCliente + "\nIdDestino: " + idDestino + "\nIdOnibus: "
+        return "\nIdPasseio: " + idPasseio + "\nIdCliente: " + idCliente + "\nIdDestino: " + idDestino + "\nIdOnibus: "
                 + idOnibus + "\nIdPagamento: " + idPagamento + "\nData: " + dataFormatada() + "\nHora: " + horaF();
     }
 }
