@@ -41,6 +41,6 @@ public class Destino {
     // Fim dos Getters and Setters
 
     public String toString() {
-        return "\nIdDestino: " + idDestino + "\nIdEndereco: " + "\nNome: " + nome;
+        return "IdDestino: " + idDestino + "\tIdEndereco: " + "\tNome: " + nome;
     }
 }

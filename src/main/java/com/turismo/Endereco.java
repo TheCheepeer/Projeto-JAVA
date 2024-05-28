@@ -1,6 +1,11 @@
 package com.turismo;
 
+import java.io.IOException;
+
 import com.execoes.CepInvalidoExeception;
+import com.execoes.ConexaoInternetExeception;
+import com.github.gilbertotorrezan.viacep.se.ViaCEPClient;
+import com.github.gilbertotorrezan.viacep.shared.ViaCEPEndereco;
 
 public class Endereco {
     private String cep, logradouro, complemento, bairro, cidade, uf;
@@ -106,7 +111,7 @@ public class Endereco {
         }
     }
 
-    public String cepF() throws ClassCastException {
+    public String cepF(String cep) throws CepInvalidoExeception {
         if (verificarCep() == true) {
             cep = cep.substring(0, 5) + "-" + cep.substring(5, 8);
             return cep;
@@ -115,9 +120,25 @@ public class Endereco {
         }
     }
 
+    public void consultarCEP() throws ConexaoInternetExeception {
+        verificarCep();
+        String cepSemPontuacao = cep.replaceAll("[^0-9]", "");
+
+        try {
+            ViaCEPClient client = new ViaCEPClient();
+            ViaCEPEndereco endereco = client.getEndereco(cepSemPontuacao);
+            this.logradouro = endereco.getLogradouro();
+            this.bairro = endereco.getBairro();
+            this.cidade = endereco.getLocalidade();
+            this.uf = endereco.getUf();
+        } catch (IOException e) {
+            throw new ConexaoInternetExeception();
+        }
+    }
+
     public String toString() {
-        return "\nIdEndereço: " + idEndereco + "\nCep: " + cepF() + "\nLogradouro: " + logradouro + "\nNúmero: "
-                + numero + "\nComplemento: " + fixComplemento(complemento) + "\nBairro: " + bairro + "\nCidade: "
-                + cidade + "Uf: " + uf;
+        return "IdEndereço: " + idEndereco + "\tCEP: " + cep + "\tLogradouro: " + logradouro + "\tNúmero: "
+                + numero + "\tComplemento: " + fixComplemento(complemento) + "\tBairro: " + bairro + "\tCidade: "
+                + cidade + "\tUf: " + uf;
     }
 }

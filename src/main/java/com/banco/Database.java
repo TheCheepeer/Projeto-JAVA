@@ -5,8 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.tests.testDb;
-
 public class Database {
     private static Database INSTANCE = null;
 
@@ -14,13 +12,13 @@ public class Database {
 
     private Database() {
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite::resource:" +
-                    testDb.class.getResource("/res/database.db"));
+            connection = DriverManager
+                    .getConnection("jdbc:sqlite::resource:res/database.db");
 
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-            String sql = FileUtius.loadTextFile("src/main/java/res/turismo.sql");
+            String sql = FileUtils.loadTextFile("src/main/java/res/turismo.sql");
             statement.executeUpdate(sql);
 
         } catch (Exception e) {

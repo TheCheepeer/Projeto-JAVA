@@ -40,7 +40,7 @@ public class Pagamento {
         this.idCliente = idCliente;
     }
 
-    public boolean isPagou() {
+    public boolean getPagou() {
         return pagou;
     }
 
@@ -60,8 +60,8 @@ public class Pagamento {
     }
 
     public String toString() {
-        return "\nIdPagamento: " + idPagamento + "\nIdPasseio: " + idPasseio + "\nIdCliente: " + idCliente
-                + "\nSituação: " + situacao();
+        return "IdPagamento: " + idPagamento + "\tIdPasseio: " + idPasseio + "\tIdCliente: " + idCliente
+                + "\tSituação: " + situacao();
     }
 
 }

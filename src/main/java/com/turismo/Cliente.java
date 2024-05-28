@@ -62,10 +62,10 @@ public class Cliente extends Pessoa {
     // Fim dos Getters and Setters
 
     public String toString() {
-        return "\nNome: " + getNome() + "\nId: " + idCliente + "\nCPF: " + imprimeCPF(getCpf())
-                + "\nData de Nascimento: " + dataNascimentoFormatada() + "\nTelefone: "
-                + imprimirTelefone(getTelefone()) + "\nEmail: " + email + "\nEndereco: " + idEndereco +
-                "\nPasseio: " + idPasseio + "\nAcompanhantes: " + "\nPagamento: "
+        return "Nome: " + getNome() + "\tId: " + idCliente + "\tCPF: " + imprimeCPF(getCpf())
+                + "\tData de Nascimento: " + dataNascimentoFormatada() + "\tTelefone: "
+                + imprimirTelefone(getTelefone()) + "\tEmail: " + email + "\tEndereco: " + idEndereco +
+                "\tPasseio: " + idPasseio + "\tAcompanhantes: " + "\tPagamento: "
                 + idPagamento;
     }
 

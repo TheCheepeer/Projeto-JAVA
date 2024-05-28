@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import com.banco.ClienteDao;
 import com.banco.Database;
 import com.banco.DestinoDao;
+import com.banco.EnderecoDao;
+import com.banco.PagamentoDao;
 import com.banco.PasseioDao;
 import com.turismo.*;
 
@@ -22,8 +24,8 @@ public class testDb {
 
         Cliente cliente = new Cliente(null, null, null, null, 0, null, 0, 0, 0);
         Passeio passeio = new Passeio(0, 0, 0, 0, 0, null, null, 0);
-        Pagamento pagamento = new Pagamento(0, passeio, cliente, false);
-        Endereco endereco = new Endereco(0, null, null, null, null, null, 0);
+        Pagamento pagamento = new Pagamento(0, 0, 0, false);
+        Endereco endereco = new Endereco(0, null, null, 0, null, null, null, null);
         Destino destino = new Destino(0, null, 0);
         Onibus onibus = new Onibus(0, "ghegye73", "Forbes", "Palmares", "Anão");
 
@@ -41,6 +43,7 @@ public class testDb {
         endereco.setLogradouro("Estrada da Paciência");
         endereco.setNumero(615);
         endereco.setComplemento("Qd C, Lt 19");
+        endereco.setBairro("Paciência");
         endereco.setCidade("Rio de Janeiro");
         endereco.setUf("Rio de Janeiro");
 
@@ -51,9 +54,10 @@ public class testDb {
 
         // Pagamento
 
-        pagamento.setIdCliente(cliente);
+        pagamento.setIdPagamento(0);
+        pagamento.setIdCliente(0);
+        pagamento.setIdPasseio(0);
         pagamento.setPagou(true);
-        pagamento.setIdPasseio(passeio);
 
         // Passeio
 
@@ -79,6 +83,24 @@ public class testDb {
 
             DestinoDao destinoDao = new DestinoDao();
             List<Destino> destinos = destinoDao.getAll();
+
+            EnderecoDao enderecoDao = new EnderecoDao();
+            List<Endereco> enderecos = enderecoDao.getAll();
+
+            PagamentoDao pagamentoDao = new PagamentoDao();
+            List<Pagamento> pagamentos = pagamentoDao.getAll();
+
+            // pagamentoDao.inserir(pagamento);
+
+            // for (Pagamento p : pagamentos) {
+            // System.out.println(p);
+            // }
+
+            // enderecoDao.inserir(endereco);
+
+            // for (Endereco e : enderecos) {
+            // System.out.println(e);
+            // }
 
             // destinoDao.inserir(destino);
 

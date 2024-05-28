@@ -89,8 +89,6 @@ public class Passeio {
 
     // Fim dos Getters and setters
 
-    // Agendar Passeio
-
     public String dataFormatada() {
         DateTimeFormatter dataF = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return data.format(dataF);
@@ -101,12 +99,17 @@ public class Passeio {
         return hora.format(horaF);
     }
 
-    public void agendarPasseio() {
-
+    public String situacaoInscricoes() {
+        if (LocalDate.now() == data && LocalTime.now() == hora) {
+            return "Finalizadas";
+        } else {
+            return "Em andamento";
+        }
     }
 
     public String toString() {
-        return "\nIdPasseio: " + idPasseio + "\nIdCliente: " + idCliente + "\nIdDestino: " + idDestino + "\nIdOnibus: "
-                + idOnibus + "\nIdPagamento: " + idPagamento + "\nData: " + dataFormatada() + "\nHora: " + horaF();
+        return "IdPasseio: " + idPasseio + "\tIdCliente: " + idCliente + "\tIdDestino: " + idDestino + "\tIdOnibus: "
+                + idOnibus + "\tIdPagamento: " + idPagamento + "\tData: " + dataFormatada() + "\tHora: " + horaF()
+                + "Inscrições: " + situacaoInscricoes();
     }
 }

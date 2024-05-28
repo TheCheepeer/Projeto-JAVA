@@ -15,6 +15,12 @@
     <version>3.45.3.0</version>
     </dependency>
 
+    <dependency>
+    <groupId>com.github.gilberto-torrezan</groupId>
+    <artifactId>viacep</artifactId>
+    <version>1.2.0</version>
+    </dependency>
+
     </dependencies>
 
     <properties>

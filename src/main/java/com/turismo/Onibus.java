@@ -56,4 +56,9 @@ public class Onibus {
     }
 
     // Fim dos Getters and Setters
+
+    public String toString() {
+        return "idOnibus: " + idOnibus + "\tPlaca: " + placa + "\tModelo: " + "\tTipo de Onibus: " + tipoOnibus
+                + "\tEmpresa: " + empresa;
+    }
 }

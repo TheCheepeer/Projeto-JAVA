@@ -171,8 +171,8 @@ public class Pessoa {
     }
 
     public String toString() {
-        return "Nome: " + getNome() + "\nCPF: " + imprimeCPF(getCpf())
-                + "\nData de Nascimento: " + dataNascimentoFormatada() + "\nTelefone: "
+        return "Nome: " + getNome() + "\tCPF: " + imprimeCPF(getCpf())
+                + "\tData de Nascimento: " + dataNascimentoFormatada() + "\tTelefone: "
                 + imprimirTelefone(getTelefone());
     }
 

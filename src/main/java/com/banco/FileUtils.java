@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class FileUtius {
-    private static final Logger log = Logger.getLogger(FileUtius.class.getName());
+public class FileUtils {
+    private static final Logger log = Logger.getLogger(FileUtils.class.getName());
 
     public static String loadTextFile(final String filename) throws IOException {
         long time = System.currentTimeMillis();
