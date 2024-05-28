@@ -21,16 +21,14 @@ public class ClienteDao {
 
     public void inserir(Cliente cliente) throws SQLException {
         Statement stat = con.createStatement();
-        String query = "INSERT INTO cliente (cpf, nome, email, telefone, dataNascimento, idpagamento, idendereco, idpasseio) VALUES ('"
+        String query = "INSERT INTO cliente (cpf, nome, email, telefone, dataNascimento, idendereco) VALUES ('"
                 +
                 cliente.getCpf() + "', '" +
                 cliente.getNome() + "', '" +
                 cliente.getEmail() + "', '" +
                 cliente.imprimirTelefone(cliente.getTelefone()) + "', '" +
                 cliente.dataNascimentoFormatada() + "', '" +
-                cliente.getIdPagamento() + "', '" +
-                cliente.getIdEndereco() + "', '" +
-                cliente.getIdPasseio() + "')";
+                cliente.getIdEndereco() + "')";
         stat.executeUpdate(query);
         stat.close();
     }
@@ -48,7 +46,7 @@ public class ClienteDao {
 
         while (rs.next()) {
             // read the result set
-            Cliente cliente = new Cliente(null, null, null, null, 0, null, 0, 0, 0);
+            Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
             cliente.setIdCliente(rs.getInt("IdCliente"));
             int idCliente = cliente.getIdCliente();
             cliente.setCpf(rs.getString("cpf"));
@@ -57,8 +55,6 @@ public class ClienteDao {
             cliente.setEmail(rs.getString("email"));
             cliente.setTelefone(rs.getString("telefone"));
             cliente.setIdEndereco(rs.getInt("idEndereco"));
-            cliente.setIdPasseio(rs.getInt("idPasseio"));
-            cliente.setIdPagamento(rs.getInt("idPagamento"));
             clientes.add(cliente);
         }
         return clientes;
@@ -69,7 +65,7 @@ public class ClienteDao {
         ResultSet rs = stat.executeQuery("select * from cliente where idCliente = " + idCliente);
 
         if (rs.next()) {
-            Cliente cliente = new Cliente(null, null, null, null, 0, null, 0, 0, 0);
+            Cliente cliente = new Cliente(null, null, null, null, idCliente, null, idCliente);
             cliente.setIdCliente(rs.getInt("IdCliente"));
             cliente.setCpf(rs.getString("cpf"));
             cliente.setNome(rs.getString("nome"));
@@ -77,8 +73,6 @@ public class ClienteDao {
             cliente.setEmail(rs.getString("email"));
             cliente.setTelefone(rs.getString("telefone"));
             cliente.setIdEndereco(rs.getInt("idEndereco"));
-            cliente.setIdPasseio(rs.getInt("idPasseio"));
-            cliente.setIdPagamento(rs.getInt("idPagamento"));
             return cliente;
         }
         stat.close();
@@ -90,7 +84,7 @@ public class ClienteDao {
         ResultSet rs = stat.executeQuery("select * from cliente where cpf = " + cpf);
 
         if (rs.next()) {
-            Cliente cliente = new Cliente(null, null, null, null, 0, null, 0, 0, 0);
+            Cliente cliente = new Cliente(cpf, cpf, cpf, null, 0, cpf, 0);
             cliente.setIdCliente(rs.getInt("IdCliente"));
             int idCliente = cliente.getIdCliente();
             cliente.setCpf(rs.getString("cpf"));
@@ -99,12 +93,16 @@ public class ClienteDao {
             cliente.setEmail(rs.getString("email"));
             cliente.setTelefone(rs.getString("telefone"));
             cliente.setIdEndereco(rs.getInt("idEndereco"));
-            cliente.setIdPasseio(rs.getInt("idPasseio"));
-            cliente.setIdPagamento(rs.getInt("idPagamento"));
             return cliente;
         }
         stat.close();
         return null;
+    }
+
+    public void updateEmail(Cliente c, int idCliente) throws SQLException {
+        Statement stat = con.createStatement();
+        stat.executeUpdate("update cliente set email = " + c.getEmail() + " where idCliente = " + idCliente);
+        stat.close();
     }
 
     public LocalDate toLocalDate(int idCliente) throws SQLException {

@@ -20,9 +20,8 @@ public class PasseioDao {
 
     public void inserir(Passeio passeio) throws SQLException {
         Statement stat = con.createStatement();
-        String query = "INSERT INTO passeio (idCliente, idDestino, idOnibus, idPagamento, data, hora, preco) VALUES ('"
+        String query = "INSERT INTO passeio (idDestino, idOnibus, idPagamento, data, hora, preco) VALUES ('"
                 +
-                passeio.getIdCliente() + "', '" +
                 passeio.getIdDestino() + "', '" +
                 passeio.getIdOnibus() + "', '" +
                 passeio.getIdPagamento() + "', '" +
@@ -46,10 +45,9 @@ public class PasseioDao {
 
         while (rs.next()) {
             // read the result set
-            Passeio passeio = new Passeio(0, 0, 0, 0, 0, null, null, 0);
+            Passeio passeio = new Passeio(0, 0, 0, 0, null, null, 0);
             passeio.setIdPasseio(rs.getInt("IdPasseio"));
             int idPasseio = passeio.getIdPasseio();
-            passeio.setIdCliente(rs.getInt("idCliente"));
             passeio.setIdDestino(rs.getInt("idDestino"));
             passeio.setIdOnibus(rs.getInt("idOnibus"));
             passeio.setIdPagamento(rs.getInt("idPagamento"));
@@ -67,9 +65,8 @@ public class PasseioDao {
         ResultSet rs = stat.executeQuery("select * from passeio where idPasseio = " + idPasseio);
 
         if (rs.next()) {
-            Passeio passeio = new Passeio(0, 0, 0, 0, 0, null, null, 0);
+            Passeio passeio = new Passeio(idPasseio, idPasseio, idPasseio, idPasseio, null, null, idPasseio);
             passeio.setIdPasseio(rs.getInt("IdPasseio"));
-            passeio.setIdCliente(rs.getInt("idCliente"));
             passeio.setIdDestino(rs.getInt("idDestino"));
             passeio.setIdOnibus(rs.getInt("idOnibus"));
             passeio.setIdPagamento(rs.getInt("idPagamento"));

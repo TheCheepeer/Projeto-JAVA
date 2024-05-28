@@ -3,18 +3,15 @@ package com.turismo;
 import java.time.LocalDate;
 
 public class Cliente extends Pessoa {
-    private int idCliente, idEndereco, idPasseio, idPagamento;
+    private int idCliente, idEndereco;
     private String email;
 
     public Cliente(String nome, String cpf, String telefone, LocalDate dataNascimento, int idCliente, String email,
-            int idEndereco,
-            int idPasseio, int idPagamento) {
+            int idEndereco) {
         super(nome, cpf, telefone, dataNascimento);
         this.idCliente = idCliente;
         this.email = email;
         this.idEndereco = idEndereco;
-        this.idPasseio = idPasseio;
-        this.idPagamento = idPagamento;
     }
 
     // Getters and Setters
@@ -25,22 +22,6 @@ public class Cliente extends Pessoa {
 
     public void setIdEndereco(int idEndereco) {
         this.idEndereco = idEndereco;
-    }
-
-    public int getIdPagamento() {
-        return idPagamento;
-    }
-
-    public void setIdPagamento(int idPagamento) {
-        this.idPagamento = idPagamento;
-    }
-
-    public int getIdPasseio() {
-        return idPasseio;
-    }
-
-    public void setIdPasseio(int idPasseio) {
-        this.idPasseio = idPasseio;
     }
 
     public int getIdCliente() {
@@ -64,9 +45,7 @@ public class Cliente extends Pessoa {
     public String toString() {
         return "Nome: " + getNome() + "\tId: " + idCliente + "\tCPF: " + imprimeCPF(getCpf())
                 + "\tData de Nascimento: " + dataNascimentoFormatada() + "\tTelefone: "
-                + imprimirTelefone(getTelefone()) + "\tEmail: " + email + "\tEndereco: " + idEndereco +
-                "\tPasseio: " + idPasseio + "\tAcompanhantes: " + "\tPagamento: "
-                + idPagamento;
+                + imprimirTelefone(getTelefone()) + "\tEmail: " + email + "\tEndereco: " + idEndereco;
     }
 
 }

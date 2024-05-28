@@ -5,15 +5,14 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Passeio {
-    private int idPasseio, idCliente, idDestino, idPagamento, idOnibus;
+    private int idPasseio, idDestino, idPagamento, idOnibus;
     private float preco;
     private LocalDate data;
     private LocalTime hora;
 
-    public Passeio(int idPasseio, int idDestino, int idOnibus, float preco, int idCliente,
-            LocalDate data, LocalTime hora, int idPagamento) {
+    public Passeio(int idPasseio, int idDestino, int idOnibus, float preco, LocalDate data, LocalTime hora,
+            int idPagamento) {
         this.idPasseio = idPasseio;
-        this.idCliente = idCliente;
         this.idDestino = idDestino;
         this.idPagamento = idPagamento;
         this.preco = preco;
@@ -29,14 +28,6 @@ public class Passeio {
 
     public void setIdOnibus(int idOnibus) {
         this.idOnibus = idOnibus;
-    }
-
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
     }
 
     public int getIdDestino() {
@@ -108,7 +99,7 @@ public class Passeio {
     }
 
     public String toString() {
-        return "IdPasseio: " + idPasseio + "\tIdCliente: " + idCliente + "\tIdDestino: " + idDestino + "\tIdOnibus: "
+        return "IdPasseio: " + idPasseio + "\tIdDestino: " + idDestino + "\tIdOnibus: "
                 + idOnibus + "\tIdPagamento: " + idPagamento + "\tData: " + dataFormatada() + "\tHora: " + horaF()
                 + "Inscrições: " + situacaoInscricoes();
     }
