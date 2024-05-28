@@ -3,7 +3,7 @@ package com.turismo;
 import java.io.IOException;
 
 import com.execoes.CepInvalidoExeception;
-import com.execoes.ConexaoInternetExeception;
+import com.execoes.SemConexaoInternetExeception;
 import com.github.gilbertotorrezan.viacep.se.ViaCEPClient;
 import com.github.gilbertotorrezan.viacep.shared.ViaCEPEndereco;
 
@@ -120,7 +120,7 @@ public class Endereco {
         }
     }
 
-    public void consultarCEP() throws ConexaoInternetExeception {
+    public void consultarCEP() throws SemConexaoInternetExeception {
         verificarCep();
         String cepSemPontuacao = cep.replaceAll("[^0-9]", "");
 
@@ -132,7 +132,7 @@ public class Endereco {
             this.cidade = endereco.getLocalidade();
             this.uf = endereco.getUf();
         } catch (IOException e) {
-            throw new ConexaoInternetExeception();
+            throw new SemConexaoInternetExeception();
         }
     }
 
