@@ -1,6 +1,6 @@
 package com.execoes;
 
-public class CepInvalidoExeception extends RuntimeException {
+public class CpfInvalidoException extends RuntimeException {
     @Override
     public String getMessage() {
         return "Cpf Inválido. \nVerifique e tente novamente.";

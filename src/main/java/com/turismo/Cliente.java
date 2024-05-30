@@ -1,6 +1,10 @@
 package com.turismo;
 
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.execoes.EmailInvalidoException;
 
 public class Cliente extends Pessoa {
     private int idCliente, idEndereco;
@@ -42,8 +46,26 @@ public class Cliente extends Pessoa {
 
     // Fim dos Getters and Setters
 
+    public static String validarEmail(String email) throws EmailInvalidoException {
+        if (email == null || email.isEmpty()) {
+            return email; // Email é opcional, permite valores nulos ou vazios
+        } else {
+            // Defina a regex para validar o formato do email
+            String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+            Pattern pattern = Pattern.compile(emailRegex);
+            Matcher matcher = pattern.matcher(email);
+
+            // Verifique se o email corresponde ao formato esperado
+            if (matcher.matches()) {
+                return email;
+            } else {
+                throw new EmailInvalidoException();
+            }
+        }
+    }
+
     public String toString() {
-        return "Nome: " + getNome() + "\tId: " + idCliente + "\tCPF: " + imprimeCPF(getCpf())
+        return "Id: " + idCliente + "\tNome: " + getNome() + "\tCPF: " + imprimeCPF(getCpf())
                 + "\tData de Nascimento: " + dataNascimentoFormatada() + "\tTelefone: "
                 + imprimirTelefone(getTelefone()) + "\tEmail: " + email + "\tEndereco: " + idEndereco;
     }

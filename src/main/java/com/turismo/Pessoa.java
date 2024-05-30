@@ -5,8 +5,8 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
 
-import com.execoes.CpfInvalidoExeception;
-import com.execoes.TelefoneInvalidoExeception;
+import com.execoes.CpfInvalidoException;
+import com.execoes.TelefoneInvalidoException;
 
 public class Pessoa {
     private String nome, cpf, telefone;
@@ -127,7 +127,7 @@ public class Pessoa {
         }
     }
 
-    public static String imprimeCPF(String cpf) throws CpfInvalidoExeception {
+    public static String imprimeCPF(String cpf) throws CpfInvalidoException {
 
         String cpfSemPontuacao = cpf.replaceAll("[^0-9]", "");
 
@@ -135,26 +135,21 @@ public class Pessoa {
             return (cpfSemPontuacao.substring(0, 3) + "." + cpfSemPontuacao.substring(3, 6) + "." +
                     cpfSemPontuacao.substring(6, 9) + "-" + cpfSemPontuacao.substring(9, 11));
         } else {
-            throw new CpfInvalidoExeception();
+            throw new CpfInvalidoException();
         }
     }
 
-    public String imprimirTelefone(String telefone) throws TelefoneInvalidoExeception {
-        String telefoneSemFormatacao = removerFormatacaoTelefone(telefone);
-        if (telefoneSemFormatacao.length() != 11) {
-            throw new TelefoneInvalidoExeception();
-        } else {
+    public static String imprimirTelefone(String telefone) throws TelefoneInvalidoException {
+        String telefoneSemFormatacao = telefone.replaceAll("[^0-9]", "");
+        if (telefoneSemFormatacao.length() == 11) {
             return "(" + telefoneSemFormatacao.substring(0, 2) + ")" +
                     telefoneSemFormatacao.substring(2, 7) + "-" +
                     telefoneSemFormatacao.substring(7, 11);
+        } else {
+            throw new TelefoneInvalidoException();
         }
     }
 
-    public String removerFormatacaoTelefone(String telefone) {
-        // Remove qualquer caractere não numérico do telefone
-        String telefoneSemFormatacao = telefone.replaceAll("[^0-9]", "");
-        return telefoneSemFormatacao;
-    }
     // Verifica a maioridade
 
     public boolean verificarMaioridade() {
@@ -168,6 +163,11 @@ public class Pessoa {
         } else {
             return false;
         }
+    }
+
+    public LocalDate addLocalDate(int dd, int mm, int yyyy) {
+        LocalDate data = LocalDate.of(yyyy, mm, dd);
+        return data;
     }
 
     public String toString() {
