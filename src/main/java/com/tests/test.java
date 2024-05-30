@@ -70,6 +70,7 @@ public class test {
                                             } catch (CpfInvalidoException e) {
                                                 System.err
                                                         .println("\nCpf Inválido. Verifique e tente novamente.\n");
+                                                continue;
                                             }
 
                                         } while (!finalizar2);
@@ -83,6 +84,7 @@ public class test {
                                             } catch (TelefoneInvalidoException e) {
                                                 System.err.println(
                                                         "\nTelefone inválido. Verifique e tente novamente\n");
+                                                continue;
                                             }
                                         } while (!finalizar2);
                                         do {
@@ -101,9 +103,11 @@ public class test {
                                                 finalizar2 = true;
                                             } catch (DateTimeException e) {
                                                 System.out.println("\nDigite uma data válida!\n");
+                                                continue;
                                             } catch (InputMismatchException e) {
                                                 System.err.println("\nDigite uma data válida!\n");
                                                 scanner.nextLine();
+                                                continue;
                                             }
 
                                         } while (!finalizar2);
@@ -111,11 +115,12 @@ public class test {
                                         do {
                                             finalizar2 = false;
                                             try {
-                                                System.out.println("\nDigite o Email(opcional)\n");
+                                                System.out.println("\nDigite o Email(opcional):\n");
                                                 cliente.setEmail(Cliente.validarEmail(scanner.nextLine()));
                                                 finalizar2 = true;
                                             } catch (EmailInvalidoException e) {
                                                 System.err.println("\nDigite um email válido\n");
+                                                continue;
                                             }
                                         } while (!finalizar2);
 
@@ -135,19 +140,50 @@ public class test {
                                                 System.out.println("Uf: " + endereco.getUf());
                                                 System.out.println(
                                                         "\nOs dados conferem?\n\n1. Sim\n2. Não\n3. Colocar CEP novamente.\n");
-                                                caminho = scanner.nextInt();
+
+                                                String caminhoStr = scanner.nextLine();
+
+                                                try {
+                                                    caminho = Integer.parseInt(caminhoStr); // Conversão para número
+                                                } catch (NumberFormatException e) {
+                                                    System.out.println("\nOpção inválida! Tente novamente\n");
+                                                    continue;
+                                                }
+
                                                 while (caminho != 1 && caminho != 2 && caminho != 3) {
                                                     System.out.println("\nOpção inválida! Tente novamente\n");
-                                                    caminho = scanner.nextInt();
+                                                    caminhoStr = scanner.nextLine(); // Leitura como string
+                                                    try {
+                                                        caminho = Integer.parseInt(caminhoStr);
+                                                    } catch (NumberFormatException e) {
+                                                        System.out.println("\nOpção inválida! Tente novamente\n");
+                                                        continue;
+                                                    }
                                                 }
+
                                             } catch (SemConexaoInternetException e) {
                                                 System.err.println(
                                                         "\nSem conexão com a internet.\n\nPor favor, digite manualmente.\n");
                                                 caminho = 2;
                                             } catch (IllegalArgumentException e) {
                                                 System.err.println("\nO CEP deve conter 8 digitos.\n");
+                                                continue;
                                             }
                                         } while (caminho != 1 && caminho != 2);
+
+                                        if (caminho == 2) {
+                                            System.out.println("\nDigite o Logradouro:\n");
+                                            endereco.setLogradouro(scanner.nextLine());
+                                            System.out.println("\nDigite o Número:\n");
+                                            endereco.setNumero(scanner.nextInt());
+                                            scanner.nextLine();
+                                            System.out.println("\nDigite o complemento(Opcional):\n");
+                                            endereco.setComplemento(scanner.nextLine());
+                                            System.out.println("\nDigite o Bairro\n");
+                                            endereco.setBairro(scanner.nextLine());
+                                            System.out.println("\nDigite a cidade:\n");
+                                            endereco.setUf(scanner.nextLine());
+                                        }
 
                                         // Fim de Cadastrar Cliente
                                         finalizar = true;
