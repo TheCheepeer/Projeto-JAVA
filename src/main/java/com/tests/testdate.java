@@ -1,7 +1,5 @@
 package com.tests;
 
-import java.time.LocalDate;
-
 import com.turismo.Cliente;
 
 public class testdate {

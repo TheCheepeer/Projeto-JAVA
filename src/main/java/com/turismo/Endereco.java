@@ -2,6 +2,7 @@ package com.turismo;
 
 import java.io.IOException;
 
+import com.execoes.NameNotNullOrInvalidException;
 import com.execoes.SemConexaoInternetException;
 import com.github.gilbertotorrezan.viacep.se.ViaCEPClient;
 import com.github.gilbertotorrezan.viacep.shared.ViaCEPEndereco;
@@ -135,9 +136,17 @@ public class Endereco {
         }
     }
 
+    public String nameNotNull(String input) throws NameNotNullOrInvalidException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new NameNotNullOrInvalidException();
+        } else {
+            return input;
+        }
+    }
+
     public String toString() {
-        return "IdEndereço: " + idEndereco + "\tCEP: " + cep + "\tLogradouro: " + logradouro + "\tNúmero: "
-                + numero + "\tComplemento: " + fixComplemento(complemento) + "\tBairro: " + bairro + "\tCidade: "
-                + cidade + "\tUf: " + uf;
+        return "IdEndereço:" + idEndereco + "\tCEP: " + cep + "\tLogradouro:" + logradouro + "\tNúmero:"
+                + numero + "\tComplemento:" + fixComplemento(complemento) + "\tBairro:" + bairro + "\tCidade:"
+                + cidade + "\tUf:" + uf;
     }
 }

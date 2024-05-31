@@ -77,4 +77,24 @@ public class EnderecoDao {
         stat.close();
         return null;
     }
+
+    public Endereco getLast() throws SQLException {
+        Statement stat = con.createStatement();
+        ResultSet rs = stat.executeQuery("SELECT * FROM endereco ORDER BY idEndereco DESC LIMIT 1");
+
+        if (rs.next()) {
+            Endereco endereco = new Endereco(0, null, null, 0, null, null, null, null);
+            endereco.setIdEndereco(rs.getInt("idEndereco"));
+            endereco.setCep(rs.getString("cep"));
+            endereco.setLogradouro(rs.getString("logradouro"));
+            endereco.setNumero(rs.getInt("numero"));
+            endereco.setComplemento(rs.getString("complemento"));
+            endereco.setBairro(rs.getString("bairro"));
+            endereco.setCidade(rs.getString("cidade"));
+            endereco.setUf(rs.getString("uf"));
+            return endereco;
+        } else {
+            throw new NullPointerException();
+        }
+    }
 }

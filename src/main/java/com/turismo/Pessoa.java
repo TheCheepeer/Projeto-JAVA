@@ -4,8 +4,11 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.InputMismatchException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.execoes.CpfInvalidoException;
+import com.execoes.NameNotNullOrInvalidException;
 import com.execoes.TelefoneInvalidoException;
 
 public class Pessoa {
@@ -168,6 +171,21 @@ public class Pessoa {
     public LocalDate addLocalDate(int dd, int mm, int yyyy) {
         LocalDate data = LocalDate.of(yyyy, mm, dd);
         return data;
+    }
+
+    public String nameNotNullOrInvalid(String input) throws NameNotNullOrInvalidException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new NameNotNullOrInvalidException();
+        }
+        String lettersOnlyPattern = "^[a-zA-Z]+$";
+        Pattern pattern = Pattern.compile(lettersOnlyPattern);
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.matches()) {
+            return input;
+        } else {
+            throw new NameNotNullOrInvalidException();
+        }
     }
 
     public String toString() {

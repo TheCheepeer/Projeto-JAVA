@@ -9,14 +9,17 @@ import java.util.Scanner;
 
 import com.turismo.*;
 import com.banco.Database;
+import com.banco.EnderecoDao;
 import com.execoes.CpfInvalidoException;
 import com.execoes.EmailInvalidoException;
+import com.execoes.NameNotNullOrInvalidException;
 import com.execoes.SemConexaoInternetException;
 import com.execoes.TelefoneInvalidoException;
 
 public class test {
     public static void main(String[] args) {
         Connection con = null;
+        Scanner scanner = new Scanner(System.in);
 
         try {
             con = Database.getInstance().getConnection();
@@ -26,8 +29,7 @@ public class test {
 
             int opcoes = -1;
             do {
-                System.out.println("\n1. Opções Cliente \n2. Opções Passeio\n3. Opções Pagamento\n");
-                Scanner scanner = new Scanner(System.in);
+                System.out.println("\n1. Opções Cliente \n2. Opções Passeio\n3. Opções Pagamento\n0. Para sair\n");
                 System.out.println("\nDigite uma opção\n");
                 opcoes = scanner.nextInt();
                 if (opcoes != 0 && opcoes != 1 && opcoes != 2 && opcoes != 3) {
@@ -59,11 +61,21 @@ public class test {
 
                                         Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
                                         scanner.nextLine();
-                                        System.out.println("\nDigite o nome:\n");
-                                        cliente.setNome(scanner.nextLine());
-                                        boolean finalizar2 = false;
+                                        boolean finalizar2;
+                                        do {
+                                            finalizar2 = false;
+                                            try {
+                                                System.out.println("\nDigite o nome:\n");
+                                                cliente.setNome(cliente.nameNotNullOrInvalid(scanner.nextLine()));
+                                                finalizar2 = true;
+                                            } catch (NameNotNullOrInvalidException e) {
+                                                System.err.println("\nNome nulo ou com números");
+                                                continue;
+                                            }
+                                        } while (!finalizar2);
                                         do {
                                             try {
+                                                finalizar2 = false;
                                                 System.out.println("\nDigite o cpf:\n");
                                                 cliente.setCpf(Cliente.imprimeCPF(scanner.nextLine()));
                                                 finalizar2 = true;
@@ -146,7 +158,7 @@ public class test {
                                                 try {
                                                     caminho = Integer.parseInt(caminhoStr); // Conversão para número
                                                 } catch (NumberFormatException e) {
-                                                    System.out.println("\nOpção inválida! Tente novamente\n");
+                                                    System.err.println("\nOpção inválida! Tente novamente\n");
                                                     continue;
                                                 }
 
@@ -156,7 +168,7 @@ public class test {
                                                     try {
                                                         caminho = Integer.parseInt(caminhoStr);
                                                     } catch (NumberFormatException e) {
-                                                        System.out.println("\nOpção inválida! Tente novamente\n");
+                                                        System.err.println("\nOpção inválida! Tente novamente\n");
                                                         continue;
                                                     }
                                                 }
@@ -172,18 +184,57 @@ public class test {
                                         } while (caminho != 1 && caminho != 2);
 
                                         if (caminho == 2) {
-                                            System.out.println("\nDigite o Logradouro:\n");
-                                            endereco.setLogradouro(scanner.nextLine());
-                                            System.out.println("\nDigite o Número:\n");
-                                            endereco.setNumero(scanner.nextInt());
-                                            scanner.nextLine();
-                                            System.out.println("\nDigite o complemento(Opcional):\n");
-                                            endereco.setComplemento(scanner.nextLine());
-                                            System.out.println("\nDigite o Bairro\n");
-                                            endereco.setBairro(scanner.nextLine());
-                                            System.out.println("\nDigite a cidade:\n");
-                                            endereco.setUf(scanner.nextLine());
+
+                                            do {
+                                                finalizar2 = false;
+                                                try {
+                                                    System.out.println("\nDigite o Logradouro:\n");
+                                                    endereco.setLogradouro(endereco.nameNotNull(scanner.nextLine()));
+                                                    System.out.println("\nDigite o Número:\n");
+                                                    endereco.setNumero(scanner.nextInt());
+                                                    scanner.nextLine();
+                                                    System.out.println("\nDigite o complemento (Opcional):\n");
+                                                    endereco.setComplemento(scanner.nextLine());
+                                                    System.out.println("\nDigite o Bairro:\n");
+                                                    endereco.setBairro(endereco.nameNotNull(scanner.nextLine()));
+                                                    System.out.println("\nDigite a cidade:\n");
+                                                    endereco.setCidade(endereco.nameNotNull(scanner.nextLine()));
+                                                    System.out.println("\nDigite a UF:\n");
+                                                    endereco.setUf(endereco.nameNotNull(scanner.nextLine()));
+
+                                                    finalizar2 = true;
+                                                } catch (InputMismatchException e) {
+                                                    System.err.println(
+                                                            "\nApenas números são permitidos para o campo Número!\n");
+                                                    scanner.nextLine();
+                                                    continue;
+                                                } catch (NameNotNullOrInvalidException e) {
+                                                    System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
+                                                    continue;
+                                                }
+                                            } while (!finalizar2);
+                                        } else {
+                                            do {
+                                                finalizar2 = false;
+                                                try {
+                                                    System.out.println("\nDigite o Número:\n");
+                                                    endereco.setNumero(scanner.nextInt());
+                                                    scanner.nextLine();
+                                                    System.out.println("\nDigite o complemento (Opcional):\n");
+                                                    endereco.setComplemento(scanner.nextLine());
+                                                    finalizar2 = true;
+                                                } catch (InputMismatchException e) {
+                                                    System.err.println(
+                                                            "\nApenas números são permitidos para o campo Número!\n");
+                                                    scanner.nextLine();
+                                                    continue;
+                                                }
+
+                                            } while (!finalizar2);
                                         }
+                                        EnderecoDao enderecoDao = new EnderecoDao();
+                                        enderecoDao.inserir(endereco);
+                                        System.out.println(enderecoDao.getLast());
 
                                         // Fim de Cadastrar Cliente
                                         finalizar = true;
@@ -219,6 +270,8 @@ public class test {
                 if (con != null) {
                     con.close();
                 }
+                scanner.close();
+                System.exit(0);
             } catch (SQLException e) {
                 System.err.println(e);
             }

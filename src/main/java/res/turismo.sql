@@ -11,10 +11,11 @@ CREATE TABLE IF NOT EXISTS "Cliente" (
 
 CREATE TABLE IF NOT EXISTS "Endereco" (
   "IdEndereco" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "cep" TEXT NOT NULL,
   "logradouro" TEXT NOT NULL,
   "numero" TEXT NOT NULL,
   "complemento" TEXT,
-  "cep" TEXT NOT NULL,
+  "bairro" TEXT NOT NULL,
   "cidade" TEXT NOT NULL,
   "uf" TEXT NOT NULL
 );
