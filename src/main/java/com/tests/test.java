@@ -10,6 +10,7 @@ import java.util.Scanner;
 import com.turismo.*;
 import com.banco.Database;
 import com.banco.EnderecoDao;
+import com.execoes.CepInvalidoException;
 import com.execoes.CpfInvalidoException;
 import com.execoes.EmailInvalidoException;
 import com.execoes.NameNotNullOrInvalidException;
@@ -180,6 +181,9 @@ public class test {
                                             } catch (IllegalArgumentException e) {
                                                 System.err.println("\nO CEP deve conter 8 digitos.\n");
                                                 continue;
+                                            } catch (CepInvalidoException e) {
+                                                System.err.println("\nCEP inesistente!\n");
+                                                continue;
                                             }
                                         } while (caminho != 1 && caminho != 2);
 
@@ -221,7 +225,8 @@ public class test {
                                                     endereco.setNumero(scanner.nextInt());
                                                     scanner.nextLine();
                                                     System.out.println("\nDigite o complemento (Opcional):\n");
-                                                    endereco.setComplemento(scanner.nextLine());
+                                                    endereco.setComplemento(
+                                                            endereco.fixComplemento(scanner.nextLine()));
                                                     finalizar2 = true;
                                                 } catch (InputMismatchException e) {
                                                     System.err.println(
