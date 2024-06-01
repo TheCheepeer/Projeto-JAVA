@@ -8,12 +8,14 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.turismo.*;
+import com.banco.ClienteDao;
 import com.banco.Database;
 import com.banco.EnderecoDao;
 import com.execoes.CepInvalidoException;
 import com.execoes.CpfInvalidoException;
 import com.execoes.EmailInvalidoException;
 import com.execoes.NameNotNullOrInvalidException;
+import com.execoes.RegistroJaExistenteException;
 import com.execoes.SemConexaoInternetException;
 import com.execoes.TelefoneInvalidoException;
 
@@ -237,15 +239,47 @@ public class test {
 
                                             } while (!finalizar2);
                                         }
+                                        // TODO: Fazer o método de verificação de existencia
                                         EnderecoDao enderecoDao = new EnderecoDao();
                                         enderecoDao.inserir(endereco);
-                                        System.out.println(enderecoDao.getLast());
+                                        endereco = enderecoDao.getLast();
+                                        cliente.setIdEndereco(endereco.getIdEndereco());
+                                        ClienteDao clienteDao = new ClienteDao();
+                                        try {
+                                            clienteDao.inserir(cliente);
+                                            cliente = clienteDao.getLast();
+                                        } catch (RegistroJaExistenteException e) {
+                                            System.err.println("Registro já existente, tente novamente.");
+                                            opcoes2 = 0;
+                                        }
+                                        System.out.println("\n" + cliente);
+                                        System.out.println(endereco);
 
-                                        // Fim de Cadastrar Cliente
-                                        finalizar = true;
+                                        do {
+
+                                            try {
+                                                System.out.println("\nAs informações conferem?\n\n1. Sim\n2. Não");
+                                                String caminhoStr = scanner.nextLine();
+
+                                                caminho = Integer.parseInt(caminhoStr);
+                                                while (caminho != 1 && caminho != 2) {
+                                                    System.err.println("\nInválido, tente novamente.\n");
+                                                    finalizar2 = false;
+                                                }
+                                                finalizar2 = true;
+                                            } catch (NumberFormatException e) {
+                                                System.err.println("\nOpção inválida! Tente novamente\n");
+                                                continue;
+                                            }
+                                        } while (!finalizar2);
+                                        if (caminho == 1) {
+                                            finalizar = true;
+                                        } else {
+                                            continue;
+                                        }
                                     } while (!finalizar);
                                     System.out.println("\nConcluido!\n");
-                                    opcoes2 = 0;
+                                    // Fim de Cadastrar Cliente
 
                                     break;
 

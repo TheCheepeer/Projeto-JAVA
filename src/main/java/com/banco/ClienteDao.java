@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.execoes.RegistroJaExistenteException;
 import com.turismo.Cliente;
 
 public class ClienteDao {
@@ -84,7 +85,7 @@ public class ClienteDao {
         ResultSet rs = stat.executeQuery("select * from cliente where cpf = " + cpf);
 
         if (rs.next()) {
-            Cliente cliente = new Cliente(cpf, cpf, cpf, null, 0, cpf, 0);
+            Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
             cliente.setIdCliente(rs.getInt("IdCliente"));
             int idCliente = cliente.getIdCliente();
             cliente.setCpf(rs.getString("cpf"));
@@ -99,10 +100,38 @@ public class ClienteDao {
         return null;
     }
 
+    public Cliente getLast() throws SQLException {
+        Statement stat = con.createStatement();
+        ResultSet rs = stat.executeQuery("SELECT * FROM cliente ORDER BY idCliente DESC LIMIT 1");
+
+        if (rs.next()) {
+            Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
+            cliente.setIdCliente(rs.getInt("IdCliente"));
+            int idCliente = cliente.getIdCliente();
+            cliente.setCpf(rs.getString("cpf"));
+            cliente.setNome(rs.getString("nome"));
+            cliente.setDataNascimento(toLocalDate(idCliente));
+            cliente.setEmail(rs.getString("email"));
+            cliente.setTelefone(rs.getString("telefone"));
+            cliente.setIdEndereco(rs.getInt("idEndereco"));
+            return cliente;
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
     public void updateEmail(Cliente c, int idCliente) throws SQLException {
         Statement stat = con.createStatement();
         stat.executeUpdate("update cliente set email = " + c.getEmail() + " where idCliente = " + idCliente);
         stat.close();
+    }
+
+    public void verificarExistencia(String cpf) throws SQLException {
+        if (getByCpf(cpf) != null) {
+            throw new RegistroJaExistenteException();
+        } else {
+            return;
+        }
     }
 
     public LocalDate toLocalDate(int idCliente) throws SQLException {

@@ -95,7 +95,7 @@ public class Endereco {
     // Fim dos Getters and setters
 
     public String fixComplemento(String complemento) {
-        if (complemento == null) {
+        if (complemento == null || complemento.trim().isEmpty()) {
             complemento = "Sem complemento";
             return complemento;
         } else {
@@ -122,7 +122,6 @@ public class Endereco {
     }
 
     public void consultarCEP() throws SemConexaoInternetException {
-        verificarCep();
         String cepSemPontuacao = cep.replaceAll("[^0-9]", "");
 
         try {
@@ -148,8 +147,8 @@ public class Endereco {
     }
 
     public String toString() {
-        return "IdEndereço:" + idEndereco + "\tCEP: " + cep + "\tLogradouro:" + logradouro + "\tNúmero:"
-                + numero + "\tComplemento:" + fixComplemento(complemento) + "\tBairro:" + bairro + "\tCidade:"
-                + cidade + "\tUf:" + uf;
+        return "IdEndereço: " + idEndereco + "\tCEP: " + cep + "\tLogradouro: " + logradouro + "\tNúmero: "
+                + numero + "\tComplemento: " + fixComplemento(complemento) + "\tBairro: " + bairro + "\tCidade: "
+                + cidade + "\tUf: " + uf;
     }
 }
