@@ -1,6 +1,10 @@
 package com.tests;
 
+import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
 
 import com.banco.ClienteDao;
 import com.banco.Database;
@@ -9,15 +13,29 @@ import com.turismo.Cliente;
 public class testdate {
     public static void main(String[] args) {
         Connection con = null;
-        ClienteDao clienteDao = new ClienteDao();
-        Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
         try {
             con = Database.getInstance().getConnection();
-            cliente = clienteDao.getByCpf("143.190.837-17");
+
+            Statement statement = con.createStatement();
+            statement.setQueryTimeout(30); // set timeout to 30 sec.
+
+            Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
+            ClienteDao clienteDao = new ClienteDao();
+            cliente = clienteDao.getByCpf(Cliente.imprimeCPF("14319083717"));
             System.out.println(cliente);
 
-        } catch (Exception e) {
-            System.err.println("algo errado");
+            JOptionPane.showMessageDialog(null, "TUDO PRONTO!!");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
         }
     }
 }
