@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.execoes.RegistroJaExistenteException;
 import com.turismo.Endereco;
 
 public class EnderecoDao {
@@ -96,5 +97,47 @@ public class EnderecoDao {
         } else {
             throw new NullPointerException();
         }
+    }
+
+    public void verificarExistencia(String cep, String logradouro, int numero, String complemento, String bairro,
+            String cidade,
+            String uf) throws SQLException {
+        Statement stat = con.createStatement();
+        ResultSet rs = stat
+                .executeQuery("SELECT id FROM enderecos WHERE cep = '" + cep + "' AND logradouro = '" + logradouro +
+                        "' AND numero = '" + numero + "' AND complemento = '" + complemento + "' AND bairro = '"
+                        + bairro + "' AND cidade = '" +
+                        cidade + "' AND uf = '" + uf + "'");
+
+        if (rs.next()) {
+            throw new RegistroJaExistenteException();
+        }
+    }
+
+    public Endereco getOnInfo(String cep, String logradouro, int numero, String complemento, String bairro,
+            String cidade,
+            String uf) throws SQLException {
+        Statement stat = con.createStatement();
+        ResultSet rs = stat
+                .executeQuery("SELECT id FROM enderecos WHERE cep = '" + cep + "' AND logradouro = '" + logradouro +
+                        "' AND numero = '" + numero + "' AND complemento = '" + complemento + "' AND bairro = '"
+                        + bairro + "' AND cidade = '" +
+                        cidade + "' AND uf = '" + uf + "'");
+
+        if (rs.next()) {
+            Endereco endereco = new Endereco(0, null, null, 0, null, null, null, null);
+            endereco.setIdEndereco(rs.getInt("idEndereco"));
+            endereco.setCep(rs.getString("cep"));
+            endereco.setLogradouro(rs.getString("logradouro"));
+            endereco.setNumero(rs.getInt("numero"));
+            endereco.setComplemento(rs.getString("complemento"));
+            endereco.setBairro(rs.getString("bairro"));
+            endereco.setCidade(rs.getString("cidade"));
+            endereco.setUf(rs.getString("uf"));
+            return endereco;
+        }
+        stat.close();
+        return null;
+
     }
 }

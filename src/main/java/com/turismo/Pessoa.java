@@ -67,7 +67,7 @@ public class Pessoa {
 
     // Verificar Cpf
 
-    public static boolean VerificarCpf(String cpf) {
+    public static boolean verificarCpf(String cpf) {
         // considera-se erro CPF"s formados por uma sequencia de numeros iguais
 
         String cpfSemPontuacao = cpf.replaceAll("[^0-9]", "");
@@ -134,9 +134,18 @@ public class Pessoa {
 
         String cpfSemPontuacao = cpf.replaceAll("[^0-9]", "");
 
-        if (VerificarCpf(cpfSemPontuacao) == true) {
+        if (verificarCpf(cpfSemPontuacao) == true) {
             return (cpfSemPontuacao.substring(0, 3) + "." + cpfSemPontuacao.substring(3, 6) + "." +
                     cpfSemPontuacao.substring(6, 9) + "-" + cpfSemPontuacao.substring(9, 11));
+        } else {
+            throw new CpfInvalidoException();
+        }
+    }
+
+    public static String unFormatCpf(String cpf) throws CpfInvalidoException {
+        if (verificarCpf(cpf) == true) {
+            String cpfSemPontuacao = cpf.replaceAll("[^0-9]", "");
+            return cpfSemPontuacao;
         } else {
             throw new CpfInvalidoException();
         }

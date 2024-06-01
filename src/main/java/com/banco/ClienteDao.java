@@ -127,7 +127,7 @@ public class ClienteDao {
     }
 
     public void verificarExistencia(String cpf) throws SQLException {
-        if (getByCpf(cpf) != null) {
+        if (getByCpf(cpf) != null || cpf.isEmpty()) {
             throw new RegistroJaExistenteException();
         } else {
             return;

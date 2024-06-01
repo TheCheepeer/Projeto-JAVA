@@ -21,7 +21,7 @@ public class testdate {
 
             Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
             ClienteDao clienteDao = new ClienteDao();
-            cliente = clienteDao.getByCpf(Cliente.imprimeCPF("14319083717"));
+            cliente = clienteDao.getByCpf(Cliente.unFormatCpf("143.190.837-17"));
             System.out.println(cliente);
 
             JOptionPane.showMessageDialog(null, "TUDO PRONTO!!");
