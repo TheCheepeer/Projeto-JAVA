@@ -104,10 +104,11 @@ public class EnderecoDao {
             String uf) throws SQLException {
         Statement stat = con.createStatement();
         ResultSet rs = stat
-                .executeQuery("SELECT id FROM enderecos WHERE cep = '" + cep + "' AND logradouro = '" + logradouro +
-                        "' AND numero = '" + numero + "' AND complemento = '" + complemento + "' AND bairro = '"
-                        + bairro + "' AND cidade = '" +
-                        cidade + "' AND uf = '" + uf + "'");
+                .executeQuery(
+                        "SELECT idEndereco FROM endereco WHERE cep = '" + cep + "' AND logradouro = '" + logradouro +
+                                "' AND numero = '" + numero + "' AND complemento = '" + complemento + "' AND bairro = '"
+                                + bairro + "' AND cidade = '" +
+                                cidade + "' AND uf = '" + uf + "'");
 
         if (rs.next()) {
             throw new RegistroJaExistenteException();
@@ -119,10 +120,11 @@ public class EnderecoDao {
             String uf) throws SQLException {
         Statement stat = con.createStatement();
         ResultSet rs = stat
-                .executeQuery("SELECT id FROM enderecos WHERE cep = '" + cep + "' AND logradouro = '" + logradouro +
-                        "' AND numero = '" + numero + "' AND complemento = '" + complemento + "' AND bairro = '"
-                        + bairro + "' AND cidade = '" +
-                        cidade + "' AND uf = '" + uf + "'");
+                .executeQuery(
+                        "SELECT idEndereco FROM endereco WHERE cep = '" + cep + "' AND logradouro = '" + logradouro +
+                                "' AND numero = '" + numero + "' AND complemento = '" + complemento + "' AND bairro = '"
+                                + bairro + "' AND cidade = '" +
+                                cidade + "' AND uf = '" + uf + "'");
 
         if (rs.next()) {
             Endereco endereco = new Endereco(0, null, null, 0, null, null, null, null);

@@ -251,7 +251,7 @@ public class test {
 
                                             } while (!finalizar2);
                                         }
-                                        // TODO: Fazer o método de verificação de existencia
+                                        // TODO: Fazer consertar o que há de errado aqui!
                                         EnderecoDao enderecoDao = new EnderecoDao();
                                         ClienteDao clienteDao = new ClienteDao();
                                         try {
