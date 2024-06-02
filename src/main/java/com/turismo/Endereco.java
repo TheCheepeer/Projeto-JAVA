@@ -9,7 +9,7 @@ import com.github.gilbertotorrezan.viacep.se.ViaCEPClient;
 import com.github.gilbertotorrezan.viacep.shared.ViaCEPEndereco;
 
 public class Endereco {
-    private String cep, logradouro, complemento, bairro, cidade, uf;
+    private String cep, logradouro, bairro, cidade, uf;
 
     public String getBairro() {
         return bairro;
@@ -21,13 +21,12 @@ public class Endereco {
 
     private int idEndereco, numero;
 
-    public Endereco(int idEndereco, String cep, String logradouro, int numero, String complemento, String bairro,
+    public Endereco(int idEndereco, String cep, String logradouro, int numero, String bairro,
             String cidade,
             String uf) {
         this.idEndereco = idEndereco;
         this.cep = cep;
         this.logradouro = logradouro;
-        this.complemento = complemento;
         this.bairro = bairro;
         this.cidade = cidade;
         this.uf = uf;
@@ -60,14 +59,6 @@ public class Endereco {
         this.logradouro = logradouro;
     }
 
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
     public String getCidade() {
         return cidade;
     }
@@ -94,15 +85,6 @@ public class Endereco {
 
     // Fim dos Getters and setters
 
-    public String fixComplemento(String complemento) {
-        if (complemento == null || complemento.trim().isEmpty()) {
-            complemento = "Sem complemento";
-            return complemento;
-        } else {
-            return complemento;
-        }
-    }
-
     public Boolean verificarCep() {
         String cepSemPontuacao = cep.replaceAll("[^0-9]", "");
         if (cepSemPontuacao.length() == 8) {
@@ -114,14 +96,15 @@ public class Endereco {
 
     public String cepF(String cep) throws CepInvalidoException {
         if (verificarCep() == true) {
-            cep = cep.substring(0, 5) + "-" + cep.substring(5, 8);
+            String cepSemPontuacao = cep.replaceAll("[^0-9]", "");
+            cep = cepSemPontuacao.substring(0, 5) + "-" + cep.substring(5, 8);
             return cep;
         } else {
             throw new CepInvalidoException();
         }
     }
 
-    public void consultarCEP() throws SemConexaoInternetException {
+    public void consultarCEP() throws SemConexaoInternetException, CepInvalidoException {
         String cepSemPontuacao = cep.replaceAll("[^0-9]", "");
 
         try {
@@ -147,8 +130,8 @@ public class Endereco {
     }
 
     public String toString() {
-        return "IdEndereço: " + idEndereco + "\tCEP: " + cep + "\tLogradouro: " + logradouro + "\tNúmero: "
-                + numero + "\tComplemento: " + fixComplemento(complemento) + "\tBairro: " + bairro + "\tCidade: "
-                + cidade + "\tUf: " + uf;
+        return "IdEndereço: " + idEndereco + " CEP: " + cep + " Logradouro: " + logradouro + " Número: "
+                + numero + " Bairro: " + bairro + " Cidade: "
+                + cidade + " Uf: " + uf;
     }
 }

@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS "Endereco" (
   "cep" TEXT NOT NULL,
   "logradouro" TEXT NOT NULL,
   "numero" TEXT NOT NULL,
-  "complemento" TEXT,
   "bairro" TEXT NOT NULL,
   "cidade" TEXT NOT NULL,
-  "uf" TEXT NOT NULL
+  "uf" TEXT NOT NULL,
+  CONSTRAINT uk_endereco UNIQUE (cep, logradouro, numero, bairro, cidade, uf)
 );
 
 CREATE TABLE IF NOT EXISTS "Pagamento" (

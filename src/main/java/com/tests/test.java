@@ -27,7 +27,7 @@ public class test {
             con = Database.getInstance().getConnection();
 
             Statement statement = con.createStatement();
-            statement.setQueryTimeout(30); // set timeout to 30 sec.
+            statement.setQueryTimeout(30);
 
             int opcoes = -1;
             do {
@@ -152,7 +152,7 @@ public class test {
 
                                         // Endereço Cliente
 
-                                        Endereco endereco = new Endereco(0, null, null, 0, null, null, null, null);
+                                        Endereco endereco = new Endereco(0, null, null, 0, null, null, null);
                                         int caminho = -1;
                                         do {
                                             try {
@@ -170,7 +170,7 @@ public class test {
                                                 String caminhoStr = scanner.nextLine();
 
                                                 try {
-                                                    caminho = Integer.parseInt(caminhoStr); // Conversão para número
+                                                    caminho = Integer.parseInt(caminhoStr);
                                                 } catch (NumberFormatException e) {
                                                     System.err.println("\nOpção inválida! Tente novamente\n");
                                                     continue;
@@ -178,7 +178,7 @@ public class test {
 
                                                 while (caminho != 1 && caminho != 2 && caminho != 3) {
                                                     System.out.println("\nOpção inválida! Tente novamente\n");
-                                                    caminhoStr = scanner.nextLine(); // Leitura como string
+                                                    caminhoStr = scanner.nextLine();
                                                     try {
                                                         caminho = Integer.parseInt(caminhoStr);
                                                     } catch (NumberFormatException e) {
@@ -211,8 +211,6 @@ public class test {
                                                     String numString = scanner.nextLine();
                                                     int num = Integer.parseInt(numString);
                                                     endereco.setNumero(num);
-                                                    System.out.println("\nDigite o complemento (Opcional):\n");
-                                                    endereco.setComplemento(scanner.nextLine());
                                                     System.out.println("\nDigite o Bairro:\n");
                                                     endereco.setBairro(endereco.nameNotNull(scanner.nextLine()));
                                                     System.out.println("\nDigite a cidade:\n");
@@ -239,9 +237,6 @@ public class test {
                                                     String numString = scanner.nextLine();
                                                     int num = Integer.parseInt(numString);
                                                     endereco.setNumero(num);
-                                                    System.out.println("\nDigite o complemento (Opcional):\n");
-                                                    endereco.setComplemento(
-                                                            endereco.fixComplemento(scanner.nextLine()));
                                                     finalizar2 = true;
                                                 } catch (NumberFormatException e) {
                                                     System.err.println(
@@ -254,56 +249,63 @@ public class test {
                                         // TODO: Fazer consertar o que há de errado aqui!
                                         EnderecoDao enderecoDao = new EnderecoDao();
                                         ClienteDao clienteDao = new ClienteDao();
-                                        try {
-                                            enderecoDao.verificarExistencia(endereco.getCep(), endereco.getLogradouro(),
-                                                    endereco.getNumero(), endereco.getComplemento(),
-                                                    endereco.getBairro(), endereco.getCidade(), endereco.getUf());
+
+                                        // Verifica se o endereço já existe e obtém o ID
+                                        int idEndereco = enderecoDao.verificarExistenciaEObterId(
+                                                endereco.cepF(endereco.getCep()),
+                                                endereco.getLogradouro(),
+                                                endereco.getNumero(), endereco.getBairro(), endereco.getCidade(),
+                                                endereco.getUf());
+
+                                        if (idEndereco != -1) {
+                                            // Endereço já existe, usa o ID existente
+                                            endereco = enderecoDao.getById(idEndereco);
+                                            cliente.setIdEndereco(endereco.getIdEndereco());
+                                        } else {
+                                            // Endereço não existe, insere no banco de dados e usa o novo ID
                                             enderecoDao.inserir(endereco);
                                             endereco = enderecoDao.getLast();
                                             cliente.setIdEndereco(endereco.getIdEndereco());
-                                        } catch (RegistroJaExistenteException e) {
-                                            System.err.println("Endereco subs");
-                                            endereco = enderecoDao.getOnInfo(endereco.getCep(),
-                                                    endereco.getLogradouro(),
-                                                    endereco.getNumero(), endereco.getComplemento(),
-                                                    endereco.getBairro(), endereco.getCidade(), endereco.getUf());
-                                            cliente.setIdEndereco(endereco.getIdEndereco());
                                         }
+
                                         try {
-                                            finalizar2 = false;
                                             clienteDao.verificarExistencia(cliente.getCpf());
                                             clienteDao.inserir(cliente);
                                             cliente = clienteDao.getLast();
+                                            finalizar = true; // Cliente cadastrado com sucesso, finalizar o loop
+                                                              // principal
                                         } catch (RegistroJaExistenteException e) {
                                             System.err.println("Registro já existente, tente novamente.");
-                                            finalizar = true;
                                             opcoes2 = 0;
                                         }
-                                        if (finalizar2) {
+
+                                        if (finalizar) {
                                             System.out.println("\n" + cliente);
                                             System.out.println(endereco);
 
                                             do {
-
                                                 try {
-                                                    System.out.println("\nAs informações conferem?\n\n1. Sim\n2. Não");
+                                                    System.out
+                                                            .println("\nAs informações conferem?\n\n1. Sim\n2. Não\n");
                                                     String caminhoStr = scanner.nextLine();
-
                                                     caminho = Integer.parseInt(caminhoStr);
+
                                                     while (caminho != 1 && caminho != 2) {
                                                         System.err.println("\nInválido, tente novamente.\n");
-                                                        finalizar2 = false;
+                                                        caminhoStr = scanner.nextLine();
+                                                        caminho = Integer.parseInt(caminhoStr);
                                                     }
                                                     finalizar2 = true;
                                                 } catch (NumberFormatException e) {
                                                     System.err.println("\nOpção inválida! Tente novamente\n");
-                                                    continue;
                                                 }
                                             } while (!finalizar2);
+
                                             if (caminho == 1) {
                                                 finalizar = true;
                                             } else {
-                                                continue;
+                                                clienteDao.delete(cliente.getIdCliente());
+                                                finalizar = false;
                                             }
                                         }
                                     } while (!finalizar);
