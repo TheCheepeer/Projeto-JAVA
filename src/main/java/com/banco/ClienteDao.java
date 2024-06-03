@@ -133,7 +133,22 @@ public class ClienteDao {
 
     public void updateEmail(Cliente c, int idCliente) throws SQLException {
         Statement stat = con.createStatement();
-        stat.executeUpdate("update cliente set email = " + c.getEmail() + " where idCliente = " + idCliente);
+        String query = "UPDATE cliente SET email = '" + c.getEmail() + "' WHERE idCliente = " + idCliente;
+        stat.executeUpdate(query);
+        stat.close();
+    }
+
+    public void updateTelefone(Cliente c, int idCliente) throws SQLException {
+        Statement stat = con.createStatement();
+        String query = "UPDATE cliente SET telefone = '" + c.getTelefone() + "' WHERE idCliente = " + idCliente;
+        stat.executeUpdate(query);
+        stat.close();
+    }
+
+    public void updateEndereco(Cliente c, int idCliente) throws SQLException {
+        Statement stat = con.createStatement();
+        String query = "UPDATE cliente SET idEndereco = " + c.getIdEndereco() + " WHERE idCliente = " + idCliente;
+        stat.executeUpdate(query);
         stat.close();
     }
 

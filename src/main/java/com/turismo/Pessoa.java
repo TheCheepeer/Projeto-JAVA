@@ -182,12 +182,12 @@ public class Pessoa {
         return data;
     }
 
-    public String nameNotNullOrInvalid(String input) throws NameNotNullOrInvalidException {
+    public String nomeValido(String input) throws NameNotNullOrInvalidException {
         if (input == null || input.trim().isEmpty()) {
             throw new NameNotNullOrInvalidException();
         }
-        String lettersOnlyPattern = "^[a-zA-Z]+$";
-        Pattern pattern = Pattern.compile(lettersOnlyPattern);
+        String lettersAndSpacesPattern = "^[a-zA-Z ]+$";
+        Pattern pattern = Pattern.compile(lettersAndSpacesPattern);
         Matcher matcher = pattern.matcher(input);
 
         if (matcher.matches()) {

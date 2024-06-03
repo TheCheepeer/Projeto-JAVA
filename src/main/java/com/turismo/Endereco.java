@@ -1,6 +1,8 @@
 package com.turismo;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.execoes.CepInvalidoException;
 import com.execoes.NameNotNullOrInvalidException;
@@ -124,8 +126,15 @@ public class Endereco {
     public String nameNotNull(String input) throws NameNotNullOrInvalidException {
         if (input == null || input.trim().isEmpty()) {
             throw new NameNotNullOrInvalidException();
-        } else {
+        }
+        String lettersAndSpacesPattern = "^[a-zA-Z ]+$";
+        Pattern pattern = Pattern.compile(lettersAndSpacesPattern);
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.matches()) {
             return input;
+        } else {
+            throw new NameNotNullOrInvalidException();
         }
     }
 
