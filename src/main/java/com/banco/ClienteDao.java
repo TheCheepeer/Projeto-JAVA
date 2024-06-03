@@ -48,10 +48,10 @@ public class ClienteDao {
     public List<Cliente> getAll() throws SQLException {
         List<Cliente> clientes = new ArrayList<Cliente>();
         Statement stat = con.createStatement();
-        ResultSet rs = stat.executeQuery("select * from cliente");
+        ResultSet rs = stat.executeQuery("SELECT * FROM cliente");
 
         while (rs.next()) {
-            // read the result set
+
             Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
             cliente.setIdCliente(rs.getInt("IdCliente"));
             int idCliente = cliente.getIdCliente();
@@ -63,6 +63,11 @@ public class ClienteDao {
             cliente.setIdEndereco(rs.getInt("idEndereco"));
             clientes.add(cliente);
         }
+
+        if (clientes.isEmpty()) {
+            throw new ElementoNaoEncontradoExption();
+        }
+
         return clientes;
     }
 

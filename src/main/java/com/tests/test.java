@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.DateTimeException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.turismo.*;
@@ -694,6 +695,25 @@ public class test {
                                     break;
 
                                 case 5:
+
+                                    try {
+                                        ClienteDao clienteDao = new ClienteDao();
+                                        EnderecoDao enderecoDao = new EnderecoDao();
+                                        List<Cliente> clientes = clienteDao.getAll();
+
+                                        for (Cliente c : clientes) {
+                                            Endereco endereco = enderecoDao.getById(c.getIdEndereco());
+                                            System.out.println("\n" + c);
+                                            System.out.println(endereco + "\n");
+                                        }
+
+                                        System.out.println("\nAperte enter para sair\n");
+                                        scanner.nextLine();
+
+                                    } catch (ElementoNaoEncontradoExption e) {
+                                        System.out.println("\nNenhum cliente no banco de dados\n");
+
+                                    }
 
                                     break;
 
