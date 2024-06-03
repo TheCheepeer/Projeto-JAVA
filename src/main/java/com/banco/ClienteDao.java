@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.execoes.ElementoNaoEncontradoExption;
 import com.execoes.RegistroJaExistenteException;
 import com.turismo.Cliente;
 
@@ -34,10 +35,14 @@ public class ClienteDao {
         stat.close();
     }
 
-    public void delete(int idCliente) throws SQLException {
+    public void delete(int idCliente) throws SQLException, ElementoNaoEncontradoExption {
         Statement stat = con.createStatement();
-        stat.executeUpdate("delete from cliente where idCliente = " + idCliente);
-        stat.close();
+        if (getById(idCliente) != null) {
+            stat.executeUpdate("delete from cliente where idCliente = " + idCliente);
+            stat.close();
+        } else {
+            throw new ElementoNaoEncontradoExption();
+        }
     }
 
     public List<Cliente> getAll() throws SQLException {
@@ -74,10 +79,13 @@ public class ClienteDao {
             cliente.setEmail(rs.getString("email"));
             cliente.setTelefone(rs.getString("telefone"));
             cliente.setIdEndereco(rs.getInt("idEndereco"));
+
+            stat.close();
             return cliente;
+        } else {
+            stat.close();
+            return null;
         }
-        stat.close();
-        return null;
     }
 
     public Cliente getByCpf(String cpf) throws SQLException {
@@ -94,10 +102,13 @@ public class ClienteDao {
             cliente.setEmail(rs.getString("email"));
             cliente.setTelefone(rs.getString("telefone"));
             cliente.setIdEndereco(rs.getInt("idEndereco"));
+
+            stat.close();
             return cliente;
+        } else {
+            stat.close();
+            return null;
         }
-        stat.close();
-        return null;
     }
 
     public Cliente getLast() throws SQLException {

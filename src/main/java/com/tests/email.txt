@@ -1,0 +1,34 @@
+do {
+                                            try {
+                                                System.out.println(
+                                                        "\n1. Atualizar email\n2. Atualizar telefone\n3. Atualizar Endereço\n0. Voltar");
+                                                String opcoes2Str = scanner.nextLine();
+                                                opcoes2 = Integer.parseInt(opcoes2Str);
+                                            } catch (NumberFormatException e) {
+                                                System.err.println("\nInválido, digite um número válido!\n");
+                                            }
+                                        } while (opcoes2 != 1 && opcoes2 != 2 && opcoes2 != 3 && opcoes2 != 0);
+
+                                        case 4:
+                                    boolean finalizar2 = false;
+                                    do {
+                                        try {
+                                            System.out.println("\nDigite o id do Cliente\n");
+                                            ClienteDao clienteDao = new ClienteDao();
+                                            String idStr = scanner.nextLine();
+                                            int id = Integer.parseInt(idStr);
+                                            clienteDao.delete(id);
+                                            System.out.println("\nDeletado com sucesso.\n");
+
+                                            System.out.println("\nAperte enter para sair\n");
+                                            scanner.nextLine();
+
+                                            finalizar2 = true;
+                                        } catch (NumberFormatException e) {
+                                            System.err.println("\nInválido, digite um número válido!\n");
+                                        } catch (ElementoNaoEncontradoExption e) {
+                                            System.err.println("\nCliente não encontrado.\n");
+                                            finalizar2 = true;
+                                        }
+                                    } while (!finalizar2);
+                                    break;

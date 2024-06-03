@@ -12,6 +12,7 @@ import com.banco.Database;
 import com.banco.EnderecoDao;
 import com.execoes.CepInvalidoException;
 import com.execoes.CpfInvalidoException;
+import com.execoes.ElementoNaoEncontradoExption;
 import com.execoes.EmailInvalidoException;
 import com.execoes.NameNotNullOrInvalidException;
 import com.execoes.RegistroJaExistenteException;
@@ -53,7 +54,7 @@ public class test {
                             do {
                                 try {
                                     System.out.println(
-                                            "\n1. Cadastrar Cliente \n2. Buscar Cliente por id\n3. Buscar Cliente por CPF\n4. Atualizar dados do Cliente\n5. Excluir Cliente\n");
+                                            "\n1. Cadastrar Cliente \n2. Buscar Cliente\n3. Atualizar dados do Cliente\n4. Excluir Cliente\n0. Voltar\n");
                                     String opcoes2String = scanner.nextLine();
                                     opcoes2 = Integer.parseInt(opcoes2String);
 
@@ -230,6 +231,7 @@ public class test {
                                                 }
                                             } while (!finalizar2);
                                         } else {
+                                            int exnum;
                                             do {
                                                 finalizar2 = false;
                                                 try {
@@ -237,12 +239,14 @@ public class test {
                                                     String numString = scanner.nextLine();
                                                     int num = Integer.parseInt(numString);
                                                     endereco.setNumero(num);
+                                                    exnum = num;
                                                     finalizar2 = true;
                                                 } catch (NumberFormatException e) {
                                                     System.err.println(
                                                             "\nApenas números são permitidos para o campo Número!\n");
                                                     continue;
                                                 }
+                                                System.out.println(exnum);
 
                                             } while (!finalizar2);
                                         }
@@ -277,6 +281,8 @@ public class test {
                                         } catch (RegistroJaExistenteException e) {
                                             System.err.println("Registro já existente, tente novamente.");
                                             opcoes2 = 0;
+                                        } catch (ElementoNaoEncontradoExption e) {
+                                            System.out.println("Olá");
                                         }
 
                                         if (finalizar) {
@@ -315,7 +321,106 @@ public class test {
                                     break;
 
                                 case 2:
+                                    finalizar = false;
+
+                                    while (!finalizar) {
+                                        int caminho = -1;
+
+                                        do {
+                                            System.out.println(
+                                                    "\n1. Buscar Cliente por Id\n2. Buscar Cliente por Cpf\n0. Voltar\n");
+                                            String caminhosStr = scanner.nextLine();
+                                            try {
+                                                caminho = Integer.parseInt(caminhosStr);
+                                            } catch (NumberFormatException e) {
+                                                System.err.println("\nInválido, digite um número válido!\n");
+                                            }
+                                        } while (caminho != 1 && caminho != 2 && caminho != 0);
+
+                                        switch (caminho) {
+                                            case 1:
+                                                boolean finalizar2 = false;
+                                                do {
+                                                    try {
+                                                        System.out.println("\nDigite o id do Cliente\n");
+                                                        Cliente cliente = new Cliente(null, null, null, null, 0, null,
+                                                                0);
+                                                        ClienteDao clienteDao = new ClienteDao();
+                                                        String idStr = scanner.nextLine();
+                                                        int id = Integer.parseInt(idStr);
+                                                        cliente = clienteDao.getById(id);
+
+                                                        if (clienteDao.getById(id) != null) {
+                                                            System.out.println("\n" + cliente);
+
+                                                            Endereco endereco = new Endereco(id, idStr, idStr, id,
+                                                                    idStr,
+                                                                    idStr, idStr);
+                                                            EnderecoDao enderecoDao = new EnderecoDao();
+                                                            endereco = enderecoDao.getById(cliente.getIdEndereco());
+                                                            System.out.println(endereco);
+
+                                                            System.out.println("\nAperte enter para sair\n");
+                                                            scanner.nextLine();
+
+                                                        } else {
+                                                            System.err.println("\nCliente não encontrado.\n");
+                                                        }
+                                                        finalizar2 = true;
+
+                                                    } catch (NumberFormatException e) {
+                                                        System.err.println("\nInválido, digite um número válido!\n");
+                                                    }
+                                                } while (!finalizar2);
+                                                break;
+
+                                            case 2:
+                                                finalizar2 = false;
+                                                do {
+                                                    try {
+                                                        System.out.println("\nDigite o Cpf do Cliente\n");
+                                                        Cliente cliente = new Cliente(null, null, null, null, 0, null,
+                                                                0);
+                                                        ClienteDao clienteDao = new ClienteDao();
+                                                        String cpf = scanner.nextLine();
+                                                        cliente = clienteDao
+                                                                .getByCpf(Cliente.unFormatCpf(cpf));
+                                                        if (clienteDao.getByCpf(Cliente.unFormatCpf(cpf)) != null) {
+                                                            System.out.println("\n" + cliente);
+
+                                                            Endereco endereco = new Endereco(opcoes2, cpf, cpf, caminho,
+                                                                    cpf, cpf, cpf);
+                                                            EnderecoDao enderecoDao = new EnderecoDao();
+                                                            endereco = enderecoDao.getById(cliente.getIdEndereco());
+                                                            System.out.println(endereco);
+
+                                                            System.out.println("\nAperte enter para sair\n");
+                                                            scanner.nextLine();
+                                                        } else {
+                                                            System.err.println("\nCliente não encontrado.\n");
+                                                        }
+
+                                                        finalizar2 = true;
+
+                                                    } catch (CpfInvalidoException e) {
+                                                        System.err.println("\nInválido, digite um cpf válido!\n");
+                                                    }
+
+                                                } while (!finalizar2);
+                                                break;
+
+                                            case 0:
+                                                finalizar = true;
+                                                break;
+                                        }
+                                    }
+
                                     break;
+
+                                case 3:
+
+                                    break;
+
                             }
 
                         } while (opcoes2 != 0);
@@ -331,7 +436,7 @@ public class test {
 
             } while (opcoes != 0);
 
-            System.out.println("TUDO PRONTO!!");
+            System.out.println("\nTUDO PRONTO!!");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             System.out.println("Error: " + e.getMessage());
