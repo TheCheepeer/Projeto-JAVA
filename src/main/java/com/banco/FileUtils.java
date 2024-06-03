@@ -1,8 +1,9 @@
 package com.banco;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
 public class FileUtils {
@@ -10,7 +11,12 @@ public class FileUtils {
 
     public static String loadTextFile(final String filename) throws IOException {
         long time = System.currentTimeMillis();
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        InputStream inputStream = FileUtils.class.getClassLoader().getResourceAsStream(filename);
+        if (inputStream == null) {
+            throw new IOException("Arquivo não encontrado: " + filename);
+        }
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
         String line;
 

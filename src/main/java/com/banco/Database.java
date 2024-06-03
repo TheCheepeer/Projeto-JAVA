@@ -13,12 +13,12 @@ public class Database {
     private Database() {
         try {
             connection = DriverManager
-                    .getConnection("jdbc:sqlite::resource:res/database.db");
+                    .getConnection("jdbc:sqlite:src/main/resources/database.db");
 
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30); // set timeout to 30 sec.
 
-            String sql = FileUtils.loadTextFile("src/main/java/res/turismo.sql");
+            String sql = FileUtils.loadTextFile("turismo.sql");
             statement.executeUpdate(sql);
 
         } catch (Exception e) {
