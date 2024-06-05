@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.DateTimeException;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,6 +13,7 @@ import com.banco.Database;
 import com.banco.EnderecoDao;
 import com.execoes.CepInvalidoException;
 import com.execoes.CpfInvalidoException;
+import com.execoes.DataPassadaException;
 import com.execoes.ElementoNaoEncontradoExption;
 import com.execoes.EmailInvalidoException;
 import com.execoes.NameNotNullOrInvalidException;
@@ -777,6 +779,142 @@ public class Main {
                         break;
                     case 2:
                         // Opções Passeio
+
+                        Ferramentas.clearConsole();
+                        opcoes2 = -1;
+                        do {
+
+                            System.out.println(
+                                    "\nSelecione uma opção\n\n1. Agendar Passeio\n2. Buscar Passeio\n3. Atualizar dados do Passeio\n4. Cancelar Passeio\n5. Listar Passeios\n0. Voltar\n");
+
+                            try {
+                                String opcoes2Str = scanner.nextLine();
+                                opcoes2 = Integer.parseInt(opcoes2Str);
+
+                            } catch (NumberFormatException e) {
+                                Ferramentas.clearConsole();
+                                System.err.println("\nInválido, digite um número válido!\n");
+                            }
+
+                        } while (opcoes2 != 1 && opcoes2 != 2 && opcoes2 != 3 && opcoes2 != 4 && opcoes2 != 5
+                                && opcoes2 != 0);
+
+                        switch (opcoes2) {
+                            case 1:
+                                // Agendar Passeio
+
+                                boolean finalizar = false;
+                                Ferramentas.clearConsole();
+                                do {
+                                    Passeio passeio = new Passeio(0, 0, 0, 0, null, null);
+                                    boolean finalizar2 = false;
+                                    do {
+                                        try {
+                                            System.out.println(
+                                                    "\nDigite a data do Passeio no formato DD/MM/AAAA\n");
+                                            System.out.println("\nDigite o dia:\n");
+                                            String ddString = scanner.nextLine();
+                                            int dd = Integer.parseInt(ddString);
+                                            System.out.println("\nDigite o mês:\n");
+                                            String mmString = scanner.nextLine();
+                                            int mm = Integer.parseInt(mmString);
+                                            System.out.println("\nDigite o ano\n");
+                                            String yyyyString = scanner.nextLine();
+                                            int yyyy = Integer.parseInt(yyyyString);
+                                            passeio.setData(passeio.addLocalDate(dd, mm, yyyy));
+                                            finalizar2 = true;
+                                        } catch (DateTimeException e) {
+                                            Ferramentas.clearConsole();
+                                            System.out.println("\nDigite uma data válida!\n");
+                                            continue;
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nDigite uma data válida!\n");
+                                            continue;
+                                        } catch (DataPassadaException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("A data fornecida está no passado.");
+                                        }
+
+                                    } while (!finalizar2);
+
+                                    Ferramentas.clearConsole();
+
+                                    do {
+                                        finalizar2 = false;
+
+                                        try {
+                                            System.out.println("\nDigite o horário do Passeio no formato hh:mm\n");
+
+                                            System.out.println("\nDigite a Hora:\n");
+                                            String horaStr = scanner.nextLine();
+                                            int hora = Integer.parseInt(horaStr);
+
+                                            System.out.println("\nDigite os minutos:\n");
+                                            String minutosStr = scanner.nextLine();
+                                            int minutos = Integer.parseInt(minutosStr);
+
+                                            LocalTime horaPasseio = passeio.addLocalTime(hora, minutos);
+                                            passeio.setHora(horaPasseio);
+                                            finalizar2 = true;
+                                            System.out.println("Horário do passeio definido: " + passeio.getHora());
+
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nDigite um horário válido!\n");
+                                        } catch (DateTimeException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nDigite um horário válido!\n");
+                                        }
+
+                                    } while (!finalizar2);
+
+                                    Ferramentas.clearConsole();
+
+                                    do {
+                                        finalizar2 = false;
+                                        System.out.println("\nDigite o preço do passeio(ex: 123,45)\n");
+                                        String precoStr = scanner.nextLine();
+                                        precoStr = precoStr.replace(",", ".");
+                                        try {
+
+                                            float preco = Float.parseFloat(precoStr);
+                                            passeio.setPreco(preco);
+
+                                            finalizar2 = true;
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println(
+                                                    "\nInválido, digite um preço válido\n");
+                                        }
+
+                                    } while (!finalizar2);
+
+                                    Endereco endereco = new Endereco(0, null, null, 0, null, null, null);
+                                    Destino destino = new Destino(0, null, 0);
+
+                                } while (!finalizar);
+
+                                break;
+
+                            case 2:
+
+                                break;
+
+                            case 3:
+
+                                break;
+
+                            case 4:
+
+                                break;
+
+                            case 5:
+
+                                break;
+
+                        }
+
                         break;
                     case 3:
                         // Opções Pagamento

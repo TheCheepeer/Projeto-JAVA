@@ -1,20 +1,23 @@
 package com.turismo;
 
+import java.text.NumberFormat;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import com.execoes.DataPassadaException;
 
 public class Passeio {
-    private int idPasseio, idDestino, idPagamento, idOnibus;
+    private int idPasseio, idDestino, idOnibus;
     private float preco;
     private LocalDate data;
     private LocalTime hora;
 
-    public Passeio(int idPasseio, int idDestino, int idOnibus, float preco, LocalDate data, LocalTime hora,
-            int idPagamento) {
+    public Passeio(int idPasseio, int idDestino, int idOnibus, float preco, LocalDate data, LocalTime hora) {
         this.idPasseio = idPasseio;
         this.idDestino = idDestino;
-        this.idPagamento = idPagamento;
         this.preco = preco;
         this.data = data;
         this.hora = hora;
@@ -36,14 +39,6 @@ public class Passeio {
 
     public void setIdDestino(int idDestino) {
         this.idDestino = idDestino;
-    }
-
-    public int getIdPagamento() {
-        return idPagamento;
-    }
-
-    public void setIdPagamento(int idPagamento) {
-        this.idPagamento = idPagamento;
     }
 
     public int getIdPasseio() {
@@ -98,9 +93,32 @@ public class Passeio {
         }
     }
 
+    public LocalDate addLocalDate(int dd, int mm, int yyyy) throws DataPassadaException {
+        LocalDate data = LocalDate.of(yyyy, mm, dd);
+        LocalDate atual = LocalDate.now();
+        if (data.isBefore(atual)) {
+            throw new DataPassadaException();
+        }
+        return data;
+    }
+
+    public LocalTime addLocalTime(int hours, int minutes) {
+        if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+            throw new DateTimeException("Hora ou minutos inválidos.");
+        }
+        LocalTime hora = LocalTime.of(hours, minutes);
+        return hora;
+    }
+
+    public static String precoFormatado(float preco) {
+        Locale locale = new Locale("pt", "BR");
+        NumberFormat formatoMoeda = NumberFormat.getCurrencyInstance(locale);
+        return formatoMoeda.format(preco);
+    }
+
     public String toString() {
-        return "IdPasseio: " + idPasseio + "\tIdDestino: " + idDestino + "\tIdOnibus: "
-                + idOnibus + "\tIdPagamento: " + idPagamento + "\tData: " + dataFormatada() + "\tHora: " + horaF()
-                + "Inscrições: " + situacaoInscricoes();
+        return "IdPasseio: " + idPasseio + " IdDestino: " + idDestino + " IdOnibus: "
+                + idOnibus + " Data: " + dataFormatada() + " Hora: " + horaF()
+                + " Preço: " + precoFormatado(preco) + "Inscrições: " + situacaoInscricoes();
     }
 }

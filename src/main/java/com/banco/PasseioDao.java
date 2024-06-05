@@ -24,7 +24,6 @@ public class PasseioDao {
                 +
                 passeio.getIdDestino() + "', '" +
                 passeio.getIdOnibus() + "', '" +
-                passeio.getIdPagamento() + "', '" +
                 passeio.dataFormatada() + "', '" +
                 passeio.horaF() + "', '" +
                 passeio.getPreco() + "')";
@@ -45,12 +44,11 @@ public class PasseioDao {
 
         while (rs.next()) {
             // read the result set
-            Passeio passeio = new Passeio(0, 0, 0, 0, null, null, 0);
+            Passeio passeio = new Passeio(0, 0, 0, 0, null, null);
             passeio.setIdPasseio(rs.getInt("IdPasseio"));
             int idPasseio = passeio.getIdPasseio();
             passeio.setIdDestino(rs.getInt("idDestino"));
             passeio.setIdOnibus(rs.getInt("idOnibus"));
-            passeio.setIdPagamento(rs.getInt("idPagamento"));
             passeio.setData(toLocalDate(idPasseio));
             passeio.setHora(toLocalTime(idPasseio));
             passeio.setPreco(rs.getFloat("preco"));
@@ -65,11 +63,10 @@ public class PasseioDao {
         ResultSet rs = stat.executeQuery("select * from passeio where idPasseio = " + idPasseio);
 
         if (rs.next()) {
-            Passeio passeio = new Passeio(idPasseio, idPasseio, idPasseio, idPasseio, null, null, idPasseio);
+            Passeio passeio = new Passeio(0, 0, 0, 0, null, null);
             passeio.setIdPasseio(rs.getInt("IdPasseio"));
             passeio.setIdDestino(rs.getInt("idDestino"));
             passeio.setIdOnibus(rs.getInt("idOnibus"));
-            passeio.setIdPagamento(rs.getInt("idPagamento"));
             passeio.setData(toLocalDate(idPasseio));
             passeio.setHora(toLocalTime(idPasseio));
             passeio.setPreco(rs.getFloat("preco"));
