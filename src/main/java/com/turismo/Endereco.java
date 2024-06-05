@@ -138,6 +138,12 @@ public class Endereco {
         }
     }
 
+    public String imprimirConsulta() {
+        return "\nResultados do CEP:\n" + "\nlogradouro: " + getLogradouro() + "\nBairro: "
+                + getBairro() + "\nCidade: " + getCidade() + "\nUf: " + getUf()
+                + "\n\nOs dados conferem?\n\n1. Sim\n2. Não\n3. Colocar CEP novamente.\n";
+    }
+
     public String toString() {
         return "IdEndereço: " + idEndereco + " CEP: " + cep + " Logradouro: " + logradouro + " Número: "
                 + numero + " Bairro: " + bairro + " Cidade: "

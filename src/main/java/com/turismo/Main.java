@@ -18,6 +18,7 @@ import com.execoes.NameNotNullOrInvalidException;
 import com.execoes.RegistroJaExistenteException;
 import com.execoes.SemConexaoInternetException;
 import com.execoes.TelefoneInvalidoException;
+import com.ferramentas.Ferramentas;
 
 public class Main {
     public static void main(String[] args) {
@@ -41,6 +42,7 @@ public class Main {
                         opcoes = Integer.parseInt(opcoesStr);
 
                     } catch (NumberFormatException e) {
+                        Ferramentas.clearConsole();
                         System.err.println("\nInválido, digite um número válido!");
                     }
                 } while (opcoes != 0 && opcoes != 1 && opcoes != 2 && opcoes != 3);
@@ -51,6 +53,7 @@ public class Main {
                         int opcoes2 = -1;
                         // TODO: Ver opções
                         do {
+                            Ferramentas.clearConsole();
                             do {
                                 try {
                                     System.out.println(
@@ -59,6 +62,7 @@ public class Main {
                                     opcoes2 = Integer.parseInt(opcoes2String);
 
                                 } catch (NumberFormatException e) {
+                                    Ferramentas.clearConsole();
                                     System.err.println("\nInválido, digite um número válido!\n");
                                 }
 
@@ -71,6 +75,7 @@ public class Main {
 
                                 case 1:
                                     boolean finalizar = false;
+                                    Ferramentas.clearConsole();
                                     do {
 
                                         Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
@@ -82,10 +87,12 @@ public class Main {
                                                 cliente.setNome(cliente.nomeValido(scanner.nextLine()));
                                                 finalizar2 = true;
                                             } catch (NameNotNullOrInvalidException e) {
-                                                System.err.println("\nNome nulo ou com números");
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nNome nulo ou com números\n");
                                                 continue;
                                             }
                                         } while (!finalizar2);
+                                        Ferramentas.clearConsole();
                                         do {
                                             try {
                                                 finalizar2 = false;
@@ -93,13 +100,14 @@ public class Main {
                                                 cliente.setCpf(Cliente.unFormatCpf(scanner.nextLine()));
                                                 finalizar2 = true;
                                             } catch (CpfInvalidoException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err
                                                         .println("\nCpf Inválido. Verifique e tente novamente.\n");
                                                 continue;
                                             }
 
                                         } while (!finalizar2);
-
+                                        Ferramentas.clearConsole();
                                         do {
                                             finalizar2 = false;
                                             try {
@@ -107,11 +115,13 @@ public class Main {
                                                 cliente.setTelefone(Cliente.imprimirTelefone(scanner.nextLine()));
                                                 finalizar2 = true;
                                             } catch (TelefoneInvalidoException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err.println(
                                                         "\nTelefone inválido. Verifique e tente novamente\n");
                                                 continue;
                                             }
                                         } while (!finalizar2);
+                                        Ferramentas.clearConsole();
                                         do {
                                             finalizar2 = false;
                                             try {
@@ -129,15 +139,18 @@ public class Main {
                                                 cliente.setDataNascimento(cliente.addLocalDate(dd, mm, yyyy));
                                                 finalizar2 = true;
                                             } catch (DateTimeException e) {
+                                                Ferramentas.clearConsole();
                                                 System.out.println("\nDigite uma data válida!\n");
                                                 continue;
                                             } catch (NumberFormatException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err.println("\nDigite uma data válida!\n");
-                                                scanner.nextLine();
                                                 continue;
                                             }
 
                                         } while (!finalizar2);
+
+                                        Ferramentas.clearConsole();
 
                                         do {
                                             finalizar2 = false;
@@ -146,6 +159,7 @@ public class Main {
                                                 cliente.setEmail(Cliente.validarEmail(scanner.nextLine()));
                                                 finalizar2 = true;
                                             } catch (EmailInvalidoException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err.println("\nDigite um email válido\n");
                                                 continue;
                                             }
@@ -155,24 +169,21 @@ public class Main {
 
                                         Endereco endereco = new Endereco(0, null, null, 0, null, null, null);
                                         int caminho = -1;
+                                        Ferramentas.clearConsole();
                                         do {
                                             try {
                                                 System.out.println("\nDigite o CEP:\n");
                                                 endereco.setCep(scanner.nextLine());
                                                 endereco.consultarCEP();
-                                                System.out.println("\nResultados do CEP:\n");
-                                                System.out.println("\nlogradouro: " + endereco.getLogradouro());
-                                                System.out.println("Bairro: " + endereco.getBairro());
-                                                System.out.println("Cidade: " + endereco.getCidade());
-                                                System.out.println("Uf: " + endereco.getUf());
-                                                System.out.println(
-                                                        "\nOs dados conferem?\n\n1. Sim\n2. Não\n3. Colocar CEP novamente.\n");
+                                                Ferramentas.clearConsole();
+                                                System.out.println(endereco.imprimirConsulta());
 
                                                 String caminhoStr = scanner.nextLine();
 
                                                 try {
                                                     caminho = Integer.parseInt(caminhoStr);
                                                 } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println("\nOpção inválida! Tente novamente\n");
                                                     continue;
                                                 }
@@ -189,48 +200,58 @@ public class Main {
                                                 }
 
                                             } catch (SemConexaoInternetException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err.println(
                                                         "\nSem conexão com a internet.\n\nPor favor, digite manualmente.\n");
                                                 caminho = 2;
                                             } catch (IllegalArgumentException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err.println("\nO CEP deve conter 8 digitos.\n");
                                                 continue;
                                             } catch (CepInvalidoException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err.println("\nCEP inesistente!\n");
                                                 continue;
                                             }
                                         } while (caminho != 1 && caminho != 2);
 
                                         if (caminho == 2) {
-
+                                            Ferramentas.clearConsole();
                                             do {
                                                 finalizar2 = false;
                                                 try {
                                                     System.out.println("\nDigite o Logradouro:\n");
                                                     endereco.setLogradouro(endereco.nameNotNull(scanner.nextLine()));
+                                                    Ferramentas.clearConsole();
                                                     System.out.println("\nDigite o Número:\n");
                                                     String numString = scanner.nextLine();
                                                     int num = Integer.parseInt(numString);
                                                     endereco.setNumero(num);
+                                                    Ferramentas.clearConsole();
                                                     System.out.println("\nDigite o Bairro:\n");
                                                     endereco.setBairro(endereco.nameNotNull(scanner.nextLine()));
+                                                    Ferramentas.clearConsole();
                                                     System.out.println("\nDigite a cidade:\n");
                                                     endereco.setCidade(endereco.nameNotNull(scanner.nextLine()));
+                                                    Ferramentas.clearConsole();
                                                     System.out.println("\nDigite a UF:\n");
                                                     endereco.setUf(endereco.nameNotNull(scanner.nextLine()));
+                                                    Ferramentas.clearConsole();
 
                                                     finalizar2 = true;
                                                 } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println(
                                                             "\nApenas números são permitidos para o campo Número!\n");
-                                                    scanner.nextLine();
                                                     continue;
                                                 } catch (NameNotNullOrInvalidException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
                                                     continue;
                                                 }
                                             } while (!finalizar2);
                                         } else {
+                                            Ferramentas.clearConsole();
                                             do {
                                                 finalizar2 = false;
                                                 try {
@@ -240,6 +261,7 @@ public class Main {
                                                     endereco.setNumero(num);
                                                     finalizar2 = true;
                                                 } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println(
                                                             "\nApenas números são permitidos para o campo Número!\n");
                                                     continue;
@@ -276,6 +298,7 @@ public class Main {
                                             finalizar = true; // Cliente cadastrado com sucesso, finalizar o loop
                                                               // principal
                                         } catch (RegistroJaExistenteException e) {
+                                            Ferramentas.clearConsole();
                                             System.err.println("Registro já existente, tente novamente.");
                                             opcoes2 = 0;
                                         }
@@ -283,7 +306,6 @@ public class Main {
                                         if (finalizar) {
                                             System.out.println("\n" + cliente);
                                             System.out.println(endereco);
-
                                             do {
                                                 try {
                                                     System.out
@@ -298,6 +320,7 @@ public class Main {
                                                     }
                                                     finalizar2 = true;
                                                 } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println("\nOpção inválida! Tente novamente\n");
                                                 }
                                             } while (!finalizar2);
@@ -317,10 +340,9 @@ public class Main {
 
                                 case 2:
                                     finalizar = false;
-
+                                    Ferramentas.clearConsole();
                                     while (!finalizar) {
                                         int caminho = -1;
-
                                         do {
                                             System.out.println(
                                                     "\n1. Buscar Cliente por Id\n2. Buscar Cliente por Cpf\n0. Voltar\n");
@@ -328,12 +350,14 @@ public class Main {
                                             try {
                                                 caminho = Integer.parseInt(caminhosStr);
                                             } catch (NumberFormatException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err.println("\nInválido, digite um número válido!\n");
                                             }
                                         } while (caminho != 1 && caminho != 2 && caminho != 0);
 
                                         switch (caminho) {
                                             case 1:
+                                                Ferramentas.clearConsole();
                                                 boolean finalizar2 = false;
                                                 do {
                                                     try {
@@ -357,19 +381,23 @@ public class Main {
 
                                                             System.out.println("\nAperte enter para sair\n");
                                                             scanner.nextLine();
+                                                            Ferramentas.clearConsole();
 
                                                         } else {
+                                                            Ferramentas.clearConsole();
                                                             System.err.println("\nCliente não encontrado.\n");
                                                         }
                                                         finalizar2 = true;
 
                                                     } catch (NumberFormatException e) {
+                                                        Ferramentas.clearConsole();
                                                         System.err.println("\nInválido, digite um número válido!\n");
                                                     }
                                                 } while (!finalizar2);
                                                 break;
 
                                             case 2:
+                                                Ferramentas.clearConsole();
                                                 finalizar2 = false;
                                                 do {
                                                     try {
@@ -391,13 +419,16 @@ public class Main {
 
                                                             System.out.println("\nAperte enter para sair\n");
                                                             scanner.nextLine();
+                                                            Ferramentas.clearConsole();
                                                         } else {
+                                                            Ferramentas.clearConsole();
                                                             System.err.println("\nCliente não encontrado.\n");
                                                         }
 
                                                         finalizar2 = true;
 
                                                     } catch (CpfInvalidoException e) {
+                                                        Ferramentas.clearConsole();
                                                         System.err.println("\nInválido, digite um cpf válido!\n");
                                                     }
 
@@ -413,6 +444,7 @@ public class Main {
                                     break;
 
                                 case 3:
+                                    Ferramentas.clearConsole();
                                     int opcoesAt = -1;
                                     do {
                                         try {
@@ -421,12 +453,14 @@ public class Main {
                                             String opcoesAtStr = scanner.nextLine();
                                             opcoesAt = Integer.parseInt(opcoesAtStr);
                                         } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
                                             System.err.println("\nInválido, digite um número válido!\n");
                                         }
                                     } while (opcoesAt != 1 && opcoesAt != 2 && opcoesAt != 3 && opcoesAt != 0);
 
                                     switch (opcoesAt) {
                                         case 1:
+                                            Ferramentas.clearConsole();
                                             boolean finalizar2 = false;
                                             do {
                                                 try {
@@ -434,6 +468,7 @@ public class Main {
                                                             "\nDigite a id do Cliente\n");
                                                     String idStr = scanner.nextLine();
                                                     int id = Integer.parseInt(idStr);
+                                                    Ferramentas.clearConsole();
                                                     Cliente cliente = new Cliente(idStr, idStr, idStr, null, id, idStr,
                                                             id);
                                                     ClienteDao clienteDao = new ClienteDao();
@@ -443,20 +478,18 @@ public class Main {
                                                         cliente.setEmail(Cliente.validarEmail(scanner.nextLine()));
                                                         clienteDao.updateEmail(cliente, id);
                                                         cliente = clienteDao.getById(id);
+                                                        Ferramentas.clearConsole();
                                                         System.out.println("\n" + cliente);
                                                         System.out.println("\nAperte enter para continuar\n");
                                                         scanner.nextLine();
-                                                        finalizar2 = true;
-                                                    } else {
-                                                        System.err.println("\nCliente não encontrado.\n");
+                                                        Ferramentas.clearConsole();
                                                         finalizar2 = true;
                                                     }
                                                 } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println("\nInválido, digite um número válido!\n");
-                                                } catch (ElementoNaoEncontradoExption e) {
-                                                    System.err.println("\nCliente não encontrado.\n");
-                                                    finalizar2 = true;
                                                 } catch (EmailInvalidoException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println("\nEmail inválido!\n\nTente novamente\n");
                                                 }
                                             } while (!finalizar2);
@@ -465,12 +498,14 @@ public class Main {
 
                                         case 2:
                                             finalizar2 = false;
+                                            Ferramentas.clearConsole();
                                             do {
                                                 try {
                                                     System.out.println(
                                                             "\nDigite a id do Cliente\n");
                                                     String idStr = scanner.nextLine();
                                                     int id = Integer.parseInt(idStr);
+                                                    Ferramentas.clearConsole();
                                                     Cliente cliente = new Cliente(idStr, idStr, idStr, null, id, idStr,
                                                             id);
                                                     ClienteDao clienteDao = new ClienteDao();
@@ -481,20 +516,22 @@ public class Main {
                                                                 Cliente.imprimirTelefone(scanner.nextLine()));
                                                         clienteDao.updateTelefone(cliente, id);
                                                         cliente = clienteDao.getById(id);
+                                                        Ferramentas.clearConsole();
                                                         System.out.println("\n" + cliente);
                                                         System.out.println("\nAperte enter para continuar\n");
                                                         scanner.nextLine();
+                                                        Ferramentas.clearConsole();
                                                         finalizar2 = true;
                                                     } else {
+                                                        Ferramentas.clearConsole();
                                                         System.err.println("\nCliente não encontrado.\n");
                                                         finalizar2 = true;
                                                     }
                                                 } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println("\nInválido, digite um número válido!\n");
-                                                } catch (ElementoNaoEncontradoExption e) {
-                                                    System.err.println("\nCliente não encontrado.\n");
-                                                    finalizar2 = true;
                                                 } catch (TelefoneInvalidoException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println("\nTelefone inválido!\n\nTente novamente\n");
                                                 }
                                             } while (!finalizar2);
@@ -503,17 +540,20 @@ public class Main {
 
                                         case 3:
                                             finalizar2 = false;
+                                            Ferramentas.clearConsole();
                                             do {
                                                 try {
                                                     System.out.println(
                                                             "\nDigite a id do Cliente\n");
                                                     String idStr = scanner.nextLine();
                                                     int id = Integer.parseInt(idStr);
+                                                    Ferramentas.clearConsole();
                                                     Cliente cliente = new Cliente(idStr, idStr, idStr, null, id, idStr,
                                                             id);
                                                     ClienteDao clienteDao = new ClienteDao();
                                                     cliente = clienteDao.getById(id);
                                                     if (clienteDao.getById(id) != null) {
+                                                        Ferramentas.clearConsole();
                                                         System.out.println("\nDigite o endereco do Cliente\n");
 
                                                         Endereco endereco = new Endereco(0, null, null, 0, null, null,
@@ -524,20 +564,15 @@ public class Main {
                                                                 System.out.println("\nDigite o CEP:\n");
                                                                 endereco.setCep(scanner.nextLine());
                                                                 endereco.consultarCEP();
-                                                                System.out.println("\nResultados do CEP:\n");
-                                                                System.out.println(
-                                                                        "\nlogradouro: " + endereco.getLogradouro());
-                                                                System.out.println("Bairro: " + endereco.getBairro());
-                                                                System.out.println("Cidade: " + endereco.getCidade());
-                                                                System.out.println("Uf: " + endereco.getUf());
-                                                                System.out.println(
-                                                                        "\nOs dados conferem?\n\n1. Sim\n2. Não\n3. Colocar CEP novamente.\n");
+                                                                Ferramentas.clearConsole();
+                                                                System.out.println(endereco.imprimirConsulta());
 
                                                                 String caminhoStr = scanner.nextLine();
 
                                                                 try {
                                                                     caminho = Integer.parseInt(caminhoStr);
                                                                 } catch (NumberFormatException e) {
+                                                                    Ferramentas.clearConsole();
                                                                     System.err.println(
                                                                             "\nOpção inválida! Tente novamente\n");
                                                                     continue;
@@ -550,6 +585,7 @@ public class Main {
                                                                     try {
                                                                         caminho = Integer.parseInt(caminhoStr);
                                                                     } catch (NumberFormatException e) {
+                                                                        Ferramentas.clearConsole();
                                                                         System.err.println(
                                                                                 "\nOpção inválida! Tente novamente\n");
                                                                         continue;
@@ -557,53 +593,64 @@ public class Main {
                                                                 }
 
                                                             } catch (SemConexaoInternetException e) {
+                                                                Ferramentas.clearConsole();
                                                                 System.err.println(
                                                                         "\nSem conexão com a internet.\n\nPor favor, digite manualmente.\n");
                                                                 caminho = 2;
                                                             } catch (IllegalArgumentException e) {
+                                                                Ferramentas.clearConsole();
                                                                 System.err.println("\nO CEP deve conter 8 digitos.\n");
                                                                 continue;
                                                             } catch (CepInvalidoException e) {
+                                                                Ferramentas.clearConsole();
                                                                 System.err.println("\nCEP inesistente!\n");
                                                                 continue;
                                                             }
                                                         } while (caminho != 1 && caminho != 2);
 
                                                         if (caminho == 2) {
-
+                                                            Ferramentas.clearConsole();
                                                             do {
                                                                 finalizar2 = false;
                                                                 try {
                                                                     System.out.println("\nDigite o Logradouro:\n");
                                                                     endereco.setLogradouro(
                                                                             endereco.nameNotNull(scanner.nextLine()));
+                                                                    Ferramentas.clearConsole();
                                                                     System.out.println("\nDigite o Número:\n");
                                                                     String numString = scanner.nextLine();
                                                                     int num = Integer.parseInt(numString);
                                                                     endereco.setNumero(num);
+                                                                    Ferramentas.clearConsole();
                                                                     System.out.println("\nDigite o Bairro:\n");
                                                                     endereco.setBairro(
                                                                             endereco.nameNotNull(scanner.nextLine()));
+                                                                    Ferramentas.clearConsole();
                                                                     System.out.println("\nDigite a cidade:\n");
                                                                     endereco.setCidade(
                                                                             endereco.nameNotNull(scanner.nextLine()));
+                                                                    Ferramentas.clearConsole();
                                                                     System.out.println("\nDigite a UF:\n");
                                                                     endereco.setUf(
                                                                             endereco.nameNotNull(scanner.nextLine()));
-
+                                                                    Ferramentas.clearConsole();
                                                                     finalizar2 = true;
+
                                                                 } catch (NumberFormatException e) {
+                                                                    Ferramentas.clearConsole();
                                                                     System.err.println(
                                                                             "\nApenas números são permitidos para o campo Número!\n");
                                                                     scanner.nextLine();
                                                                     continue;
                                                                 } catch (NameNotNullOrInvalidException e) {
+                                                                    Ferramentas.clearConsole();
                                                                     System.err.println(
                                                                             "\nCampo nulo ou inválido! Tente novamente\n");
                                                                     continue;
                                                                 }
                                                             } while (!finalizar2);
                                                         } else {
+                                                            Ferramentas.clearConsole();
                                                             do {
                                                                 finalizar2 = false;
                                                                 try {
@@ -611,8 +658,10 @@ public class Main {
                                                                     String numString = scanner.nextLine();
                                                                     int num = Integer.parseInt(numString);
                                                                     endereco.setNumero(num);
+                                                                    Ferramentas.clearConsole();
                                                                     finalizar2 = true;
                                                                 } catch (NumberFormatException e) {
+                                                                    Ferramentas.clearConsole();
                                                                     System.err.println(
                                                                             "\nApenas números são permitidos para o campo Número!\n");
                                                                     continue;
@@ -644,19 +693,21 @@ public class Main {
                                                         }
                                                         clienteDao.updateEndereco(cliente, id);
                                                         cliente = clienteDao.getById(id);
+                                                        Ferramentas.clearConsole();
                                                         System.out.println("\n" + cliente);
                                                         endereco = enderecoDao.getById(cliente.getIdEndereco());
                                                         System.out.println(endereco);
+                                                        System.out.println("\nAperte enter para continuar.\n");
+                                                        scanner.nextLine();
 
                                                     } else {
+                                                        Ferramentas.clearConsole();
                                                         System.err.println("\nCliente não encontrado.\n");
                                                         finalizar2 = true;
                                                     }
                                                 } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
                                                     System.err.println("\nInválido, digite um número válido!\n");
-                                                } catch (ElementoNaoEncontradoExption e) {
-                                                    System.err.println("\nCliente não encontrado.\n");
-                                                    finalizar2 = true;
                                                 }
                                             } while (!finalizar2);
                                             break;
@@ -670,6 +721,7 @@ public class Main {
 
                                 case 4:
                                     finalizar = false;
+                                    Ferramentas.clearConsole();
                                     do {
                                         try {
                                             System.out.println("\nDigite o id do Cliente\n");
@@ -682,11 +734,12 @@ public class Main {
                                             finalizar = true;
 
                                         } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
                                             System.err.println("\nInválido, digite um cpf válido!\n");
                                             finalizar = true;
                                         } catch (ElementoNaoEncontradoExption e) {
+                                            Ferramentas.clearConsole();
                                             System.err.println("\nCliente não encontrado.\n");
-                                            finalizar = true;
                                         }
 
                                     } while (!finalizar);
@@ -694,7 +747,7 @@ public class Main {
                                     break;
 
                                 case 5:
-
+                                    Ferramentas.clearConsole();
                                     try {
                                         ClienteDao clienteDao = new ClienteDao();
                                         EnderecoDao enderecoDao = new EnderecoDao();

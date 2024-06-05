@@ -1,4 +1,4 @@
-package com.tests;
+package com.ferramentas;
 
 import java.util.Scanner;
 

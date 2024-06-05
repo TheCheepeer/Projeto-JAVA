@@ -64,10 +64,18 @@ public class Cliente extends Pessoa {
         }
     }
 
+    public String fixEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return "Sem email";
+        } else {
+            return email;
+        }
+    }
+
     public String toString() {
         return "Id: " + idCliente + " Nome: " + getNome() + " CPF: " + imprimeCPF(getCpf())
                 + " Data de Nascimento: " + dataNascimentoFormatada() + " Telefone: "
-                + imprimirTelefone(getTelefone()) + " Email: " + email + " Endereco: " + idEndereco;
+                + imprimirTelefone(getTelefone()) + " Email: " + fixEmail(email) + " Endereco: " + idEndereco;
     }
 
 }
