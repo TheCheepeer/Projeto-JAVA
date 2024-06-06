@@ -1520,7 +1520,101 @@ public class Main {
                                     break;
 
                                 case 3:
+                                    finalizar2 = false;
+                                    do {
 
+                                        do {
+                                            System.out.println(
+                                                    "\n1. Listar pagamentos de um cliente\n2. Listar pagamentos de um Passeio\n");
+                                            System.out.println("\nDigite uma opção\n");
+                                            String opcoesStr = scanner.nextLine();
+                                            try {
+                                                opcoes = Integer.parseInt(opcoesStr);
+                                                Ferramentas.clearConsole();
+                                            } catch (NumberFormatException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nInválido, digite um número válido!");
+                                            }
+                                        } while (opcoes != 1 && opcoes != 2);
+
+                                        if (opcoes == 1) {
+                                            boolean finalizar3 = false;
+                                            do {
+                                                try {
+                                                    System.out.println("\nDigite a id do Cliente\n");
+                                                    String idStr = scanner.nextLine();
+                                                    int id = Integer.parseInt(idStr);
+
+                                                    PagamentoDao pagamentoDao = new PagamentoDao();
+                                                    ClienteDao clienteDao = new ClienteDao();
+                                                    PasseioDao passeioDao = new PasseioDao();
+                                                    List<Pagamento> pagamentos = pagamentoDao.getByCliente(id);
+                                                    Ferramentas.clearConsole();
+                                                    for (Pagamento p : pagamentos) {
+                                                        Cliente cliente = clienteDao.getById(p.getIdCliente());
+                                                        Passeio passeio = passeioDao.getById(p.getIdPasseio());
+                                                        System.out.println("\n" + cliente);
+                                                        System.out.println(p);
+                                                        System.out.println(passeio + "\n");
+                                                        System.out.println(
+                                                                "\n-----------------------------------------------------\n");
+                                                    }
+
+                                                    System.out.println("\nAperte enter para sair\n");
+                                                    scanner.nextLine();
+                                                    finalizar3 = true;
+
+                                                } catch (ElementoNaoEncontradoExption e) {
+                                                    Ferramentas.clearConsole();
+                                                    System.out.println("\nNenhum cliente no banco de dados\n");
+
+                                                } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
+                                                    System.err.println("\nInválido, digite um número válido!");
+
+                                                }
+                                            } while (finalizar3);
+
+                                        } else {
+                                            boolean finalizar3 = false;
+                                            do {
+                                                try {
+                                                    System.out.println("\nDigite a id do Passeio\n");
+                                                    String idStr = scanner.nextLine();
+                                                    int id = Integer.parseInt(idStr);
+
+                                                    PagamentoDao pagamentoDao = new PagamentoDao();
+                                                    ClienteDao clienteDao = new ClienteDao();
+                                                    PasseioDao passeioDao = new PasseioDao();
+                                                    List<Pagamento> pagamentos = pagamentoDao.getByPasseio(id);
+                                                    Ferramentas.clearConsole();
+                                                    for (Pagamento p : pagamentos) {
+                                                        Cliente cliente = clienteDao.getById(p.getIdCliente());
+                                                        Passeio passeio = passeioDao.getById(p.getIdPasseio());
+                                                        System.out.println("\n" + passeio);
+                                                        System.out.println(p);
+                                                        System.out.println(cliente + "\n");
+                                                        System.out.println(
+                                                                "\n-----------------------------------------------------\n");
+                                                    }
+
+                                                    System.out.println("\nAperte enter para sair\n");
+                                                    scanner.nextLine();
+                                                    finalizar3 = true;
+
+                                                } catch (ElementoNaoEncontradoExption e) {
+                                                    Ferramentas.clearConsole();
+                                                    System.out.println("\nNenhum cliente no banco de dados\n");
+
+                                                } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
+                                                    System.err.println("\nInválido, digite um número válido!");
+
+                                                }
+                                            } while (finalizar3);
+                                        }
+
+                                    } while (!finalizar2);
                                     break;
                             }
                             Ferramentas.clearConsole();

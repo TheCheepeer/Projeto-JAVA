@@ -1,6 +1,7 @@
 package com.banco;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -47,6 +48,46 @@ public class PagamentoDao {
             pagamento.setIdPasseio(rs.getInt("idPasseio"));
             pagamento.setSituacao(stringToBoolean(idPagamento));
             pagamentos.add(pagamento);
+        }
+        return pagamentos;
+    }
+
+    public List<Pagamento> getByCliente(int idCliente) throws SQLException {
+        List<Pagamento> pagamentos = new ArrayList<>();
+        String query = "SELECT * FROM pagamento WHERE idCliente = ?";
+        try (PreparedStatement stat = con.prepareStatement(query)) {
+            stat.setInt(1, idCliente);
+
+            try (ResultSet rs = stat.executeQuery()) {
+                while (rs.next()) {
+                    Pagamento pagamento = new Pagamento(0, 0, 0, false);
+                    pagamento.setIdPagamento(rs.getInt("idPagamento"));
+                    pagamento.setIdCliente(rs.getInt("idCliente"));
+                    pagamento.setIdPasseio(rs.getInt("idPasseio"));
+                    pagamento.setSituacao(rs.getBoolean("situacao"));
+                    pagamentos.add(pagamento);
+                }
+            }
+        }
+        return pagamentos;
+    }
+
+    public List<Pagamento> getByPasseio(int idPasseio) throws SQLException {
+        List<Pagamento> pagamentos = new ArrayList<>();
+        String query = "SELECT * FROM pagamento WHERE idPasseio = ?";
+        try (PreparedStatement stat = con.prepareStatement(query)) {
+            stat.setInt(1, idPasseio);
+
+            try (ResultSet rs = stat.executeQuery()) {
+                while (rs.next()) {
+                    Pagamento pagamento = new Pagamento(0, 0, 0, false);
+                    pagamento.setIdPagamento(rs.getInt("idPagamento"));
+                    pagamento.setIdCliente(rs.getInt("idCliente"));
+                    pagamento.setIdPasseio(rs.getInt("idPasseio"));
+                    pagamento.setSituacao(rs.getBoolean("situacao"));
+                    pagamentos.add(pagamento);
+                }
+            }
         }
         return pagamentos;
     }
