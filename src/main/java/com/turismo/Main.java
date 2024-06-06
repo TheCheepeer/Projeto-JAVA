@@ -12,6 +12,8 @@ import com.banco.ClienteDao;
 import com.banco.Database;
 import com.banco.DestinoDao;
 import com.banco.EnderecoDao;
+import com.banco.OnibusDao;
+import com.banco.PasseioDao;
 import com.execoes.CepInvalidoException;
 import com.execoes.CpfInvalidoException;
 import com.execoes.DataPassadaException;
@@ -786,7 +788,7 @@ public class Main {
                         do {
 
                             System.out.println(
-                                    "\nSelecione uma opção\n\n1. Agendar Passeio\n2. Buscar Passeio\n3. Atualizar dados do Passeio\n4. Cancelar Passeio\n5. Listar Passeios\n0. Voltar\n");
+                                    "\nSelecione uma opção\n\n1. Agendar Passeio\n2. Buscar Passeio\n3. Atualizar dados do Passeio\n4. Cancelar Passeio\n5. Listar Passeios\n6. Adicionar Cliente ao Passeio\n0. Voltar\n");
 
                             try {
                                 String opcoes2Str = scanner.nextLine();
@@ -934,6 +936,7 @@ public class Main {
                                                 Ferramentas.clearConsole();
                                                 if (destinoDao.getById(id) != null) {
                                                     destino = destinoDao.getById(id);
+                                                    passeio.setIdDestino(destino.getIdDestino());
                                                     finalizar2 = true;
                                                 }
                                             } catch (NumberFormatException e) {
@@ -1084,11 +1087,190 @@ public class Main {
                                         }
                                     }
 
-                                    do {
+                                    Ferramentas.clearConsole();
 
-                                    } while (finalizar2);
+                                    Onibus onibus = new Onibus(0, null, null, null, null);
+
+                                    do {
+                                        System.out
+                                                .println(
+                                                        "\nDeseja Cadastrar o Ônibus do passeio agora ou mais tarde?\n\n1. Agora\n2. Mais tarde\n");
+                                        opcoes2 = -1;
+                                        String opcoes2Str = scanner.nextLine();
+                                        Ferramentas.clearConsole();
+                                        try {
+
+                                            opcoes2 = Integer.parseInt(opcoes2Str);
+
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println(
+                                                    "\nApenas números são permitidos para o campo Número!\n");
+                                        }
+                                    } while (opcoes2 != 1 && opcoes2 != 2);
+
+                                    Ferramentas.clearConsole();
+
+                                    OnibusDao onibusDao = new OnibusDao();
+                                    int escolha2 = -1;
+
+                                    if (!onibusDao.getAll().isEmpty() && opcoes2 != 2) {
+                                        System.out
+                                                .println(
+                                                        "\nDeseja Cadastrar o Ônibus um ônibus do banco de dados ou novo?\n\n1. Do banco\n2. Novo\n");
+                                        String escolha2Str = scanner.nextLine();
+
+                                        try {
+
+                                            escolha2 = Integer.parseInt(escolha2Str);
+
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println(
+                                                    "\nApenas números são permitidos para o campo Número!\n");
+                                        }
+                                    }
+
+                                    if (opcoes2 == 1 && escolha2 == 2) {
+
+                                        do {
+                                            finalizar2 = false;
+
+                                            System.out.println("\nDigite a placa do ônibus\n");
+                                            try {
+                                                onibus.setPlaca(onibus.nameNotNull(scanner.nextLine()));
+                                                finalizar2 = true;
+                                            } catch (NameNotNullOrInvalidException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
+                                            }
+                                        } while (!finalizar2);
+
+                                        Ferramentas.clearConsole();
+
+                                        do {
+                                            finalizar2 = false;
+
+                                            System.out.println("\nDigite o modelo do ônibus\n");
+                                            try {
+                                                onibus.setModelo(onibus.nameNotNull(scanner.nextLine()));
+                                                finalizar2 = true;
+                                            } catch (NameNotNullOrInvalidException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
+                                            }
+                                        } while (!finalizar2);
+
+                                        Ferramentas.clearConsole();
+
+                                        do {
+                                            finalizar2 = false;
+
+                                            System.out.println("\nDigite o tipo de ônibus\n");
+                                            try {
+                                                onibus.setTipoOnibus(onibus.nameNotNull(scanner.nextLine()));
+                                                finalizar2 = true;
+                                            } catch (NameNotNullOrInvalidException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
+                                            }
+                                        } while (!finalizar2);
+
+                                        Ferramentas.clearConsole();
+                                        do {
+                                            finalizar2 = false;
+
+                                            System.out.println("\nDigite a empresa do ônibus\n");
+                                            try {
+                                                onibus.setEmpresa(onibus.nameNotNull(scanner.nextLine()));
+                                                finalizar2 = true;
+                                            } catch (NameNotNullOrInvalidException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
+                                            }
+                                        } while (!finalizar2);
+
+                                        Ferramentas.clearConsole();
+                                        try {
+                                            onibusDao.verificarExistencia(onibus.getPlaca());
+                                            onibusDao.inserir(onibus);
+                                            onibus = onibusDao.getLast();
+                                            passeio.setIdOnibus(onibus.getIdOnibus());
+                                        } catch (RegistroJaExistenteException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("Registro já existente, tente novamente.");
+                                        }
+
+                                    }
+
+                                    if (escolha2 == 1) {
+                                        Ferramentas.clearConsole();
+
+                                        try {
+                                            List<Onibus> onibusList = onibusDao.getAll();
+                                            for (Onibus o : onibusList) {
+                                                System.out.println(o);
+                                                System.out.println(
+                                                        "\n-----------------------------------------------------\n");
+                                            }
+
+                                            System.out.println(
+                                                    "\nDigite a id do Ônibus\n");
+                                            String idStr = scanner.nextLine();
+                                            int id = Integer.parseInt(idStr);
+                                            Ferramentas.clearConsole();
+                                            if (onibusDao.getById(id) != null) {
+                                                onibus = onibusDao.getById(id);
+                                                passeio.setIdOnibus(onibus.getIdOnibus());
+                                                finalizar2 = true;
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nInválido, digite um id válido\n");
+                                        }
+
+                                        Ferramentas.clearConsole();
+                                    }
+                                    PasseioDao passeioDao = new PasseioDao();
+                                    passeioDao.inserir(passeio);
+                                    passeio = passeioDao.getLast();
+                                    do {
+                                        finalizar2 = false;
+
+                                        System.out.println(passeio);
+                                        System.out.println(destino);
+                                        if (onibus.getIdOnibus() != 0) {
+                                            System.out.println(onibus);
+                                        } else {
+                                            System.out.println("\nAtenção!\nOnibus ainda a ser cadastrado");
+                                        }
+                                        System.out.println("\nEstá correto?\n1. Sim\n2. Não\n");
+
+                                        String escolha2Str = scanner.nextLine();
+
+                                        try {
+
+                                            escolha2 = Integer.parseInt(escolha2Str);
+
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println(
+                                                    "\nApenas números são permitidos para o campo Número!\n");
+                                        }
+
+                                    } while (escolha2 == 1 && escolha2 == 2);
+
+                                    if (escolha2 == 1) {
+                                        System.out.println("\nConcluido! Aperte enter para continuar\n");
+                                        scanner.nextLine();
+                                        finalizar = true;
+                                    }
+
+                                    Ferramentas.clearConsole();
 
                                 } while (!finalizar);
+
+                                // Fim de Agendar Passeio
 
                                 break;
 
@@ -1105,6 +1287,12 @@ public class Main {
                                 break;
 
                             case 5:
+
+                                break;
+
+                            case 6:
+
+                                // TODO estou aqui
 
                                 break;
 

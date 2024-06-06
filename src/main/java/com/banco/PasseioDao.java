@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.turismo.Passeio;
 
 public class PasseioDao {
@@ -20,7 +21,7 @@ public class PasseioDao {
 
     public void inserir(Passeio passeio) throws SQLException {
         Statement stat = con.createStatement();
-        String query = "INSERT INTO passeio (idDestino, idOnibus, idPagamento, data, hora, preco) VALUES ('"
+        String query = "INSERT INTO passeio (idDestino, idOnibus, data, hora, preco) VALUES ('"
                 +
                 passeio.getIdDestino() + "', '" +
                 passeio.getIdOnibus() + "', '" +
@@ -74,6 +75,25 @@ public class PasseioDao {
         }
         stat.close();
         return null;
+    }
+
+    public Passeio getLast() throws SQLException {
+        Statement stat = con.createStatement();
+        ResultSet rs = stat.executeQuery("SELECT * FROM passeio ORDER BY idPasseio DESC LIMIT 1");
+
+        if (rs.next()) {
+            Passeio passeio = new Passeio(0, 0, 0, 0, null, null);
+            passeio.setIdPasseio(rs.getInt("IdPasseio"));
+            int idPasseio = passeio.getIdPasseio();
+            passeio.setIdDestino(rs.getInt("idDestino"));
+            passeio.setIdOnibus(rs.getInt("idOnibus"));
+            passeio.setData(toLocalDate(idPasseio));
+            passeio.setHora(toLocalTime(idPasseio));
+            passeio.setPreco(rs.getFloat("preco"));
+            return passeio;
+        } else {
+            throw new NullPointerException();
+        }
     }
 
     public LocalDate toLocalDate(int idPasseio) throws SQLException {

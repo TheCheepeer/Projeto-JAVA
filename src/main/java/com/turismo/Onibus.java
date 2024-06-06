@@ -1,5 +1,10 @@
 package com.turismo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.execoes.NameNotNullOrInvalidException;
+
 public class Onibus {
     private String placa, modelo, empresa, tipoOnibus;
 
@@ -57,8 +62,23 @@ public class Onibus {
 
     // Fim dos Getters and Setters
 
+    public String nameNotNull(String input) throws NameNotNullOrInvalidException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new NameNotNullOrInvalidException();
+        }
+        String lettersAndSpacesPattern = "^[a-zA-Z0-9 ]+$";
+        Pattern pattern = Pattern.compile(lettersAndSpacesPattern);
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.matches()) {
+            return input;
+        } else {
+            throw new NameNotNullOrInvalidException();
+        }
+    }
+
     public String toString() {
-        return "idOnibus: " + idOnibus + "\tPlaca: " + placa + "\tModelo: " + "\tTipo de Onibus: " + tipoOnibus
-                + "\tEmpresa: " + empresa;
+        return "idOnibus: " + idOnibus + " Placa: " + placa + " Modelo: " + modelo + " Tipo de Onibus: " + tipoOnibus
+                + " Empresa: " + empresa;
     }
 }

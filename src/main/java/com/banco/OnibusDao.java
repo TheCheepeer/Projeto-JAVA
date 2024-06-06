@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.execoes.RegistroJaExistenteException;
 import com.turismo.Onibus;
 
 public class OnibusDao {
@@ -32,12 +33,6 @@ public class OnibusDao {
     public void delete(int idOnibus) throws SQLException {
         Statement stat = con.createStatement();
         stat.executeUpdate("delete from onibus where onibus = " + idOnibus);
-        stat.close();
-    }
-
-    public void deleteByPlaca(String placa) throws SQLException {
-        Statement stat = con.createStatement();
-        stat.executeUpdate("delete from onibus where onibus = " + placa);
         stat.close();
     }
 
@@ -79,7 +74,7 @@ public class OnibusDao {
 
     public Onibus getByPlaca(String placa) throws SQLException {
         Statement stat = con.createStatement();
-        ResultSet rs = stat.executeQuery("select * from onibus where placa = " + placa);
+        ResultSet rs = stat.executeQuery("SELECT * FROM onibus WHERE placa = '" + placa + "'");
 
         if (rs.next()) {
             Onibus onibus = new Onibus(0, null, null, null, null);
@@ -92,5 +87,30 @@ public class OnibusDao {
         }
         stat.close();
         return null;
+    }
+
+    public Onibus getLast() throws SQLException {
+        Statement stat = con.createStatement();
+        ResultSet rs = stat.executeQuery("SELECT * FROM onibus ORDER BY idOnibus DESC LIMIT 1");
+
+        if (rs.next()) {
+            Onibus onibus = new Onibus(0, null, null, null, null);
+            onibus.setIdOnibus(rs.getInt("IdOnibus"));
+            onibus.setPlaca(rs.getString("placa"));
+            onibus.setModelo(rs.getString("modelo"));
+            onibus.setEmpresa(rs.getString("empresa"));
+            onibus.setTipoOnibus("tipo");
+            return onibus;
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public void verificarExistencia(String placa) throws SQLException {
+        if (getByPlaca(placa) != null || placa.isEmpty()) {
+            throw new RegistroJaExistenteException();
+        } else {
+            return;
+        }
     }
 }
