@@ -1454,9 +1454,17 @@ public class Main {
                                             if (pagamentoDao.getById(id) != null) {
                                                 pagamento.setSituacao(true);
                                                 pagamentoDao.updateSituacao(pagamento, id);
+                                                Cliente cliente = new Cliente(idStr, idStr, idStr, null, id, idStr, id);
+                                                Passeio passeio = new Passeio(id, id, id, id, null, null);
+                                                ClienteDao clienteDao = new ClienteDao();
+                                                PasseioDao passeioDao = new PasseioDao();
+                                                cliente = clienteDao.getById(pagamento.getIdCliente());
+                                                passeio = passeioDao.getById(pagamento.getIdPasseio());
 
                                                 Ferramentas.clearConsole();
                                                 System.out.println("\n" + pagamento);
+                                                System.out.println(cliente);
+                                                System.out.println(passeio + "\n");
                                                 System.out.println("\nAperte enter para continuar\n");
                                                 scanner.nextLine();
                                                 Ferramentas.clearConsole();

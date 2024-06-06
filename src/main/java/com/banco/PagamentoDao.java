@@ -127,11 +127,10 @@ public class PagamentoDao {
 
     public boolean stringToBoolean(int idPagamento) throws SQLException {
         Statement stat = con.createStatement();
-        ResultSet rs = stat.executeQuery("select * from pagamento where idPagamento = " + idPagamento);
-        String situacao = rs.getString("situacao");
-        String controle = "Pagamento efetuado";
-        if (situacao.equals(controle)) {
-            return true;
+        ResultSet rs = stat.executeQuery("SELECT situacao FROM pagamento WHERE idPagamento = " + idPagamento);
+        if (rs.next()) {
+            String situacao = rs.getString("situacao");
+            return "Pagamento efetuado".equals(situacao);
         } else {
             return false;
         }
@@ -171,8 +170,7 @@ public class PagamentoDao {
 
     public void updateSituacao(Pagamento p, int idPagamento) throws SQLException {
         Statement stat = con.createStatement();
-        String query = "UPDATE pagamento SET situacao = '" + p.getSituacao() + "' WHERE idPagamento = "
-                + idPagamento;
+        String query = "UPDATE pagamento SET situacao = '" + p.getSituacao() + "' WHERE idPagamento = " + idPagamento;
         stat.executeUpdate(query);
         stat.close();
     }
