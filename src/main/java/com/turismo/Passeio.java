@@ -119,6 +119,6 @@ public class Passeio {
     public String toString() {
         return "IdPasseio: " + idPasseio + " IdDestino: " + idDestino + " IdOnibus: "
                 + idOnibus + " Data: " + dataFormatada() + " Hora: " + horaF()
-                + " Preço: " + precoFormatado(preco) + "Inscrições: " + situacaoInscricoes();
+                + " Preço: " + precoFormatado(preco) + " Inscrições: " + situacaoInscricoes();
     }
 }

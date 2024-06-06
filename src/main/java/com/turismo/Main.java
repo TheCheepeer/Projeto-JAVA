@@ -13,6 +13,7 @@ import com.banco.Database;
 import com.banco.DestinoDao;
 import com.banco.EnderecoDao;
 import com.banco.OnibusDao;
+import com.banco.PagamentoDao;
 import com.banco.PasseioDao;
 import com.execoes.CepInvalidoException;
 import com.execoes.CpfInvalidoException;
@@ -441,6 +442,7 @@ public class Main {
                                                 break;
 
                                             case 0:
+                                                Ferramentas.clearConsole();
                                                 finalizar = true;
                                                 break;
                                         }
@@ -718,6 +720,7 @@ public class Main {
                                             break;
 
                                         case 0:
+                                            Ferramentas.clearConsole();
                                             finalizar = true;
                                             break;
                                     }
@@ -762,6 +765,8 @@ public class Main {
                                             Endereco endereco = enderecoDao.getById(c.getIdEndereco());
                                             System.out.println("\n" + c);
                                             System.out.println(endereco + "\n");
+                                            System.out.println(
+                                                    "\n-----------------------------------------------------\n");
                                         }
 
                                         System.out.println("\nAperte enter para sair\n");
@@ -800,7 +805,7 @@ public class Main {
                             }
 
                         } while (opcoes2 != 1 && opcoes2 != 2 && opcoes2 != 3 && opcoes2 != 4 && opcoes2 != 5
-                                && opcoes2 != 0);
+                                && opcoes2 != 6 && opcoes2 != 0);
 
                         switch (opcoes2) {
                             case 1:
@@ -1292,7 +1297,121 @@ public class Main {
 
                             case 6:
 
-                                // TODO estou aqui
+                                Pagamento pagamento = new Pagamento(0, 0, 0, false);
+                                boolean finalizar2 = false;
+
+                                Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
+                                ClienteDao clienteDao = new ClienteDao();
+
+                                int saida = 0;
+
+                                if (!clienteDao.getAll().isEmpty()) {
+                                    do {
+                                        try {
+                                            System.out.println("\nDigite o id do Cliente\n");
+                                            String idStr = scanner.nextLine();
+                                            int id = Integer.parseInt(idStr);
+                                            cliente = clienteDao.getById(id);
+
+                                            if (cliente != null) {
+                                                System.out.println("\n" + cliente);
+                                                System.out.println(
+                                                        "\n-----------------------------------------------------\n");
+
+                                                pagamento.setIdCliente(cliente.getIdCliente());
+
+                                                System.out.println("\nAperte enter para sair\n");
+                                                scanner.nextLine();
+                                                Ferramentas.clearConsole();
+                                                saida = 1;
+                                                finalizar2 = true;
+
+                                            } else {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nCliente não encontrado.\n");
+                                                saida = 0;
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nInválido, digite um número válido!\n");
+                                        }
+                                    } while (!finalizar2);
+                                } else {
+                                    Ferramentas.clearConsole();
+                                    System.err.println(
+                                            "\nNenhum cliente cadastrado no banco de dados.\n\nAperte enter para sair\n");
+                                    scanner.nextLine();
+                                }
+
+                                finalizar2 = false;
+
+                                Passeio passeio = new Passeio(0, 0, 0, 0, null, null);
+                                PasseioDao passeioDao = new PasseioDao();
+
+                                if (!passeioDao.getAll().isEmpty() && !clienteDao.getAll().isEmpty()) {
+                                    do {
+                                        try {
+                                            System.out.println("\nDigite o id do Passeio\n");
+                                            String idStr = scanner.nextLine();
+                                            int id = Integer.parseInt(idStr);
+                                            passeio = passeioDao.getById(id);
+
+                                            if (passeio != null) {
+                                                System.out.println("\n" + passeio);
+                                                DestinoDao destinoDao = new DestinoDao();
+                                                Destino destino = destinoDao.getById(passeio.getIdDestino());
+                                                System.out.println(destino);
+
+                                                System.out.println(
+                                                        "\n-----------------------------------------------------\n");
+
+                                                pagamento.setIdPasseio(passeio.getIdPasseio());
+
+                                                System.out.println("\nAperte enter para sair\n");
+                                                scanner.nextLine();
+                                                Ferramentas.clearConsole();
+                                                finalizar2 = true;
+
+                                            } else {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nPasseio não encontrado.\n");
+                                                saida = 0;
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nInválido, digite um número válido!\n");
+                                        }
+                                    } while (!finalizar2);
+                                } else {
+                                    Ferramentas.clearConsole();
+                                    System.err.println(
+                                            "\nNenhum passeio cadastrado no banco de dados.\n\nAperte enter para sair\n");
+                                    scanner.nextLine();
+                                }
+
+                                if (saida == 1) {
+                                    PagamentoDao pagamentoDao = new PagamentoDao();
+
+                                    int idPagamento = pagamentoDao.verificarExistenciaEObterId(pagamento.getIdCliente(),
+                                            pagamento.getIdPasseio());
+
+                                    if (idPagamento != -1) {
+                                        pagamento = pagamentoDao.getById(idPagamento);
+                                    } else {
+                                        pagamentoDao.inserir(pagamento);
+                                        pagamento = pagamentoDao.getLast();
+                                    }
+
+                                    System.out.println("\n" + pagamento);
+                                    System.out.println(cliente);
+                                    System.out.println(passeio);
+                                    System.out.println(
+                                            "\n-----------------------------------------------------\n");
+                                    System.out.println("\nAperte enter para sair\n");
+                                    scanner.nextLine();
+                                    Ferramentas.clearConsole();
+
+                                }
 
                                 break;
 
@@ -1301,6 +1420,112 @@ public class Main {
                         break;
                     case 3:
                         // Opções Pagamento
+                        Ferramentas.clearConsole();
+                        boolean finalizar = false;
+                        do {
+                            do {
+                                System.out.println(
+                                        "\n1. Realizar Pagamento\n2. Buscar pagamento por id\n3. Listar pagamentos\n0. Voltar\n");
+                                System.out.println("\nDigite uma opção\n");
+                                String opcoesStr = scanner.nextLine();
+                                try {
+                                    opcoes = Integer.parseInt(opcoesStr);
+                                    Ferramentas.clearConsole();
+                                } catch (NumberFormatException e) {
+                                    Ferramentas.clearConsole();
+                                    System.err.println("\nInválido, digite um número válido!");
+                                }
+                            } while (opcoes != 0 && opcoes != 1 && opcoes != 2 && opcoes != 3);
+
+                            switch (opcoes) {
+                                case 1:
+                                    Ferramentas.clearConsole();
+                                    boolean finalizar2 = false;
+                                    do {
+                                        try {
+                                            System.out.println(
+                                                    "\nDigite a id do Pagamento\n");
+                                            String idStr = scanner.nextLine();
+                                            int id = Integer.parseInt(idStr);
+                                            Ferramentas.clearConsole();
+                                            Pagamento pagamento = new Pagamento(0, 0, 0, false);
+                                            PagamentoDao pagamentoDao = new PagamentoDao();
+                                            pagamento = pagamentoDao.getById(id);
+                                            if (pagamentoDao.getById(id) != null) {
+                                                pagamento.setSituacao(true);
+                                                pagamentoDao.updateSituacao(pagamento, id);
+
+                                                Ferramentas.clearConsole();
+                                                System.out.println("\n" + pagamento);
+                                                System.out.println("\nAperte enter para continuar\n");
+                                                scanner.nextLine();
+                                                Ferramentas.clearConsole();
+                                                finalizar2 = true;
+                                            } else {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nPagamento não encontrado.\n");
+                                                finalizar2 = true;
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nInválido, digite um número válido!\n");
+                                        }
+
+                                    } while (!finalizar2);
+
+                                    break;
+
+                                case 2:
+                                    Ferramentas.clearConsole();
+                                    finalizar2 = false;
+                                    do {
+                                        try {
+                                            System.out.println(
+                                                    "\nDigite a id do Pagamento\n");
+                                            String idStr = scanner.nextLine();
+                                            int id = Integer.parseInt(idStr);
+                                            Ferramentas.clearConsole();
+                                            Pagamento pagamento = new Pagamento(0, 0, 0, false);
+                                            PagamentoDao pagamentoDao = new PagamentoDao();
+                                            pagamento = pagamentoDao.getByIdCliente(id);
+                                            if (pagamentoDao.getByIdCliente(id) != null) {
+                                                Ferramentas.clearConsole();
+                                                System.out.println("\n" + pagamento);
+                                                Cliente cliente = new Cliente(idStr, idStr, idStr, null, id, idStr, id);
+                                                ClienteDao clienteDao = new ClienteDao();
+                                                cliente = clienteDao.getById(pagamento.getIdCliente());
+                                                System.out.println("\n" + cliente);
+                                                Passeio passeio = new Passeio(id, id, id, id, null, null);
+                                                PasseioDao passeioDao = new PasseioDao();
+                                                passeio = passeioDao.getById(pagamento.getIdPasseio());
+                                                System.out.println("\n" + passeio);
+                                                System.out.println("\nAperte enter para continuar\n");
+                                                scanner.nextLine();
+                                                Ferramentas.clearConsole();
+                                                finalizar2 = true;
+                                            } else {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nPagamento não existe\n");
+                                                finalizar2 = true;
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nInválido, digite um número válido!\n");
+                                        } catch (TelefoneInvalidoException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nTelefone inválido!\n\nTente novamente\n");
+                                        }
+                                    } while (!finalizar2);
+
+                                    break;
+
+                                case 3:
+
+                                    break;
+                            }
+                            Ferramentas.clearConsole();
+
+                        } while (!finalizar);
                         break;
                 }
 

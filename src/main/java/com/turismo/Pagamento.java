@@ -2,16 +2,15 @@ package com.turismo;
 
 public class Pagamento {
     private int idPagamento;
-
     private int idPasseio;
     private int idCliente;
-    private boolean pagou;
+    private boolean situacao;
 
-    public Pagamento(int idPagamento, int idPasseio, int idCliente, boolean pagou) {
+    public Pagamento(int idPagamento, int idPasseio, int idCliente, boolean situacao) {
         this.idPagamento = idPagamento;
         this.idPasseio = idPasseio;
         this.idCliente = idCliente;
-        this.pagou = pagou;
+        this.situacao = situacao;
     }
 
     // Getters and setters
@@ -40,18 +39,18 @@ public class Pagamento {
         this.idCliente = idCliente;
     }
 
-    public boolean getPagou() {
-        return pagou;
+    public boolean getSituacao() {
+        return situacao;
     }
 
-    public void setPagou(boolean pagou) {
-        this.pagou = pagou;
+    public void setSituacao(boolean situacao) {
+        this.situacao = situacao;
     }
 
     // Fim dos Getters and setters
 
-    public String situacao() {
-        if (pagou == true) {
+    public String situacaoToString() {
+        if (situacao == true) {
             return "Pagamento efetuado";
         } else {
             return "Pagamento não efetuado";
@@ -61,7 +60,7 @@ public class Pagamento {
 
     public String toString() {
         return "IdPagamento: " + idPagamento + "\tIdPasseio: " + idPasseio + "\tIdCliente: " + idCliente
-                + "\tSituação: " + situacao();
+                + "\tSituação: " + situacaoToString();
     }
 
 }

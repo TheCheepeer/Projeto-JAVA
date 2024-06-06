@@ -18,11 +18,11 @@ public class PagamentoDao {
 
     public void inserir(Pagamento pagamento) throws SQLException {
         Statement stat = con.createStatement();
-        String query = "INSERT INTO pagamento (idCliente, idPasseio, pagou) VALUES ('"
+        String query = "INSERT INTO pagamento (idCliente, idPasseio, situacao) VALUES ('"
                 +
                 pagamento.getIdCliente() + "', '" +
                 pagamento.getIdPasseio() + "', '" +
-                pagamento.situacao() + "')";
+                pagamento.situacaoToString() + "')";
         stat.executeUpdate(query);
         stat.close();
     }
@@ -45,7 +45,7 @@ public class PagamentoDao {
             int idPagamento = pagamento.getIdPagamento();
             pagamento.setIdCliente(rs.getInt("idCliente"));
             pagamento.setIdPasseio(rs.getInt("idPasseio"));
-            pagamento.setPagou(stringToBoolean(idPagamento));
+            pagamento.setSituacao(stringToBoolean(idPagamento));
             pagamentos.add(pagamento);
         }
         return pagamentos;
@@ -60,7 +60,24 @@ public class PagamentoDao {
             pagamento.setIdPagamento(rs.getInt("idPagamento"));
             pagamento.setIdCliente(rs.getInt("idCliente"));
             pagamento.setIdPasseio(rs.getInt("idPasseio"));
-            pagamento.setPagou(stringToBoolean(idPagamento));
+            pagamento.setSituacao(stringToBoolean(idPagamento));
+            return pagamento;
+        }
+        stat.close();
+        return null;
+    }
+
+    public Pagamento getByIdCliente(int idCliente) throws SQLException {
+        Statement stat = con.createStatement();
+        ResultSet rs = stat.executeQuery("select * from pagamento where idCliente = " + idCliente);
+
+        if (rs.next()) {
+            Pagamento pagamento = new Pagamento(0, 0, 0, false);
+            pagamento.setIdPagamento(rs.getInt("idPagamento"));
+            int idPagamento = pagamento.getIdPagamento();
+            pagamento.setIdCliente(rs.getInt("idCliente"));
+            pagamento.setIdPasseio(rs.getInt("idPasseio"));
+            pagamento.setSituacao(stringToBoolean(idPagamento));
             return pagamento;
         }
         stat.close();
@@ -70,7 +87,7 @@ public class PagamentoDao {
     public boolean stringToBoolean(int idPagamento) throws SQLException {
         Statement stat = con.createStatement();
         ResultSet rs = stat.executeQuery("select * from pagamento where idPagamento = " + idPagamento);
-        String situacao = rs.getString("pagou");
+        String situacao = rs.getString("situacao");
         String controle = "Pagamento efetuado";
         if (situacao.equals(controle)) {
             return true;
@@ -78,4 +95,45 @@ public class PagamentoDao {
             return false;
         }
     }
+
+    public Pagamento getLast() throws SQLException, NullPointerException {
+        Statement stat = con.createStatement();
+        ResultSet rs = stat.executeQuery("SELECT * FROM pagamento ORDER BY idPagamento DESC LIMIT 1");
+
+        if (rs.next()) {
+            Pagamento pagamento = new Pagamento(0, 0, 0, false);
+            pagamento.setIdPagamento(rs.getInt("idPagamento"));
+            int idPagamento = pagamento.getIdPagamento();
+            pagamento.setIdCliente(rs.getInt("idCliente"));
+            pagamento.setIdPasseio(rs.getInt("idPasseio"));
+            pagamento.setSituacao(stringToBoolean(idPagamento));
+            return pagamento;
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public int verificarExistenciaEObterId(int idCliente, int idPasseio) throws SQLException {
+        Statement stat = con.createStatement();
+        String query = String.format(
+                "SELECT idPagamento FROM pagamento WHERE idCliente = '%d' AND idPasseio = '%d'",
+                idCliente, idPasseio);
+        ResultSet rs = stat.executeQuery(query);
+
+        if (rs.next()) {
+            return rs.getInt("idPagamento");
+        } else {
+            return -1; // Endereço não encontrado
+        }
+
+    }
+
+    public void updateSituacao(Pagamento p, int idPagamento) throws SQLException {
+        Statement stat = con.createStatement();
+        String query = "UPDATE pagamento SET situacao = '" + p.getSituacao() + "' WHERE idPagamento = "
+                + idPagamento;
+        stat.executeUpdate(query);
+        stat.close();
+    }
+
 }

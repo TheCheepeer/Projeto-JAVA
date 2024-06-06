@@ -64,10 +64,6 @@ public class ClienteDao {
             clientes.add(cliente);
         }
 
-        if (clientes.isEmpty()) {
-            throw new ElementoNaoEncontradoExption();
-        }
-
         return clientes;
     }
 
