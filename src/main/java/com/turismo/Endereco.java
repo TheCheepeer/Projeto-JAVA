@@ -127,7 +127,7 @@ public class Endereco {
         if (input == null || input.trim().isEmpty()) {
             throw new NameNotNullOrInvalidException();
         }
-        String lettersAndSpacesPattern = "^[a-zA-Z ]+$";
+        String lettersAndSpacesPattern = "^[a-zA-Z0-9 ]+$";
         Pattern pattern = Pattern.compile(lettersAndSpacesPattern);
         Matcher matcher = pattern.matcher(input);
 

@@ -1,5 +1,10 @@
 package com.turismo;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.execoes.NameNotNullOrInvalidException;
+
 public class Destino {
     private int idDestino;
 
@@ -40,7 +45,22 @@ public class Destino {
 
     // Fim dos Getters and Setters
 
+    public String nomeValido(String input) throws NameNotNullOrInvalidException {
+        if (input == null || input.trim().isEmpty()) {
+            throw new NameNotNullOrInvalidException();
+        }
+        String lettersAndSpacesPattern = "^[a-zA-Z ]+$";
+        Pattern pattern = Pattern.compile(lettersAndSpacesPattern);
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.matches()) {
+            return input;
+        } else {
+            throw new NameNotNullOrInvalidException();
+        }
+    }
+
     public String toString() {
-        return "IdDestino: " + idDestino + "\tIdEndereco: " + "\tNome: " + nome;
+        return "IdDestino: " + idDestino + " IdEndereco: " + idEndereco + " Nome: " + nome;
     }
 }

@@ -28,6 +28,7 @@ public class testdate {
                     endereco.getUf());
             endereco = enderecoDao.getById(idEndereco);
             System.out.println(endereco);
+            System.out.println(enderecoDao.getAll());
 
             JOptionPane.showMessageDialog(null, "TUDO PRONTO!!");
         } catch (SQLException e) {

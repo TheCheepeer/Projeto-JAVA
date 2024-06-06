@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import com.banco.ClienteDao;
 import com.banco.Database;
+import com.banco.DestinoDao;
 import com.banco.EnderecoDao;
 import com.execoes.CepInvalidoException;
 import com.execoes.CpfInvalidoException;
@@ -889,9 +890,203 @@ public class Main {
                                         }
 
                                     } while (!finalizar2);
-
-                                    Endereco endereco = new Endereco(0, null, null, 0, null, null, null);
+                                    Ferramentas.clearConsole();
                                     Destino destino = new Destino(0, null, 0);
+                                    DestinoDao destinoDao = new DestinoDao();
+                                    Endereco endereco = new Endereco(0, null, null, 0, null, null, null);
+                                    EnderecoDao enderecoDao = new EnderecoDao();
+                                    int escolha = 2;
+
+                                    if (!destinoDao.getAll().isEmpty()) {
+                                        do {
+                                            System.out.println(
+                                                    "\nDeseja adicionar um destino esxistente ou novo?\n\n1.Adicionar destino existente\n2. Adicionar um novo destino\n");
+                                            String escolhaStr = scanner.nextLine();
+                                            try {
+                                                escolha = Integer.parseInt(escolhaStr);
+
+                                            } catch (NumberFormatException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println(
+                                                        "\nInválido, digite um número válido\n");
+                                            }
+                                        } while (escolha != 1 && escolha != 2);
+                                    }
+                                    Ferramentas.clearConsole();
+
+                                    if (escolha == 1) {
+                                        do {
+                                            finalizar2 = false;
+
+                                            try {
+                                                List<Destino> destinos = destinoDao.getAll();
+                                                for (Destino d : destinos) {
+                                                    System.out.println(d);
+                                                    System.out.println(enderecoDao.getById(d.getIdEndereco()));
+                                                    System.out.println(
+                                                            "\n-----------------------------------------------------\n");
+                                                }
+
+                                                System.out.println(
+                                                        "\nDigite a id do Destino\n");
+                                                String idStr = scanner.nextLine();
+                                                int id = Integer.parseInt(idStr);
+                                                Ferramentas.clearConsole();
+                                                if (destinoDao.getById(id) != null) {
+                                                    destino = destinoDao.getById(id);
+                                                    finalizar2 = true;
+                                                }
+                                            } catch (NumberFormatException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nInválido, digite um id válido\n");
+                                            }
+                                        } while (!finalizar2);
+                                    } else {
+                                        do {
+                                            finalizar2 = false;
+                                            System.out.println("\nDigite o nome do Destino\n");
+                                            try {
+                                                destino.setNome(destino.nomeValido(scanner.nextLine()));
+                                                finalizar2 = true;
+                                            } catch (NameNotNullOrInvalidException e) {
+                                                System.err.println("\nDigite um nome válido\n");
+                                            }
+                                        } while (!finalizar2);
+
+                                        System.out.println("\nDigite o endereço de destino\n");
+                                        int caminho = -1;
+                                        do {
+                                            try {
+                                                System.out.println("\nDigite o CEP:\n");
+                                                endereco.setCep(scanner.nextLine());
+                                                endereco.consultarCEP();
+                                                Ferramentas.clearConsole();
+                                                System.out.println(endereco.imprimirConsulta());
+
+                                                String caminhoStr = scanner.nextLine();
+
+                                                try {
+                                                    caminho = Integer.parseInt(caminhoStr);
+                                                } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
+                                                    System.err.println("\nOpção inválida! Tente novamente\n");
+                                                    continue;
+                                                }
+
+                                                while (caminho != 1 && caminho != 2 && caminho != 3) {
+                                                    System.out.println("\nOpção inválida! Tente novamente\n");
+                                                    caminhoStr = scanner.nextLine();
+                                                    try {
+                                                        caminho = Integer.parseInt(caminhoStr);
+                                                    } catch (NumberFormatException e) {
+                                                        System.err.println("\nOpção inválida! Tente novamente\n");
+                                                        continue;
+                                                    }
+                                                }
+
+                                            } catch (SemConexaoInternetException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println(
+                                                        "\nSem conexão com a internet.\n\nPor favor, digite manualmente.\n");
+                                                caminho = 2;
+                                            } catch (IllegalArgumentException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nO CEP deve conter 8 digitos.\n");
+                                                continue;
+                                            } catch (CepInvalidoException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println("\nCEP inesistente!\n");
+                                                continue;
+                                            }
+                                        } while (caminho != 1 && caminho != 2);
+
+                                        if (caminho == 2) {
+                                            Ferramentas.clearConsole();
+                                            do {
+                                                finalizar2 = false;
+                                                try {
+                                                    System.out.println("\nDigite o Logradouro:\n");
+                                                    endereco.setLogradouro(endereco.nameNotNull(scanner.nextLine()));
+                                                    Ferramentas.clearConsole();
+                                                    System.out.println("\nDigite o Número:\n");
+                                                    String numString = scanner.nextLine();
+                                                    int num = Integer.parseInt(numString);
+                                                    endereco.setNumero(num);
+                                                    Ferramentas.clearConsole();
+                                                    System.out.println("\nDigite o Bairro:\n");
+                                                    endereco.setBairro(endereco.nameNotNull(scanner.nextLine()));
+                                                    Ferramentas.clearConsole();
+                                                    System.out.println("\nDigite a cidade:\n");
+                                                    endereco.setCidade(endereco.nameNotNull(scanner.nextLine()));
+                                                    Ferramentas.clearConsole();
+                                                    System.out.println("\nDigite a UF:\n");
+                                                    endereco.setUf(endereco.nameNotNull(scanner.nextLine()));
+                                                    Ferramentas.clearConsole();
+
+                                                    finalizar2 = true;
+                                                } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
+                                                    System.err.println(
+                                                            "\nApenas números são permitidos para o campo Número!\n");
+                                                    continue;
+                                                } catch (NameNotNullOrInvalidException e) {
+                                                    Ferramentas.clearConsole();
+                                                    System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
+                                                    continue;
+                                                }
+                                            } while (!finalizar2);
+                                        } else {
+                                            Ferramentas.clearConsole();
+                                            do {
+                                                finalizar2 = false;
+                                                try {
+                                                    System.out.println("\nDigite o Número:\n");
+                                                    String numString = scanner.nextLine();
+                                                    int num = Integer.parseInt(numString);
+                                                    endereco.setNumero(num);
+                                                    finalizar2 = true;
+                                                } catch (NumberFormatException e) {
+                                                    Ferramentas.clearConsole();
+                                                    System.err.println(
+                                                            "\nApenas números são permitidos para o campo Número!\n");
+                                                    continue;
+                                                }
+
+                                            } while (!finalizar2);
+                                        }
+
+                                        // Verifica se o endereço já existe e obtém o ID
+                                        int idEndereco = enderecoDao.verificarExistenciaEObterId(
+                                                endereco.cepF(endereco.getCep()),
+                                                endereco.getLogradouro(),
+                                                endereco.getNumero(), endereco.getBairro(), endereco.getCidade(),
+                                                endereco.getUf());
+
+                                        if (idEndereco != -1) {
+                                            // Endereço já existe, usa o ID existente
+                                            endereco = enderecoDao.getById(idEndereco);
+                                            destino.setIdEndereco(endereco.getIdEndereco());
+                                        } else {
+                                            // Endereço não existe, insere no banco de dados e usa o novo ID
+                                            enderecoDao.inserir(endereco);
+                                            endereco = enderecoDao.getLast();
+                                            destino.setIdEndereco(endereco.getIdEndereco());
+                                        }
+
+                                        try {
+                                            destinoDao.verificarExistencia(destino.getNome());
+                                            destinoDao.inserir(destino);
+                                            destino = destinoDao.getLast();
+                                            passeio.setIdDestino(destino.getIdDestino());
+                                        } catch (RegistroJaExistenteException e) {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("Registro já existente, tente novamente.");
+                                        }
+                                    }
+
+                                    do {
+
+                                    } while (finalizar2);
 
                                 } while (!finalizar);
 
