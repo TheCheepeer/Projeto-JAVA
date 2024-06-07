@@ -39,6 +39,7 @@ public class Main {
 
             int opcoes = -1;
             do {
+                // Opções iniciais
                 do {
                     System.out.println(
                             "\n1. Opções Cliente \n2. Opções Passeio\n3. Opções Pagamento\n0. Para sair\n");
@@ -57,7 +58,6 @@ public class Main {
                     case 1:
                         // Opções Cliente
                         int opcoes2 = -1;
-                        // TODO: Ver opções
                         do {
                             Ferramentas.clearConsole();
                             do {
@@ -340,11 +340,10 @@ public class Main {
                                         }
                                     } while (!finalizar);
 
-                                    // Fim de Cadastrar Cliente
-
                                     break;
 
                                 case 2:
+                                    // Buscar Cliente
                                     finalizar = false;
                                     Ferramentas.clearConsole();
                                     while (!finalizar) {
@@ -451,6 +450,7 @@ public class Main {
                                     break;
 
                                 case 3:
+                                    // Atualizar dados de cliente
                                     Ferramentas.clearConsole();
                                     int opcoesAt = -1;
                                     do {
@@ -728,6 +728,7 @@ public class Main {
                                     break;
 
                                 case 4:
+                                    // Excluir clientes
                                     finalizar = false;
                                     Ferramentas.clearConsole();
                                     do {
@@ -755,6 +756,7 @@ public class Main {
                                     break;
 
                                 case 5:
+                                    // Listar Clientes
                                     Ferramentas.clearConsole();
                                     try {
                                         ClienteDao clienteDao = new ClienteDao();
@@ -773,8 +775,10 @@ public class Main {
                                         scanner.nextLine();
 
                                     } catch (ElementoNaoEncontradoExption e) {
+                                        Ferramentas.clearConsole();
                                         System.out.println("\nNenhum cliente no banco de dados\n");
-
+                                        System.out.println("\nAperte enter para sair\n");
+                                        scanner.nextLine();
                                     }
 
                                     break;
@@ -782,15 +786,15 @@ public class Main {
                             }
 
                         } while (opcoes2 != 0);
-                        // Final de opções cliente
+                        Ferramentas.clearConsole();
 
                         break;
                     case 2:
                         // Opções Passeio
 
                         Ferramentas.clearConsole();
-                        opcoes2 = -1;
                         do {
+                            opcoes2 = -1;
 
                             System.out.println(
                                     "\nSelecione uma opção\n\n1. Agendar Passeio\n2. Buscar Passeio\n3. Atualizar dados do Passeio\n4. Cancelar Passeio\n5. Listar Passeios\n6. Adicionar Cliente ao Passeio\n0. Voltar\n");
@@ -957,13 +961,15 @@ public class Main {
                                                 destino.setNome(destino.nomeValido(scanner.nextLine()));
                                                 finalizar2 = true;
                                             } catch (NameNotNullOrInvalidException e) {
+                                                Ferramentas.clearConsole();
                                                 System.err.println("\nDigite um nome válido\n");
                                             }
                                         } while (!finalizar2);
 
                                         System.out.println("\nDigite o endereço de destino\n");
-                                        int caminho = -1;
+                                        int caminho;
                                         do {
+                                            caminho = -1;
                                             try {
                                                 System.out.println("\nDigite o CEP:\n");
                                                 endereco.setCep(scanner.nextLine());
@@ -1095,107 +1101,105 @@ public class Main {
                                     Ferramentas.clearConsole();
 
                                     Onibus onibus = new Onibus(0, null, null, null, null);
+                                    int opcoes3 = -1;
+                                    int escolha2 = -1;
+                                    boolean finalizar3 = false;
 
+                                    // Pergunta inicial
                                     do {
-                                        System.out
-                                                .println(
-                                                        "\nDeseja Cadastrar o Ônibus do passeio agora ou mais tarde?\n\n1. Agora\n2. Mais tarde\n");
-                                        opcoes2 = -1;
-                                        String opcoes2Str = scanner.nextLine();
+                                        System.out.println(
+                                                "\nDeseja Cadastrar o Ônibus do passeio agora ou mais tarde?\n\n1. Agora\n2. Mais tarde\n");
+                                        String opcoes3Str = scanner.nextLine();
                                         Ferramentas.clearConsole();
                                         try {
-
-                                            opcoes2 = Integer.parseInt(opcoes2Str);
-
+                                            opcoes3 = Integer.parseInt(opcoes3Str);
                                         } catch (NumberFormatException e) {
                                             Ferramentas.clearConsole();
-                                            System.err.println(
-                                                    "\nApenas números são permitidos para o campo Número!\n");
+                                            System.err
+                                                    .println("\nApenas números são permitidos para o campo Número!\n");
                                         }
-                                    } while (opcoes2 != 1 && opcoes2 != 2);
+                                    } while (opcoes3 != 1 && opcoes3 != 2);
 
                                     Ferramentas.clearConsole();
 
                                     OnibusDao onibusDao = new OnibusDao();
-                                    int escolha2 = -1;
+                                    boolean existe = !onibusDao.getAll().isEmpty() && opcoes3 == 1;
 
-                                    if (!onibusDao.getAll().isEmpty() && opcoes2 != 2) {
-                                        System.out
-                                                .println(
-                                                        "\nDeseja Cadastrar o Ônibus um ônibus do banco de dados ou novo?\n\n1. Do banco\n2. Novo\n");
-                                        String escolha2Str = scanner.nextLine();
-
-                                        try {
-
-                                            escolha2 = Integer.parseInt(escolha2Str);
-
-                                        } catch (NumberFormatException e) {
-                                            Ferramentas.clearConsole();
-                                            System.err.println(
-                                                    "\nApenas números são permitidos para o campo Número!\n");
-                                        }
+                                    // Escolha do tipo de cadastro de ônibus
+                                    if (existe) {
+                                        do {
+                                            System.out.println(
+                                                    "\nDeseja Cadastrar o Ônibus um ônibus do banco de dados ou novo?\n\n1. Do banco\n2. Novo\n");
+                                            String escolha2Str = scanner.nextLine();
+                                            try {
+                                                escolha2 = Integer.parseInt(escolha2Str);
+                                            } catch (NumberFormatException e) {
+                                                Ferramentas.clearConsole();
+                                                System.err.println(
+                                                        "\nApenas números são permitidos para o campo Número!\n");
+                                            }
+                                        } while (escolha2 != 1 && escolha2 != 2);
+                                    } else {
+                                        escolha2 = 2; // Define como novo se não existem ônibus cadastrados
                                     }
 
-                                    if (opcoes2 == 1 && escolha2 == 2) {
-
+                                    // Cadastro de novo ônibus
+                                    if (escolha2 == 2) {
                                         do {
-                                            finalizar2 = false;
-
                                             System.out.println("\nDigite a placa do ônibus\n");
                                             try {
                                                 onibus.setPlaca(onibus.nameNotNull(scanner.nextLine()));
-                                                finalizar2 = true;
+                                                finalizar3 = true;
                                             } catch (NameNotNullOrInvalidException e) {
                                                 Ferramentas.clearConsole();
                                                 System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
                                             }
-                                        } while (!finalizar2);
+                                        } while (!finalizar3);
 
                                         Ferramentas.clearConsole();
+                                        finalizar3 = false;
 
                                         do {
-                                            finalizar2 = false;
-
                                             System.out.println("\nDigite o modelo do ônibus\n");
                                             try {
                                                 onibus.setModelo(onibus.nameNotNull(scanner.nextLine()));
-                                                finalizar2 = true;
+                                                finalizar3 = true;
                                             } catch (NameNotNullOrInvalidException e) {
                                                 Ferramentas.clearConsole();
                                                 System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
                                             }
-                                        } while (!finalizar2);
+                                        } while (!finalizar3);
 
                                         Ferramentas.clearConsole();
+                                        finalizar3 = false;
 
                                         do {
-                                            finalizar2 = false;
-
                                             System.out.println("\nDigite o tipo de ônibus\n");
                                             try {
                                                 onibus.setTipoOnibus(onibus.nameNotNull(scanner.nextLine()));
-                                                finalizar2 = true;
+                                                finalizar3 = true;
                                             } catch (NameNotNullOrInvalidException e) {
                                                 Ferramentas.clearConsole();
                                                 System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
                                             }
-                                        } while (!finalizar2);
+                                        } while (!finalizar3);
 
                                         Ferramentas.clearConsole();
-                                        do {
-                                            finalizar2 = false;
+                                        finalizar3 = false;
 
+                                        do {
                                             System.out.println("\nDigite a empresa do ônibus\n");
                                             try {
                                                 onibus.setEmpresa(onibus.nameNotNull(scanner.nextLine()));
-                                                finalizar2 = true;
+                                                finalizar3 = true;
                                             } catch (NameNotNullOrInvalidException e) {
                                                 Ferramentas.clearConsole();
                                                 System.err.println("\nCampo nulo ou inválido! Tente novamente\n");
                                             }
-                                        } while (!finalizar2);
+                                        } while (!finalizar3);
 
                                         Ferramentas.clearConsole();
+
                                         try {
                                             onibusDao.verificarExistencia(onibus.getPlaca());
                                             onibusDao.inserir(onibus);
@@ -1205,9 +1209,9 @@ public class Main {
                                             Ferramentas.clearConsole();
                                             System.err.println("Registro já existente, tente novamente.");
                                         }
-
                                     }
 
+                                    // Escolha de ônibus existente
                                     if (escolha2 == 1) {
                                         Ferramentas.clearConsole();
 
@@ -1219,15 +1223,13 @@ public class Main {
                                                         "\n-----------------------------------------------------\n");
                                             }
 
-                                            System.out.println(
-                                                    "\nDigite a id do Ônibus\n");
+                                            System.out.println("\nDigite a id do Ônibus\n");
                                             String idStr = scanner.nextLine();
                                             int id = Integer.parseInt(idStr);
                                             Ferramentas.clearConsole();
                                             if (onibusDao.getById(id) != null) {
                                                 onibus = onibusDao.getById(id);
                                                 passeio.setIdOnibus(onibus.getIdOnibus());
-                                                finalizar2 = true;
                                             }
                                         } catch (NumberFormatException e) {
                                             Ferramentas.clearConsole();
@@ -1236,12 +1238,12 @@ public class Main {
 
                                         Ferramentas.clearConsole();
                                     }
+
                                     PasseioDao passeioDao = new PasseioDao();
                                     passeioDao.inserir(passeio);
                                     passeio = passeioDao.getLast();
-                                    do {
-                                        finalizar2 = false;
 
+                                    do {
                                         System.out.println(passeio);
                                         System.out.println(destino);
                                         if (onibus.getIdOnibus() != 0) {
@@ -1252,18 +1254,14 @@ public class Main {
                                         System.out.println("\nEstá correto?\n1. Sim\n2. Não\n");
 
                                         String escolha2Str = scanner.nextLine();
-
                                         try {
-
                                             escolha2 = Integer.parseInt(escolha2Str);
-
                                         } catch (NumberFormatException e) {
                                             Ferramentas.clearConsole();
-                                            System.err.println(
-                                                    "\nApenas números são permitidos para o campo Número!\n");
+                                            System.err
+                                                    .println("\nApenas números são permitidos para o campo Número!\n");
                                         }
-
-                                    } while (escolha2 == 1 && escolha2 == 2);
+                                    } while (escolha2 != 1 && escolha2 != 2);
 
                                     if (escolha2 == 1) {
                                         System.out.println("\nConcluido! Aperte enter para continuar\n");
@@ -1280,25 +1278,87 @@ public class Main {
                                 break;
 
                             case 2:
+                                // Buscar Passeio
+                                Ferramentas.clearConsole();
+                                boolean finalizar2 = false;
+                                do {
+                                    try {
+                                        System.out.println("\nDigite o id do Passeio\n");
+                                        Passeio passeio = new Passeio(opcoes2, opcoes2, opcoes, opcoes2, null, null);
+                                        PasseioDao passeioDao = new PasseioDao();
+                                        String idStr = scanner.nextLine();
+                                        int id = Integer.parseInt(idStr);
+                                        passeio = passeioDao.getById(id);
+
+                                        if (passeioDao.getById(id) != null) {
+                                            System.out.println("\n" + passeio);
+
+                                            Destino destino = new Destino(0, null, 0);
+                                            DestinoDao destinoDao = new DestinoDao();
+                                            destino = destinoDao.getById(passeio.getIdDestino());
+                                            System.out.println(destino);
+
+                                            System.out.println("\nAperte enter para sair\n");
+                                            scanner.nextLine();
+                                            Ferramentas.clearConsole();
+
+                                        } else {
+                                            Ferramentas.clearConsole();
+                                            System.err.println("\nPasseio não encontrado não encontrado.\n");
+                                        }
+                                        finalizar2 = true;
+
+                                    } catch (NumberFormatException e) {
+                                        Ferramentas.clearConsole();
+                                        System.err.println("\nInválido, digite um número válido!\n");
+                                    }
+                                } while (!finalizar2);
 
                                 break;
 
                             case 3:
+                                // Atualizar dados do Passeio
+                                Ferramentas.clearConsole();
 
                                 break;
 
                             case 4:
+                                // Cancelar Passeio
+                                Ferramentas.clearConsole();
 
                                 break;
 
                             case 5:
+                                // Listar Passeios
+                                Ferramentas.clearConsole();
+                                try {
+                                    PasseioDao passeioDao = new PasseioDao();
+                                    DestinoDao destinoDao = new DestinoDao();
+                                    List<Passeio> passeios = passeioDao.getAll();
 
+                                    for (Passeio p : passeios) {
+                                        Destino destino = destinoDao.getById(p.getIdDestino());
+                                        System.out.println("\n" + p);
+                                        System.out.println(destino + "\n");
+                                        System.out.println(
+                                                "\n-----------------------------------------------------\n");
+                                    }
+
+                                    System.out.println("\nAperte enter para sair\n");
+                                    scanner.nextLine();
+
+                                } catch (ElementoNaoEncontradoExption e) {
+                                    Ferramentas.clearConsole();
+                                    System.out.println("\nNenhum cliente no banco de dados\n");
+                                    System.out.println("\nAperte enter para sair\n");
+                                    scanner.nextLine();
+                                }
                                 break;
 
                             case 6:
-
+                                Ferramentas.clearConsole();
                                 Pagamento pagamento = new Pagamento(0, 0, 0, false);
-                                boolean finalizar2 = false;
+                                finalizar2 = false;
 
                                 Cliente cliente = new Cliente(null, null, null, null, 0, null, 0);
                                 ClienteDao clienteDao = new ClienteDao();
@@ -1416,29 +1476,32 @@ public class Main {
                                 break;
 
                         }
+                        Ferramentas.clearConsole();
 
                         break;
                     case 3:
                         // Opções Pagamento
                         Ferramentas.clearConsole();
                         boolean finalizar = false;
+                        opcoes2 = -1;
                         do {
                             do {
                                 System.out.println(
                                         "\n1. Realizar Pagamento\n2. Buscar pagamento por id\n3. Listar pagamentos\n0. Voltar\n");
                                 System.out.println("\nDigite uma opção\n");
-                                String opcoesStr = scanner.nextLine();
+                                String opcoes2Str = scanner.nextLine();
                                 try {
-                                    opcoes = Integer.parseInt(opcoesStr);
+                                    opcoes2 = Integer.parseInt(opcoes2Str);
                                     Ferramentas.clearConsole();
                                 } catch (NumberFormatException e) {
                                     Ferramentas.clearConsole();
                                     System.err.println("\nInválido, digite um número válido!");
                                 }
-                            } while (opcoes != 0 && opcoes != 1 && opcoes != 2 && opcoes != 3);
+                            } while (opcoes2 != 0 && opcoes2 != 1 && opcoes2 != 2 && opcoes2 != 3);
 
-                            switch (opcoes) {
+                            switch (opcoes2) {
                                 case 1:
+                                    // TODO Consertar
                                     Ferramentas.clearConsole();
                                     boolean finalizar2 = false;
                                     do {
@@ -1519,9 +1582,6 @@ public class Main {
                                         } catch (NumberFormatException e) {
                                             Ferramentas.clearConsole();
                                             System.err.println("\nInválido, digite um número válido!\n");
-                                        } catch (TelefoneInvalidoException e) {
-                                            Ferramentas.clearConsole();
-                                            System.err.println("\nTelefone inválido!\n\nTente novamente\n");
                                         }
                                     } while (!finalizar2);
 
@@ -1532,20 +1592,21 @@ public class Main {
                                     do {
 
                                         do {
+                                            opcoes2 = -1;
                                             System.out.println(
-                                                    "\n1. Listar pagamentos de um cliente\n2. Listar pagamentos de um Passeio\n");
+                                                    "\n1. Listar pagamentos de um cliente\n2. Listar pagamentos de um Passeio\n0. Voltar\n");
                                             System.out.println("\nDigite uma opção\n");
-                                            String opcoesStr = scanner.nextLine();
+                                            String opcoes2Str = scanner.nextLine();
                                             try {
-                                                opcoes = Integer.parseInt(opcoesStr);
+                                                opcoes2 = Integer.parseInt(opcoes2Str);
                                                 Ferramentas.clearConsole();
                                             } catch (NumberFormatException e) {
                                                 Ferramentas.clearConsole();
                                                 System.err.println("\nInválido, digite um número válido!");
                                             }
-                                        } while (opcoes != 1 && opcoes != 2);
+                                        } while (opcoes2 != 1 && opcoes2 != 2 && opcoes2 != 0);
 
-                                        if (opcoes == 1) {
+                                        if (opcoes2 == 1) {
                                             boolean finalizar3 = false;
                                             do {
                                                 try {
@@ -1570,20 +1631,23 @@ public class Main {
 
                                                     System.out.println("\nAperte enter para sair\n");
                                                     scanner.nextLine();
+                                                    Ferramentas.clearConsole();
                                                     finalizar3 = true;
 
                                                 } catch (ElementoNaoEncontradoExption e) {
                                                     Ferramentas.clearConsole();
                                                     System.out.println("\nNenhum cliente no banco de dados\n");
-
+                                                    finalizar3 = true;
+                                                    System.out.println("\nAperte enter para sair\n");
+                                                    scanner.nextLine();
                                                 } catch (NumberFormatException e) {
                                                     Ferramentas.clearConsole();
                                                     System.err.println("\nInválido, digite um número válido!");
 
                                                 }
-                                            } while (finalizar3);
+                                            } while (!finalizar3);
 
-                                        } else {
+                                        } else if (opcoes2 == 2) {
                                             boolean finalizar3 = false;
                                             do {
                                                 try {
@@ -1612,17 +1676,25 @@ public class Main {
 
                                                 } catch (ElementoNaoEncontradoExption e) {
                                                     Ferramentas.clearConsole();
-                                                    System.out.println("\nNenhum cliente no banco de dados\n");
+                                                    System.out.println("\nNenhum passeio no banco de dados\n");
+                                                    finalizar3 = true;
+                                                    System.out.println("\nAperte enter para sair\n");
+                                                    scanner.nextLine();
 
                                                 } catch (NumberFormatException e) {
                                                     Ferramentas.clearConsole();
                                                     System.err.println("\nInválido, digite um número válido!");
-
                                                 }
-                                            } while (finalizar3);
+                                            } while (!finalizar3);
+                                        } else {
+                                            finalizar2 = true;
                                         }
 
                                     } while (!finalizar2);
+                                    break;
+
+                                case 0:
+                                    finalizar = true;
                                     break;
                             }
                             Ferramentas.clearConsole();
@@ -1632,8 +1704,8 @@ public class Main {
                 }
 
             } while (opcoes != 0);
-
-            System.out.println("\nTUDO PRONTO!!");
+            Ferramentas.clearConsole();
+            System.out.println("\nFechando...\n");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             System.out.println("Error: " + e.getMessage());
