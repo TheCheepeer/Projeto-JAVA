@@ -13,7 +13,7 @@ public class Database {
     private Database() {
         try {
             connection = DriverManager
-                    .getConnection("jdbc:sqlite:src/main/resources/database.db");
+                    .getConnection("jdbc:sqlite:resources/database.db");
 
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30); // set timeout to 30 sec.

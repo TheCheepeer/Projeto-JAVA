@@ -263,6 +263,7 @@ public class Main {
                                                     String numString = scanner.nextLine();
                                                     int num = Integer.parseInt(numString);
                                                     endereco.setNumero(num);
+                                                    Ferramentas.clearConsole();
                                                     finalizar2 = true;
                                                 } catch (NumberFormatException e) {
                                                     Ferramentas.clearConsole();
@@ -316,11 +317,14 @@ public class Main {
                                                             .println("\nAs informações conferem?\n\n1. Sim\n2. Não\n");
                                                     String caminhoStr = scanner.nextLine();
                                                     caminho = Integer.parseInt(caminhoStr);
+                                                    Ferramentas.clearConsole();
 
                                                     while (caminho != 1 && caminho != 2) {
                                                         System.err.println("\nInválido, tente novamente.\n");
                                                         caminhoStr = scanner.nextLine();
                                                         caminho = Integer.parseInt(caminhoStr);
+                                                        Ferramentas.clearConsole();
+
                                                     }
                                                     finalizar2 = true;
                                                 } catch (NumberFormatException e) {
@@ -371,6 +375,7 @@ public class Main {
                                                         String idStr = scanner.nextLine();
                                                         int id = Integer.parseInt(idStr);
                                                         cliente = clienteDao.getById(id);
+                                                        Ferramentas.clearConsole();
 
                                                         if (clienteDao.getById(id) != null) {
                                                             System.out.println("\n" + cliente);
@@ -412,6 +417,8 @@ public class Main {
                                                         cliente = clienteDao
                                                                 .getByCpf(Cliente.unFormatCpf(cpf));
                                                         if (clienteDao.getByCpf(Cliente.unFormatCpf(cpf)) != null) {
+                                                            Ferramentas.clearConsole();
+
                                                             System.out.println("\n" + cliente);
 
                                                             Endereco endereco = new Endereco(opcoes2, cpf, cpf, caminho,
@@ -539,6 +546,8 @@ public class Main {
                                                     Ferramentas.clearConsole();
                                                     System.err.println("\nTelefone inválido!\n\nTente novamente\n");
                                                 }
+                                                Ferramentas.clearConsole();
+
                                             } while (!finalizar2);
 
                                             break;
@@ -1241,6 +1250,8 @@ public class Main {
                                             System.out.println("\nConcluido! Aperte enter para continuar\n");
                                             scanner.nextLine();
                                             finalizar = true;
+                                        } else {
+                                            passeioDao.delete(passeio.getIdPasseio());
                                         }
 
                                         Ferramentas.clearConsole();
@@ -1264,6 +1275,7 @@ public class Main {
                                             String idStr = scanner.nextLine();
                                             int id = Integer.parseInt(idStr);
                                             passeio = passeioDao.getById(id);
+                                            Ferramentas.clearConsole();
 
                                             if (passeioDao.getById(id) != null) {
                                                 System.out.println("\n" + passeio);
@@ -1572,7 +1584,7 @@ public class Main {
                                                         }
 
                                                         DestinoDao destinoDao = new DestinoDao();
-                                                        Destino destino = destinoDao.getById(id);
+                                                        Destino destino = destinoDao.getById(passeio.getIdDestino());
 
                                                         do {
                                                             System.out.println(passeio);
@@ -1599,6 +1611,14 @@ public class Main {
                                                             Ferramentas.clearConsole();
                                                             System.out.println(
                                                                     "\nConcluido! Aperte enter para continuar\n");
+                                                            scanner.nextLine();
+                                                            finalizar2 = true;
+                                                        } else {
+                                                            Ferramentas.clearConsole();
+                                                            passeio.setIdOnibus(0);
+                                                            passeioDao.updateOnibus(passeio, id);
+                                                            System.out.println(
+                                                                    "\nId do ônibus definida para 0\nConcluido! Aperte enter para continuar\n");
                                                             scanner.nextLine();
                                                             finalizar2 = true;
                                                         }
@@ -1636,6 +1656,7 @@ public class Main {
 
                                         System.out.println("\nAperte enter para sair\n");
                                         scanner.nextLine();
+                                        Ferramentas.clearConsole();
 
                                     } catch (ElementoNaoEncontradoExption e) {
                                         Ferramentas.clearConsole();
@@ -1789,7 +1810,7 @@ public class Main {
                                 } catch (NumberFormatException e) {
                                     Ferramentas.clearConsole();
                                     System.err.println("\nInválido, digite um número válido!");
-                                    opcoes2 = -1; // Reset to continue the loop if input is invalid
+                                    opcoes2 = -1;
                                 }
                             } while (opcoes2 != 0 && opcoes2 != 1 && opcoes2 != 2 && opcoes2 != 3);
 
@@ -1860,16 +1881,22 @@ public class Main {
                                             if (pagamento != null) {
                                                 ClienteDao clienteDao = new ClienteDao();
                                                 PasseioDao passeioDao = new PasseioDao();
+                                                EnderecoDao enderecoDao = new EnderecoDao();
+                                                DestinoDao destinoDao = new DestinoDao();
 
                                                 Cliente cliente = clienteDao.getById(pagamento.getIdCliente());
+                                                Endereco endereco = enderecoDao.getById(cliente.getIdEndereco());
                                                 Passeio passeio = passeioDao.getById(pagamento.getIdPasseio());
+                                                Destino destino = destinoDao.getById(passeio.getIdDestino());
 
                                                 Ferramentas.clearConsole();
-                                                System.out.println("\n" + pagamento);
+                                                System.out.println(pagamento);
                                                 if (cliente != null)
-                                                    System.out.println("\n" + cliente);
+                                                    System.out.println(cliente);
+                                                System.out.println(endereco);
                                                 if (passeio != null)
-                                                    System.out.println("\n" + passeio);
+                                                    System.out.println(passeio);
+                                                System.out.println(destino + "\n");
                                                 System.out.println("\nAperte enter para continuar\n");
                                                 scanner.nextLine();
                                                 Ferramentas.clearConsole();
@@ -1903,7 +1930,7 @@ public class Main {
                                             } catch (NumberFormatException e) {
                                                 Ferramentas.clearConsole();
                                                 System.err.println("\nInválido, digite um número válido!");
-                                                opcaoListagem = -1; // Reset to continue the loop if input is invalid
+                                                opcaoListagem = -1;
                                             }
                                         } while (opcaoListagem != 1 && opcaoListagem != 2 && opcaoListagem != 0);
 
@@ -1917,7 +1944,9 @@ public class Main {
                                                     int id = Integer.parseInt(idStr);
 
                                                     ClienteDao clienteDao = new ClienteDao();
+                                                    EnderecoDao enderecoDao = new EnderecoDao();
                                                     PagamentoDao pagamentoDao = new PagamentoDao();
+                                                    DestinoDao destinoDao = new DestinoDao();
 
                                                     Cliente cliente = clienteDao.getById(id);
                                                     PasseioDao passeioDao = new PasseioDao();
@@ -1927,13 +1956,19 @@ public class Main {
                                                             && !pagamentos.isEmpty()) {
                                                         Ferramentas.clearConsole();
                                                         cliente = clienteDao.getById(id);
-                                                        System.out.println(cliente
+                                                        Endereco endereco = enderecoDao
+                                                                .getById(cliente.getIdEndereco());
+                                                        System.out.println(cliente + "\n"
+                                                                + endereco
                                                                 + "\n\n************************************************************\n");
                                                         for (Pagamento p : pagamentos) {
                                                             Passeio passeio = passeioDao.getById(p.getIdPasseio());
+                                                            Destino destino = destinoDao
+                                                                    .getById(passeio.getIdDestino());
                                                             System.out.println(p);
                                                             if (passeio != null) {
-                                                                System.out.println(passeio + "\n");
+                                                                System.out.println(passeio);
+                                                                System.out.println(destino);
                                                             }
                                                             System.out.println(
                                                                     "\n-----------------------------------------------------\n");
@@ -1965,6 +2000,8 @@ public class Main {
                                                     int id = Integer.parseInt(idStr);
 
                                                     PasseioDao passeioDao = new PasseioDao();
+                                                    DestinoDao destinoDao = new DestinoDao();
+                                                    EnderecoDao enderecoDao = new EnderecoDao();
                                                     PagamentoDao pagamentoDao = new PagamentoDao();
 
                                                     Passeio passeio = passeioDao.getById(id);
@@ -1973,15 +2010,19 @@ public class Main {
                                                     if (passeio != null && pagamentos != null
                                                             && !pagamentos.isEmpty()) {
                                                         ClienteDao clienteDao = new ClienteDao();
+                                                        Destino destino = destinoDao.getById(passeio.getIdDestino());
                                                         Ferramentas.clearConsole();
                                                         passeio = passeioDao.getById(id);
                                                         System.out.println(passeio
+                                                                + "\n" + destino
                                                                 + "\n\n************************************************************\n");
                                                         for (Pagamento p : pagamentos) {
                                                             Cliente cliente = clienteDao.getById(p.getIdCliente());
+                                                            Endereco endereco = enderecoDao
+                                                                    .getById(cliente.getIdEndereco());
                                                             System.out.println(p);
                                                             if (cliente != null) {
-                                                                System.out.println(cliente + "\n");
+                                                                System.out.println(cliente + "\n" + endereco + "\n");
                                                             }
                                                             System.out.println(
                                                                     "\n-----------------------------------------------------\n");
