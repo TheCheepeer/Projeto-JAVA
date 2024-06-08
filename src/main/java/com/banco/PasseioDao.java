@@ -96,6 +96,27 @@ public class PasseioDao {
         }
     }
 
+    public void updateData(Passeio p, int idPasseio) throws SQLException {
+        Statement stat = con.createStatement();
+        String query = "UPDATE passeio SET data = '" + p.dataFormatada() + "' WHERE idPasseio = " + idPasseio;
+        stat.executeUpdate(query);
+        stat.close();
+    }
+
+    public void updateHora(Passeio p, int idPasseio) throws SQLException {
+        Statement stat = con.createStatement();
+        String query = "UPDATE passeio SET hora = '" + p.horaF() + "' WHERE idPasseio = " + idPasseio;
+        stat.executeUpdate(query);
+        stat.close();
+    }
+
+    public void updateOnibus(Passeio p, int idPasseio) throws SQLException {
+        Statement stat = con.createStatement();
+        String query = "UPDATE passeio SET idOnibus = " + p.getIdOnibus() + " WHERE idPasseio = " + idPasseio;
+        stat.executeUpdate(query);
+        stat.close();
+    }
+
     public LocalDate toLocalDate(int idPasseio) throws SQLException {
         Statement stat = con.createStatement();
         ResultSet rs = stat.executeQuery("select * from passeio where idPasseio = " + idPasseio);

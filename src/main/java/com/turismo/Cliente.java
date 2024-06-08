@@ -74,7 +74,8 @@ public class Cliente extends Pessoa {
 
     public String toString() {
         return "Id: " + idCliente + " Nome: " + getNome() + " CPF: " + imprimeCPF(getCpf())
-                + " Data de Nascimento: " + dataNascimentoFormatada() + " Telefone: "
+                + " Data de Nascimento: " + dataNascimentoFormatada() + " Maioridade: " + verificarMaioridadeToString()
+                + " Telefone: "
                 + imprimirTelefone(getTelefone()) + " Email: " + fixEmail(email) + " Endereco: " + idEndereco;
     }
 

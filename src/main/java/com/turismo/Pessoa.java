@@ -177,6 +177,14 @@ public class Pessoa {
         }
     }
 
+    public String verificarMaioridadeToString() {
+        if (verificarMaioridade()) {
+            return "É maior de idade.";
+        } else {
+            return "É menor de idade.";
+        }
+    }
+
     public LocalDate addLocalDate(int dd, int mm, int yyyy) {
         LocalDate data = LocalDate.of(yyyy, mm, dd);
         return data;

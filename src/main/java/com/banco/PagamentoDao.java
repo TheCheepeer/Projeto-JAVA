@@ -62,9 +62,10 @@ public class PagamentoDao {
                 while (rs.next()) {
                     Pagamento pagamento = new Pagamento(0, 0, 0, false);
                     pagamento.setIdPagamento(rs.getInt("idPagamento"));
+                    int idPagamento = pagamento.getIdPagamento();
                     pagamento.setIdCliente(rs.getInt("idCliente"));
                     pagamento.setIdPasseio(rs.getInt("idPasseio"));
-                    pagamento.setSituacao(rs.getBoolean("situacao"));
+                    pagamento.setSituacao(stringToBoolean(idPagamento));
                     pagamentos.add(pagamento);
                 }
             }
@@ -82,9 +83,10 @@ public class PagamentoDao {
                 while (rs.next()) {
                     Pagamento pagamento = new Pagamento(0, 0, 0, false);
                     pagamento.setIdPagamento(rs.getInt("idPagamento"));
+                    int idPagamento = pagamento.getIdPagamento();
                     pagamento.setIdCliente(rs.getInt("idCliente"));
                     pagamento.setIdPasseio(rs.getInt("idPasseio"));
-                    pagamento.setSituacao(rs.getBoolean("situacao"));
+                    pagamento.setSituacao(stringToBoolean(idPagamento));
                     pagamentos.add(pagamento);
                 }
             }
@@ -163,14 +165,15 @@ public class PagamentoDao {
         if (rs.next()) {
             return rs.getInt("idPagamento");
         } else {
-            return -1; // Endereço não encontrado
+            return -1;
         }
 
     }
 
     public void updateSituacao(Pagamento p, int idPagamento) throws SQLException {
         Statement stat = con.createStatement();
-        String query = "UPDATE pagamento SET situacao = '" + p.getSituacao() + "' WHERE idPagamento = " + idPagamento;
+        String query = "UPDATE pagamento SET situacao = '" + p.situacaoToString() + "' WHERE idPagamento = "
+                + idPagamento;
         stat.executeUpdate(query);
         stat.close();
     }
