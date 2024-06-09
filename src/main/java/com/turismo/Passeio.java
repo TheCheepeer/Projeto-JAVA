@@ -18,6 +18,7 @@ public class Passeio {
     public Passeio(int idPasseio, int idDestino, int idOnibus, float preco, LocalDate data, LocalTime hora) {
         this.idPasseio = idPasseio;
         this.idDestino = idDestino;
+        this.idOnibus = idOnibus;
         this.preco = preco;
         this.data = data;
         this.hora = hora;

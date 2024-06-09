@@ -116,7 +116,7 @@ public class Main {
                                             finalizar2 = false;
                                             try {
                                                 System.out.println("\nDigite o telefone:\n");
-                                                cliente.setTelefone(Cliente.imprimirTelefone(scanner.nextLine()));
+                                                cliente.setTelefone(Cliente.verificarTelefone(scanner.nextLine()));
                                                 finalizar2 = true;
                                             } catch (TelefoneInvalidoException e) {
                                                 Ferramentas.clearConsole();
@@ -525,7 +525,7 @@ public class Main {
                                                     if (clienteDao.getById(id) != null) {
                                                         System.out.println("\nDigite o telefone do Cliente\n");
                                                         cliente.setTelefone(
-                                                                Cliente.imprimirTelefone(scanner.nextLine()));
+                                                                Cliente.verificarTelefone(scanner.nextLine()));
                                                         clienteDao.updateTelefone(cliente, id);
                                                         cliente = clienteDao.getById(id);
                                                         Ferramentas.clearConsole();
@@ -1983,6 +1983,7 @@ public class Main {
                                                                 "\nNenhum pagamento referente a esse cliente no banco de dados\n");
                                                         System.out.println("\nAperte enter para sair\n");
                                                         scanner.nextLine();
+                                                        Ferramentas.clearConsole();
                                                         finalizar3 = true;
                                                     }
                                                 } catch (NumberFormatException e) {

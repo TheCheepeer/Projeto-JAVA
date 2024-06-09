@@ -66,7 +66,7 @@ public class Onibus {
         if (input == null || input.trim().isEmpty()) {
             throw new NameNotNullOrInvalidException();
         }
-        String lettersAndSpacesPattern = "^[a-zA-Z0-9 ]+$";
+        String lettersAndSpacesPattern = "^[a-zA-Zà-úÀ-ÚâêîôûãõáéíóúçüÁÉÍÓÚÇÜ0-9 ]+$";
         Pattern pattern = Pattern.compile(lettersAndSpacesPattern);
         Matcher matcher = pattern.matcher(input);
 

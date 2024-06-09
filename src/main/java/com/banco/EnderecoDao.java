@@ -30,12 +30,6 @@ public class EnderecoDao {
         stat.close();
     }
 
-    public void delete(int idEndereco) throws SQLException {
-        Statement stat = con.createStatement();
-        stat.executeUpdate("delete from endereco where idEndereco = " + idEndereco);
-        stat.close();
-    }
-
     public List<Endereco> getAll() throws SQLException {
         List<Endereco> enderecos = new ArrayList<Endereco>();
         Statement stat = con.createStatement();

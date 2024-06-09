@@ -7,7 +7,6 @@ import com.execoes.NameNotNullOrInvalidException;
 
 public class Destino {
     private int idDestino;
-
     private String nome;
     private int idEndereco;
 
@@ -49,7 +48,7 @@ public class Destino {
         if (input == null || input.trim().isEmpty()) {
             throw new NameNotNullOrInvalidException();
         }
-        String lettersAndSpacesPattern = "^[a-zA-Z ]+$";
+        String lettersAndSpacesPattern = "^[a-zA-Zà-úÀ-ÚâêîôûãõáéíóúçüÁÉÍÓÚÇÜ0-9 ]+$";
         Pattern pattern = Pattern.compile(lettersAndSpacesPattern);
         Matcher matcher = pattern.matcher(input);
 

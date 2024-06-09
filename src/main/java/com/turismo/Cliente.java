@@ -48,14 +48,14 @@ public class Cliente extends Pessoa {
 
     public static String validarEmail(String email) throws EmailInvalidoException {
         if (email == null || email.isEmpty()) {
-            return email; // Email é opcional, permite valores nulos ou vazios
+            return email; // Email é opcional
         } else {
-            // Defina a regex para validar o formato do email
+            // valida o formato do email
             String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
             Pattern pattern = Pattern.compile(emailRegex);
             Matcher matcher = pattern.matcher(email);
 
-            // Verifique se o email corresponde ao formato esperado
+            // se o email corresponde ao formato esperado
             if (matcher.matches()) {
                 return email;
             } else {
@@ -76,7 +76,7 @@ public class Cliente extends Pessoa {
         return "Id: " + idCliente + " Nome: " + getNome() + " CPF: " + imprimeCPF(getCpf())
                 + " Data de Nascimento: " + dataNascimentoFormatada() + " Maioridade: " + verificarMaioridadeToString()
                 + " Telefone: "
-                + imprimirTelefone(getTelefone()) + " Email: " + fixEmail(email) + " Endereco: " + idEndereco;
+                + verificarTelefone(getTelefone()) + " Email: " + fixEmail(email) + " Endereco: " + idEndereco;
     }
 
 }

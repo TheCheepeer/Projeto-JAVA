@@ -27,12 +27,6 @@ public class DestinoDao {
         stat.close();
     }
 
-    public void delete(int idDestino) throws SQLException {
-        Statement stat = con.createStatement();
-        stat.executeUpdate("delete from destino where idDestino = " + idDestino);
-        stat.close();
-    }
-
     public List<Destino> getAll() throws SQLException {
         List<Destino> destinos = new ArrayList<Destino>();
         Statement stat = con.createStatement();

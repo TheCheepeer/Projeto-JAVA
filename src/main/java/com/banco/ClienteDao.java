@@ -28,7 +28,7 @@ public class ClienteDao {
                 cliente.getCpf() + "', '" +
                 cliente.getNome() + "', '" +
                 cliente.getEmail() + "', '" +
-                Cliente.imprimirTelefone(cliente.getTelefone()) + "', '" +
+                Cliente.verificarTelefone(cliente.getTelefone()) + "', '" +
                 cliente.dataNascimentoFormatada() + "', '" +
                 cliente.getIdEndereco() + "')";
         stat.executeUpdate(query);

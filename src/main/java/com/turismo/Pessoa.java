@@ -151,7 +151,7 @@ public class Pessoa {
         }
     }
 
-    public static String imprimirTelefone(String telefone) throws TelefoneInvalidoException {
+    public static String verificarTelefone(String telefone) throws TelefoneInvalidoException {
         String telefoneSemFormatacao = telefone.replaceAll("[^0-9]", "");
         if (telefoneSemFormatacao.length() == 11) {
             return "(" + telefoneSemFormatacao.substring(0, 2) + ")" +
@@ -194,7 +194,7 @@ public class Pessoa {
         if (input == null || input.trim().isEmpty()) {
             throw new NameNotNullOrInvalidException();
         }
-        String lettersAndSpacesPattern = "^[a-zA-Z ]+$";
+        String lettersAndSpacesPattern = "^[a-zA-Zà-úÀ-ÚâêîôûãõáéíóúçüÁÉÍÓÚÇÜ ]+$";
         Pattern pattern = Pattern.compile(lettersAndSpacesPattern);
         Matcher matcher = pattern.matcher(input);
 
@@ -208,7 +208,7 @@ public class Pessoa {
     public String toString() {
         return "Nome: " + getNome() + "\tCPF: " + imprimeCPF(getCpf())
                 + "\tData de Nascimento: " + dataNascimentoFormatada() + "\tTelefone: "
-                + imprimirTelefone(getTelefone());
+                + verificarTelefone(getTelefone());
     }
 
 }

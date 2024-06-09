@@ -30,12 +30,6 @@ public class OnibusDao {
         stat.close();
     }
 
-    public void delete(int idOnibus) throws SQLException {
-        Statement stat = con.createStatement();
-        stat.executeUpdate("delete from onibus where onibus = " + idOnibus);
-        stat.close();
-    }
-
     public List<Onibus> getAll() throws SQLException {
         List<Onibus> onibusList = new ArrayList<Onibus>();
         Statement stat = con.createStatement();

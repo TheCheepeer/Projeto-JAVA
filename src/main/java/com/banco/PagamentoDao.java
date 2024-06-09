@@ -28,12 +28,6 @@ public class PagamentoDao {
         stat.close();
     }
 
-    public void delete(int idPagamento) throws SQLException {
-        Statement stat = con.createStatement();
-        stat.executeUpdate("delete from pagamento where idPagamento = " + idPagamento);
-        stat.close();
-    }
-
     public List<Pagamento> getAll() throws SQLException {
         List<Pagamento> pagamentos = new ArrayList<Pagamento>();
         Statement stat = con.createStatement();
