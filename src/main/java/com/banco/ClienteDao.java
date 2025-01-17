@@ -41,6 +41,7 @@ public class ClienteDao {
             stat.executeUpdate("delete from cliente where idCliente = " + idCliente);
             stat.close();
         } else {
+            throw new ElementoNaoEncontradoExption();
         }
     }
 
